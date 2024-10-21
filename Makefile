@@ -1,24 +1,53 @@
+######################################################################
+#
+#                           Compiladors
+#
+######################################################################
+
 CC = gcc
-CFLAGS = -Wall -g
 LEX = flex
 YACC = bison
+LIB = -lfl
 
-all: calc
+SRC_LEX = lexer.l
+SRC_YACC = parser.y
 
-calc: main.o parser.tab.o lex.yy.o
-	$(CC) $(CFLAGS) -o calc main.o parser.tab.o lex.yy.o -lm
+LEX_OUT = lex.yy.c
+YACC_OUT_C = parser.tab.c
+YACC_OUT_H = parser.tab.h
+YACC_OUT = $(YACC_OUT_C) $(YACC_OUT_H)
 
-main.o: main.c datos.h
-	$(CC) $(CFLAGS) -c main.c
+OTHERS = exemple.output
+OBJ = *.o
 
-parser.tab.o: parser.tab.c datos.h
-	$(CC) $(CFLAGS) -c parser.tab.c
+SRC = main.c
+BIN = calc.exe
 
-parser.tab.c parser.tab.h: parser.y
-	$(YACC) -d parser.y
+SRC_EXTRA = datos.c funciones.c
 
-lex.yy.c: lexer.l
-	$(LEX) lexer.l
+LFLAGS =
+YFLAGS = -d -v
+CFLAGS = -Wall -g
 
-clean:
-	rm -f *.o calc parser.tab.c parser.tab.h lex.yy.c
+EG_IN = ex_entrada.txt
+EG_OUT = ex_sortida.txt
+
+
+
+######################################################################
+
+all : yacc lex
+	$(CC) -o $(BIN) $(CFLAGS) $(SRC) $(SRC_EXTRA) $(YACC_OUT_C) $(LEX_OUT) $(LIB)
+
+yacc : $(SRC_YACC)
+	$(YACC) $(YFLAGS) $(SRC_YACC)
+
+lex : $(SRC_LEX)
+	$(LEX) $(LFLAGS) $(SRC_LEX)
+
+clean :
+	rm -f *~ $(BIN) $(OBJ) $(YACC_OUT) $(LEX_OUT) $(OTHERS) $(EG_OUT)
+
+eg : $(EG_IN)
+	./$(BIN) $(EG_IN) $(EG_OUT)
+	cat $(EG_OUT)

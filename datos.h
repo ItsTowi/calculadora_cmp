@@ -1,17 +1,25 @@
-// datos.h
-#ifndef DATOS_H
-#define DATOS_H
+#ifndef datos_H
+#define datos_H
+
+
+#define STR_MAX_LENGTH 200
 
 typedef enum {
-    UNKNOWN_TYPE,
-    INT_TYPE
+  UNKNOWN_TYPE = 1,
+  INT_TYPE,
+  FLOAT_TYPE
 } data_type;
 
+
 typedef struct {
-    data_type val_type;
-    int val_int;
+  data_type val_type;
+  int val_int;
+  float val_float;
 } value_info;
 
-#define STR_MAX_LENGTH 256
 
-#endif // DATOS_H
+char *type_to_str(data_type val_type);
+char *value_info_to_str(value_info value);
+
+
+#endif

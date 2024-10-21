@@ -1,21 +1,45 @@
-#include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
-#include "datos.h"
+#include <stdio.h>
+#include "funciones.h"
 
-extern int yyparse(void);
-extern FILE *yyin;
 
-int main(int argc, char **argv) {
-    if (argc > 1) {
-        FILE *input_file = fopen(argv[1], "r");
-        if (!input_file) {
-            fprintf(stderr, "Error al abrir el archivo: %s\n", argv[1]);
-            return EXIT_FAILURE;
+int main(int argc, char *argv[])
+{
+  int error;
+
+  if (argc == 3) {
+    error = init_analisi_lexica(argv[1]);
+
+    if (error == EXIT_SUCCESS) {
+      error = init_analisi_sintactica(argv[2]);
+
+      if (error == EXIT_SUCCESS) {
+        error = analisi_semantica();
+
+        if (error == EXIT_SUCCESS) {
+          printf("The compilation has been successful\n");
+        } else {
+          printf("ERROR");
         }
-        yyin = input_file; // Asigna el archivo de entrada
+
+        error = end_analisi_sintactica();
+        if (error == EXIT_FAILURE) {
+          printf("The output file can not be closed\n");
+        }
+
+        error = end_analisi_lexica();
+        if (error == EXIT_FAILURE) {
+          printf("The input file can not be closed\n");
+        }
+      } else {
+        printf("The output file %s can not be created\n",argv[2]);
+      }
+    } else {
+      printf("The input file %s can not be opened\n",argv[1]);
     }
-
-    yyparse(); // Llama al analizador sintáctico
-
-    return EXIT_SUCCESS;
+  } else {
+    printf("\nUsage: %s INPUT_FILE OUTPUT_FILE\n",argv[0]);
+  }
+  return EXIT_SUCCESS;
 }

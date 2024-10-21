@@ -1,31 +1,44 @@
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "datos.h"
-int yylex(void);
-void yyerror(const char *s);
+#include "parser.tab.h"
+#include "funciones.h"
+
 %}
 
+%option yylineno
 %option noyywrap
+%option noinput
+%option nounput
 
-// Definición de los tokens
-%token <val_int> INT
-%token <val_string> ID
-%token ASSIGN
-
-%%
-
-// Reglas del analizador léxico
-[0-9]+                { yylval.val_int = atoi(yytext); return INT; } // Enteros
-[a-zA-Z_][a-zA-Z0-9_]* { yylval.val_string = strdup(yytext); return ID; } // Identificadores
-":="                  { return ASSIGN; } // Operador de asignación
-[ \t\n]+             { /* Ignorar espacios y saltos de línea */ } // Ignorar espacios en blanco
-.                    { printf("Carácter no reconocido: %s\n", yytext); } // Carácter no reconocido
+lletra  [a-zA-Z]
+digit   [0-9]
 
 %%
 
-// Función para manejar errores
-void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
-}
+
+{lletra}({lletra}|{digit})* {
+                              yylval.ident.lexema = strdup(yytext);
+                              yylval.ident.lenght = yyleng;
+                              yylval.ident.line = yylineno;
+                              yylval.ident.id_val.val_type = UNKNOWN_TYPE;
+                              return ID;
+                            }
+
+"="                         { return ASSIGN; }
+
+{digit}({digit})*           {
+                              yylval.enter = atoi(yytext);
+                              return INTEGER;
+                            }
+
+^[ \t]*[\n]                 {}
+
+[\n]                        { return ENDLINE; }
+
+.                           {}
+
+%%
+
