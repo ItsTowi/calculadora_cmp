@@ -1,4 +1,4 @@
-// exemple_dades.h
+// datos.h
 #ifndef DATOS_H
 #define DATOS_H
 
@@ -14,4 +14,4 @@ typedef struct {
 
 #define STR_MAX_LENGTH 256
 
-#endif // DATOS.H
+#endif // DATOS_H

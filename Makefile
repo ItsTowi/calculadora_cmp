@@ -2,20 +2,23 @@ CC = gcc
 CFLAGS = -Wall -g
 LEX = flex
 YACC = bison
-LEX_FILE = lexer.l
-YACC_FILE = parser.y
-OBJ_FILES = main.o parser.tab.o lex.yy.o
 
 all: calc
 
-calc: $(OBJ_FILES)
-	$(CC) $(CFLAGS) -o calc $(OBJ_FILES)
+calc: main.o parser.tab.o lex.yy.o
+	$(CC) $(CFLAGS) -o calc main.o parser.tab.o lex.yy.o -lm
 
-parser.tab.c: $(YACC_FILE)
-	$(YACC) -d $(YACC_FILE)
+main.o: main.c datos.h
+	$(CC) $(CFLAGS) -c main.c
 
-lex.yy.c: $(LEX_FILE)
-	$(LEX) $(LEX_FILE)
+parser.tab.o: parser.tab.c datos.h
+	$(CC) $(CFLAGS) -c parser.tab.c
+
+parser.tab.c parser.tab.h: parser.y
+	$(YACC) -d parser.y
+
+lex.yy.c: lexer.l
+	$(LEX) lexer.l
 
 clean:
-	rm -f calc $(OBJ_FILES) parser.tab.c parser.tab.h lex.yy.c
+	rm -f *.o calc parser.tab.c parser.tab.h lex.yy.c

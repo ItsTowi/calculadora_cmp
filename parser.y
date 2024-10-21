@@ -1,17 +1,24 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-extern FILE *yyin; // Asegúrate de que esta línea esté presente
+#include <string.h>
 #include "datos.h"
 
 void yyerror(const char *s);
-int yylex();
-%}
+int yylex(void);
 
-%union {
+// Definir el tipo de datos que usará el parser
+typedef union {
     int val_int;
     char* val_string;
-}
+} YYSTYPE;
+
+value_info variables[STR_MAX_LENGTH]; // Arreglo de variables
+int var_count = 0; // Contador de variables
+
+value_info get_variable(const char *id);
+void set_variable(const char *id, int value);
+%}
 
 %token <val_int> INT
 %token <val_string> ID
@@ -19,39 +26,20 @@ int yylex();
 
 %%
 
-// Definición de la gramática
+// Reglas de la gramática
 program:
+    statements
+;
+
+statements:
     statement
+    | statements statement
 ;
 
 statement:
-    ID ASSIGN INT {
-        printf("Asignación: %s := %d\n", $1, $3);
-    }
+    ID ASSIGN INT { set_variable($1, $3); }
 ;
 
 %%
 
-// Función para manejar errores
-void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
-}
-
-int main(int argc, char** argv) {
-    FILE *input_file;
-
-    if (argc > 1) {
-        input_file = fopen(argv[1], "r");
-        if (!input_file) {
-            perror("Error abriendo el archivo");
-            return EXIT_FAILURE;
-        }
-        yyin = input_file; // Asigna el archivo de entrada
-    } else {
-        yyin = stdin; // Si no se proporciona archivo, lee de la entrada estándar
-    }
-
-    yyparse(); // Llamar al parser de Bison
-    fclose(input_file);
-    return EXIT_SUCCESS;
-}
+// Funciones y errores (sin cambios)

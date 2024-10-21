@@ -1,8 +1,8 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> // Asegúrate de incluir string.h para strdup
-#include "exemple_dades.h" // Asegúrate de que este archivo existe y es correcto
+#include <string.h>
+#include "datos.h"
 int yylex(void);
 void yyerror(const char *s);
 %}
