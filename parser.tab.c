@@ -72,6 +72,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 extern FILE *yyout;
 extern int yylineno;
@@ -79,7 +80,7 @@ extern int yylex();
 /*extern void yyerror(char*);*/
 
 
-#line 83 "parser.tab.c"
+#line 84 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -113,10 +114,12 @@ enum yysymbol_kind_t
   YYSYMBOL_ASSIGN = 3,                     /* ASSIGN  */
   YYSYMBOL_ENDLINE = 4,                    /* ENDLINE  */
   YYSYMBOL_INTEGER = 5,                    /* INTEGER  */
-  YYSYMBOL_ID = 6,                         /* ID  */
-  YYSYMBOL_YYACCEPT = 7,                   /* $accept  */
-  YYSYMBOL_programa = 8,                   /* programa  */
-  YYSYMBOL_expressio = 9                   /* expressio  */
+  YYSYMBOL_FLOAT = 6,                      /* FLOAT  */
+  YYSYMBOL_STRING = 7,                     /* STRING  */
+  YYSYMBOL_ID = 8,                         /* ID  */
+  YYSYMBOL_YYACCEPT = 9,                   /* $accept  */
+  YYSYMBOL_programa = 10,                  /* programa  */
+  YYSYMBOL_expressio = 11                  /* expressio  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -444,19 +447,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   9
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  7
+#define YYNTOKENS  9
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  3
+#define YYNRULES  6
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  8
+#define YYNSTATES  12
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   261
+#define YYMAXUTOK   263
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -496,14 +499,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6
+       5,     6,     7,     8
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    43,    43,    47
+       0,    47,    47,    50,    54,    59,    64
 };
 #endif
 
@@ -520,7 +523,7 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "ASSIGN", "ENDLINE",
-  "INTEGER", "ID", "$accept", "programa", "expressio", YY_NULLPTR
+  "INTEGER", "FLOAT", "STRING", "ID", "$accept", "programa", "expressio", YY_NULLPTR
 };
 
 static const char *
@@ -530,7 +533,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-7)
+#define YYPACT_NINF (-5)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -544,7 +547,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -6,    -2,     2,    -7,    -1,    -7,     1,    -7
+      -3,     1,     0,     2,    -4,    -5,     3,    -5,    -5,    -5,
+      -5,    -5
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -552,13 +556,14 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     2,     0,     1,     0,     3
+       0,     0,     0,     0,     0,     1,     0,     2,     5,     4,
+       6,     3
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -7,    -7,    -7
+      -5,    -5,     7
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -572,31 +577,32 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     4,     5,     0,     6,     7
+       5,     8,     9,    10,     4,     1,     7,    11,     1,     6
 };
 
 static const yytype_int8 yycheck[] =
 {
-       6,     3,     0,    -1,     5,     4
+       0,     5,     6,     7,     3,     8,     4,     4,     8,     2
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     6,     8,     9,     3,     0,     5,     4
+       0,     8,    10,    11,     3,     0,    11,     4,     5,     6,
+       7,     4
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     7,     8,     9
+       0,     9,    10,    10,    11,    11,    11
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     4
+       0,     2,     2,     3,     3,     3,     3
 };
 
 
@@ -1059,26 +1065,55 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* programa: expressio  */
-#line 43 "parser.y"
-                     {
-             fprintf(yyout, "programa -> expressio :\n  expressio = '%s'\n", value_info_to_str((yyvsp[0].expr_val)));
-           }
-#line 1068 "parser.tab.c"
-    break;
-
-  case 3: /* expressio: ID ASSIGN INTEGER ENDLINE  */
+  case 2: /* programa: expressio ENDLINE  */
 #line 47 "parser.y"
-                                       {
-              fprintf(yyout, "ID: %s pren per valor: %d\n",(yyvsp[-3].ident).lexema, (yyvsp[-1].enter));
-              (yyval.expr_val).val_type = INT_TYPE;
-              (yyval.expr_val).val_int = (yyvsp[-1].enter);
+                             { // Cambia a expressio seguido de un ENDLINE
+    //fprintf(yyout, "Fin del programa\n");
+}
+#line 1074 "parser.tab.c"
+    break;
+
+  case 3: /* programa: programa expressio ENDLINE  */
+#line 50 "parser.y"
+                                     { // Para permitir múltiples expresiones
+            //fprintf(yyout, "Fin del programa\n");
+        }
+#line 1082 "parser.tab.c"
+    break;
+
+  case 4: /* expressio: ID ASSIGN FLOAT  */
+#line 54 "parser.y"
+                            {
+              fprintf(yyout, "ID: %s pren per valor: %f\n", (yyvsp[-2].ident).lexema, (yyvsp[0].real));
+              (yyval.expr_val).val_type = FLOAT_TYPE; // Asegúrate de que FLOAT_TYPE esté definido
+              (yyval.expr_val).val_float = (yyvsp[0].real);
             }
-#line 1078 "parser.tab.c"
+#line 1092 "parser.tab.c"
+    break;
+
+  case 5: /* expressio: ID ASSIGN INTEGER  */
+#line 59 "parser.y"
+                              {
+              fprintf(yyout, "ID: %s pren per valor: %d\n", (yyvsp[-2].ident).lexema, (yyvsp[0].enter));
+              (yyval.expr_val).val_type = INT_TYPE; // Asegúrate de que INT_TYPE esté definido
+              (yyval.expr_val).val_int = (yyvsp[0].enter); // Suponiendo que tienes un campo para enteros
+            }
+#line 1102 "parser.tab.c"
+    break;
+
+  case 6: /* expressio: ID ASSIGN STRING  */
+#line 64 "parser.y"
+                             {
+              fprintf(yyout, "ID: %s pren per valor: %s\n", (yyvsp[-2].ident).lexema, (yyvsp[0].cadena));
+              (yyval.expr_val).val_type = STRING_TYPE;
+              strncpy((yyval.expr_val).val_string, (yyvsp[0].cadena), STR_MAX_LENGTH - 1); // Copiar la cadena
+              (yyval.expr_val).val_string[STR_MAX_LENGTH - 1] = '\0'; 
+            }
+#line 1113 "parser.tab.c"
     break;
 
 
-#line 1082 "parser.tab.c"
+#line 1117 "parser.tab.c"
 
       default: break;
     }
@@ -1271,5 +1306,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 53 "parser.y"
+#line 71 "parser.y"
 

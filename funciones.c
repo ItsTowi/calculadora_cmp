@@ -61,14 +61,17 @@ int end_analisi_sintactica(void)
 
 int analisi_semantica(void)
 {
-  int error;
-
-  if (yyparse() == 0) {
-    error =  EXIT_SUCCESS;
-  } else {
-    error =  EXIT_FAILURE;
-  }
-  return error;
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), yyin) != NULL) {
+        printf("Line: %s", buffer);  // Muestra cada línea leída
+    }
+    fseek(yyin, 0, SEEK_SET);  // Vuelve al inicio del archivo para el análisis
+    
+    if (yyparse() == 0) {
+        return EXIT_SUCCESS;
+    } else {
+        return EXIT_FAILURE;
+    }
 }
 
 

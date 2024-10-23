@@ -2,31 +2,36 @@ Grammar
 
     0 $accept: programa $end
 
-    1 programa: expressio
+    1 programa: expressio ENDLINE
+    2         | programa expressio ENDLINE
 
-    2 expressio: ID ASSIGN INTEGER ENDLINE
+    3 expressio: ID ASSIGN FLOAT
+    4          | ID ASSIGN INTEGER
+    5          | ID ASSIGN STRING
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    ASSIGN <sense_valor> (258) 2
-    ENDLINE <sense_valor> (259) 2
-    INTEGER <enter> (260) 2
-    ID <ident> (261) 2
+    ASSIGN <sense_valor> (258) 3 4 5
+    ENDLINE <sense_valor> (259) 1 2
+    INTEGER <enter> (260) 4
+    FLOAT <real> (261) 3
+    STRING <cadena> (262) 5
+    ID <ident> (263) 3 4 5
 
 
 Nonterminals, with rules where they appear
 
-    $accept (7)
+    $accept (9)
         on left: 0
-    programa <sense_valor> (8)
-        on left: 1
-        on right: 0
-    expressio <expr_val> (9)
-        on left: 2
-        on right: 1
+    programa <sense_valor> (10)
+        on left: 1 2
+        on right: 0 2
+    expressio <expr_val> (11)
+        on left: 3 4 5
+        on right: 1 2
 
 
 State 0
@@ -41,7 +46,9 @@ State 0
 
 State 1
 
-    2 expressio: ID • ASSIGN INTEGER ENDLINE
+    3 expressio: ID • ASSIGN FLOAT
+    4          | ID • ASSIGN INTEGER
+    5          | ID • ASSIGN STRING
 
     ASSIGN  shift, and go to state 4
 
@@ -49,22 +56,30 @@ State 1
 State 2
 
     0 $accept: programa • $end
+    2 programa: programa • expressio ENDLINE
 
     $end  shift, and go to state 5
+    ID    shift, and go to state 1
+
+    expressio  go to state 6
 
 
 State 3
 
-    1 programa: expressio •
+    1 programa: expressio • ENDLINE
 
-    $default  reduce using rule 1 (programa)
+    ENDLINE  shift, and go to state 7
 
 
 State 4
 
-    2 expressio: ID ASSIGN • INTEGER ENDLINE
+    3 expressio: ID ASSIGN • FLOAT
+    4          | ID ASSIGN • INTEGER
+    5          | ID ASSIGN • STRING
 
-    INTEGER  shift, and go to state 6
+    INTEGER  shift, and go to state 8
+    FLOAT    shift, and go to state 9
+    STRING   shift, and go to state 10
 
 
 State 5
@@ -76,13 +91,41 @@ State 5
 
 State 6
 
-    2 expressio: ID ASSIGN INTEGER • ENDLINE
+    2 programa: programa expressio • ENDLINE
 
-    ENDLINE  shift, and go to state 7
+    ENDLINE  shift, and go to state 11
 
 
 State 7
 
-    2 expressio: ID ASSIGN INTEGER ENDLINE •
+    1 programa: expressio ENDLINE •
 
-    $default  reduce using rule 2 (expressio)
+    $default  reduce using rule 1 (programa)
+
+
+State 8
+
+    4 expressio: ID ASSIGN INTEGER •
+
+    $default  reduce using rule 4 (expressio)
+
+
+State 9
+
+    3 expressio: ID ASSIGN FLOAT •
+
+    $default  reduce using rule 3 (expressio)
+
+
+State 10
+
+    5 expressio: ID ASSIGN STRING •
+
+    $default  reduce using rule 5 (expressio)
+
+
+State 11
+
+    2 programa: programa expressio ENDLINE •
+
+    $default  reduce using rule 2 (programa)

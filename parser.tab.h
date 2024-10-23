@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 13 "parser.y"
+#line 14 "parser.y"
 
   /* Les definicions que s'utilitzen al %union han d'estar aqui */
   #include "datos.h"
@@ -65,7 +65,9 @@ extern int yydebug;
     ASSIGN = 258,                  /* ASSIGN  */
     ENDLINE = 259,                 /* ENDLINE  */
     INTEGER = 260,                 /* INTEGER  */
-    ID = 261                       /* ID  */
+    FLOAT = 261,                   /* FLOAT  */
+    STRING = 262,                  /* STRING  */
+    ID = 263                       /* ID  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -74,7 +76,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "parser.y"
+#line 20 "parser.y"
 
     struct {
         char *lexema;
@@ -86,8 +88,9 @@ union YYSTYPE
     float real;
     value_info expr_val;
     void *sense_valor;
+    char *cadena;
 
-#line 91 "parser.tab.h"
+#line 94 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

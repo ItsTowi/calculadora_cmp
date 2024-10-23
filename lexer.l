@@ -15,6 +15,8 @@
 
 lletra  [a-zA-Z]
 digit   [0-9]
+float [0-9]*\.[0-9]+
+string \"([^\\"]|\\.)*\"
 
 %%
 
@@ -27,18 +29,30 @@ digit   [0-9]
                               return ID;
                             }
 
-"="                         { return ASSIGN; }
+":="                         { return ASSIGN; }
 
 {digit}({digit})*           {
                               yylval.enter = atoi(yytext);
                               return INTEGER;
                             }
 
-^[ \t]*[\n]                 {}
 
-[\n]                        { return ENDLINE; }
+{float}({float})*           {
+                              yylval.real = atof(yytext);
+                              return FLOAT;
+                            }
 
-.                           {}
+{string}                    {
+                              yylval.cadena = strdup(yytext);
+                              printf("Token STRING: %s\n", yytext);
+                              return STRING;
+                            }
+
+"\n"            { return EOL; }
+"\t"            {}
+"\r"            {}
+" "             {}
+.                           { fprintf(stderr, "Carácter inesperado: '%s' en línea %d\n", yytext, yylineno);}
 
 %%
 

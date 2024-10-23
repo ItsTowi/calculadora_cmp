@@ -7,7 +7,8 @@
 typedef enum {
   UNKNOWN_TYPE = 1,
   INT_TYPE,
-  FLOAT_TYPE
+  FLOAT_TYPE,
+  STRING_TYPE
 } data_type;
 
 
@@ -15,6 +16,7 @@ typedef struct {
   data_type val_type;
   int val_int;
   float val_float;
+  char val_string[STR_MAX_LENGTH];
 } value_info;
 
 
