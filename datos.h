@@ -13,15 +13,19 @@ typedef enum {
 
 
 typedef struct {
+  char * name;
+  union {
+    int val_int;
+    float val_float;
+    char *val_string;
+  } value;
   data_type val_type;
-  int val_int;
-  float val_float;
-  char val_string[STR_MAX_LENGTH];
 } value_info;
 
 
 char *type_to_str(data_type val_type);
 char *value_info_to_str(value_info value);
+char* valueToString(value_info v);
 
 
 #endif

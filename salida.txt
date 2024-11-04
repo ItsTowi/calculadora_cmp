@@ -1,0 +1,3 @@
+ID: x pren per valor: 1.500000
+ID: y pren per valor: 5
+ID: textoejemplo pren per valor: Hola

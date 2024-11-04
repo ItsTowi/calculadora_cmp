@@ -423,40 +423,40 @@ static const YY_CHAR yy_ec[256] =
 
 static const YY_CHAR yy_meta[13] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1
+        1,    1,    1,    1,    1,    1,    1,    2,    1,    1,
+        2,    1
     } ;
 
-static const flex_int16_t yy_base[28] =
+static const flex_int16_t yy_base[29] =
     {   0,
-        0,    0,   27,   35,   35,   35,   35,   35,    7,   16,
-       13,   13,   14,   20,   35,   15,   26,    9,    0,   35,
-        0,    8,    0,    7,    0,   35,   13
+        0,    0,   25,   33,   33,   33,   33,   33,    7,   16,
+       13,   13,    0,   16,   33,   15,   22,    9,    0,   33,
+        0,    8,    0,    7,    0,   33,   30,   12
     } ;
 
-static const flex_int16_t yy_def[28] =
+static const flex_int16_t yy_def[29] =
     {   0,
        26,    1,   26,   26,   26,   26,   26,   26,   27,   26,
-       26,   26,   26,   27,   26,   27,   26,   26,   11,   26,
-       13,   26,   17,   17,   24,    0,   26
+       26,   26,   28,   27,   26,   27,   26,   26,   11,   26,
+       28,   26,   17,   17,   24,    0,   26,   26
     } ;
 
-static const flex_int16_t yy_nxt[48] =
+static const flex_int16_t yy_nxt[46] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,    4,
-       13,    4,   15,   14,   25,   24,   17,   26,   16,   18,
-       19,   21,   20,   17,   21,   15,   26,   26,   26,   26,
-       26,   16,   22,   23,    3,   26,   26,   26,   26,   26,
-       26,   26,   26,   26,   26,   26,   26
+       13,    4,   15,   21,   25,   24,   17,   26,   16,   18,
+       19,   15,   20,   17,   26,   26,   26,   16,   22,   23,
+       14,   14,    3,   26,   26,   26,   26,   26,   26,   26,
+       26,   26,   26,   26,   26
     } ;
 
-static const flex_int16_t yy_chk[48] =
+static const flex_int16_t yy_chk[46] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    9,   27,   24,   22,   18,   16,    9,   11,
-       11,   13,   12,   10,   13,   14,    3,    0,    0,    0,
-        0,   14,   17,   17,   26,   26,   26,   26,   26,   26,
-       26,   26,   26,   26,   26,   26,   26
+        1,    1,    9,   28,   24,   22,   18,   16,    9,   11,
+       11,   14,   12,   10,    3,    0,    0,   14,   17,   17,
+       27,   27,   26,   26,   26,   26,   26,   26,   26,   26,
+       26,   26,   26,   26,   26
     } ;
 
 /* Table of booleans, true if rule could match eol. */
@@ -741,7 +741,7 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 35 );
+		while ( yy_base[yy_current_state] != 33 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -778,77 +778,85 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 24 "lexer.l"
-{
-                              yylval.ident.lexema = strdup(yytext);
-                              yylval.ident.lenght = yyleng;
-                              yylval.ident.line = yylineno;
-                              yylval.ident.id_val.val_type = UNKNOWN_TYPE;
-                              return ID;
-                            }
+{ 
+                       yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
+                       strncpy(yylval.expr_val.name, yytext, yyleng); 
+                       printf("Token ID: %s\n",yytext);
+                       return ID; 
+                       }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 32 "lexer.l"
+#line 31 "lexer.l"
 { return ASSIGN; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 34 "lexer.l"
+#line 33 "lexer.l"
 {
-                              yylval.enter = atoi(yytext);
+                              yylval.expr_val.value.val_int = atoi(yytext);
+                              yylval.expr_val.val_type = INT_TYPE;
+                              printf("Token INTEGER: %d\n", yylval.expr_val.value.val_int);
                               return INTEGER;
                             }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 40 "lexer.l"
+#line 41 "lexer.l"
 {
-                              yylval.real = atof(yytext);
+                              yylval.expr_val.value.val_float = atof(yytext);
+                              yylval.expr_val.val_type = FLOAT_TYPE;
+                              printf("Token FLOAT: %s\n", yytext);
                               return FLOAT;
                             }
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 45 "lexer.l"
+#line 48 "lexer.l"
 {
-                              yylval.cadena = strdup(yytext);
-                              printf("Token STRING: %s\n", yytext);
+                              // Asegúrate de que la longitud de yytext no exceda STR_MAX_LENGTH
+                              yylval.expr_val.val_type = STRING_TYPE;
+                              int len = yyleng-2;
+                              yylval.expr_val.value.val_string = (char*)malloc(sizeof(char)*len+1);
+                              strncpy(yylval.expr_val.value.val_string, yytext+1, len);
+
+                              printf("Token STRING: %s\n", yylval.expr_val.value.val_string);
                               return STRING;
                             }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 59 "lexer.l"
 { return EOL; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 52 "lexer.l"
+#line 60 "lexer.l"
 {}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 53 "lexer.l"
+#line 61 "lexer.l"
 {}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 54 "lexer.l"
+#line 62 "lexer.l"
 {}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 55 "lexer.l"
+#line 63 "lexer.l"
 { fprintf(stderr, "Carácter inesperado: '%s' en línea %d\n", yytext, yylineno);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 57 "lexer.l"
+#line 65 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 852 "lex.yy.c"
+#line 860 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1824,7 +1832,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 57 "lexer.l"
+#line 65 "lexer.l"
 
 
 

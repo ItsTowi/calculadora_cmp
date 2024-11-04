@@ -21,30 +21,38 @@ string \"([^\\"]|\\.)*\"
 %%
 
 
-{lletra}({lletra}|{digit})* {
-                              yylval.ident.lexema = strdup(yytext);
-                              yylval.ident.lenght = yyleng;
-                              yylval.ident.line = yylineno;
-                              yylval.ident.id_val.val_type = UNKNOWN_TYPE;
-                              return ID;
-                            }
+[a-zA-Z][a-zA-Z0-9]* { 
+                       yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
+                       strncpy(yylval.expr_val.name, yytext, yyleng); 
+                       printf("Token ID: %s\n",yytext);
+                       return ID; 
+                       }
 
 ":="                         { return ASSIGN; }
 
 {digit}({digit})*           {
-                              yylval.enter = atoi(yytext);
+                              yylval.expr_val.value.val_int = atoi(yytext);
+                              yylval.expr_val.val_type = INT_TYPE;
+                              printf("Token INTEGER: %d\n", yylval.expr_val.value.val_int);
                               return INTEGER;
                             }
 
 
 {float}({float})*           {
-                              yylval.real = atof(yytext);
+                              yylval.expr_val.value.val_float = atof(yytext);
+                              yylval.expr_val.val_type = FLOAT_TYPE;
+                              printf("Token FLOAT: %s\n", yytext);
                               return FLOAT;
                             }
 
 {string}                    {
-                              yylval.cadena = strdup(yytext);
-                              printf("Token STRING: %s\n", yytext);
+                              // Asegúrate de que la longitud de yytext no exceda STR_MAX_LENGTH
+                              yylval.expr_val.val_type = STRING_TYPE;
+                              int len = yyleng-2;
+                              yylval.expr_val.value.val_string = (char*)malloc(sizeof(char)*len+1);
+                              strncpy(yylval.expr_val.value.val_string, yytext+1, len);
+
+                              printf("Token STRING: %s\n", yylval.expr_val.value.val_string);
                               return STRING;
                             }
 

@@ -63,7 +63,7 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     ASSIGN = 258,                  /* ASSIGN  */
-    ENDLINE = 259,                 /* ENDLINE  */
+    EOL = 259,                     /* EOL  */
     INTEGER = 260,                 /* INTEGER  */
     FLOAT = 261,                   /* FLOAT  */
     STRING = 262,                  /* STRING  */
@@ -78,19 +78,9 @@ union YYSTYPE
 {
 #line 20 "parser.y"
 
-    struct {
-        char *lexema;
-        int lenght;
-        int line;
-        value_info id_val;
-    } ident;
-    int enter;
-    float real;
     value_info expr_val;
-    void *sense_valor;
-    char *cadena;
 
-#line 94 "parser.tab.h"
+#line 84 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -63,7 +63,7 @@ int analisi_semantica(void)
 {
     char buffer[256];
     while (fgets(buffer, sizeof(buffer), yyin) != NULL) {
-        printf("Line: %s", buffer);  // Muestra cada línea leída
+        //printf("Line: %s", buffer);  // Muestra cada línea leída
     }
     fseek(yyin, 0, SEEK_SET);  // Vuelve al inicio del archivo para el análisis
     
