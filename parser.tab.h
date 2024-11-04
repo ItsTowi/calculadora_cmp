@@ -64,10 +64,11 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     ASSIGN = 258,                  /* ASSIGN  */
     EOL = 259,                     /* EOL  */
-    INTEGER = 260,                 /* INTEGER  */
-    FLOAT = 261,                   /* FLOAT  */
-    STRING = 262,                  /* STRING  */
-    ID = 263                       /* ID  */
+    ID = 260,                      /* ID  */
+    INTEGER = 261,                 /* INTEGER  */
+    FLOAT = 262,                   /* FLOAT  */
+    STRING = 263,                  /* STRING  */
+    BOOLEAN = 264                  /* BOOLEAN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -80,7 +81,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 84 "parser.tab.h"
+#line 85 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -20,15 +20,30 @@ string \"([^\\"]|\\.)*\"
 
 %%
 
+"true"                      {
+                              yylval.expr_val.val_type = BOOLEAN_TYPE;
+                              yylval.expr_val.value.val_boolean = 1;
+                              printf("Token BOOLEAN: %s\n",yytext);
+                              return BOOLEAN;
+                            }
 
-[a-zA-Z][a-zA-Z0-9]* { 
-                       yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
-                       strncpy(yylval.expr_val.name, yytext, yyleng); 
-                       printf("Token ID: %s\n",yytext);
-                       return ID; 
-                       }
+"false"                     {
+                              yylval.expr_val.val_type = BOOLEAN_TYPE;
+                              yylval.expr_val.value.val_boolean = 0;
+                              printf("Token BOOLEAN: %s\n",yytext);
+                              return BOOLEAN;
+                            }
 
-":="                         { return ASSIGN; }
+[a-zA-Z][a-zA-Z0-9]*        { 
+                              yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
+                              strncpy(yylval.expr_val.name, yytext, yyleng); 
+                              printf("Token ID: %s\n",yytext);
+                              return ID; 
+                            }
+
+":="                        { 
+                              return ASSIGN; 
+                            }
 
 {digit}({digit})*           {
                               yylval.expr_val.value.val_int = atoi(yytext);
@@ -56,10 +71,12 @@ string \"([^\\"]|\\.)*\"
                               return STRING;
                             }
 
-"\n"            { return EOL; }
-"\t"            {}
-"\r"            {}
-" "             {}
+"\n"                        { 
+                              return EOL;
+                            }
+"\t"                        {}
+"\r"                        {}
+" "                         {}
 .                           { fprintf(stderr, "Carácter inesperado: '%s' en línea %d\n", yytext, yylineno);}
 
 %%

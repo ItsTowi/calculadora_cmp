@@ -48,9 +48,9 @@ char* valueToString(value_info v) {
         case STRING_TYPE:
             str = v.value.val_string;
             break;
-        /*case BOOLEAN:
-            str = v.value.bval ? "true" : "false";
-            break;*/
+        case BOOLEAN_TYPE:
+            str = v.value.val_boolean ? "true" : "false";
+            break;
         default:
             str = "undefined";
     }

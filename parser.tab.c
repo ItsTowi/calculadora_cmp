@@ -113,15 +113,16 @@ enum yysymbol_kind_t
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
   YYSYMBOL_ASSIGN = 3,                     /* ASSIGN  */
   YYSYMBOL_EOL = 4,                        /* EOL  */
-  YYSYMBOL_INTEGER = 5,                    /* INTEGER  */
-  YYSYMBOL_FLOAT = 6,                      /* FLOAT  */
-  YYSYMBOL_STRING = 7,                     /* STRING  */
-  YYSYMBOL_ID = 8,                         /* ID  */
-  YYSYMBOL_YYACCEPT = 9,                   /* $accept  */
-  YYSYMBOL_programa = 10,                  /* programa  */
-  YYSYMBOL_lista_declaraciones = 11,       /* lista_declaraciones  */
-  YYSYMBOL_declaracion = 12,               /* declaracion  */
-  YYSYMBOL_exp = 13                        /* exp  */
+  YYSYMBOL_ID = 5,                         /* ID  */
+  YYSYMBOL_INTEGER = 6,                    /* INTEGER  */
+  YYSYMBOL_FLOAT = 7,                      /* FLOAT  */
+  YYSYMBOL_STRING = 8,                     /* STRING  */
+  YYSYMBOL_BOOLEAN = 9,                    /* BOOLEAN  */
+  YYSYMBOL_YYACCEPT = 10,                  /* $accept  */
+  YYSYMBOL_programa = 11,                  /* programa  */
+  YYSYMBOL_lista_declaraciones = 12,       /* lista_declaraciones  */
+  YYSYMBOL_declaracion = 13,               /* declaracion  */
+  YYSYMBOL_exp = 14                        /* exp  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -449,19 +450,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   8
+#define YYLAST   9
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  9
+#define YYNTOKENS  10
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  9
+#define YYNRULES  10
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  14
+#define YYNSTATES  15
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   263
+#define YYMAXUTOK   264
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -501,14 +502,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8
+       5,     6,     7,     8,     9
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    32,    32,    34,    34,    36,    41,    45,    49,    53
+       0,    32,    32,    34,    34,    36,    41,    45,    49,    53,
+      57
 };
 #endif
 
@@ -524,8 +526,8 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "ASSIGN", "EOL",
-  "INTEGER", "FLOAT", "STRING", "ID", "$accept", "programa",
+  "\"end of file\"", "error", "\"invalid token\"", "ASSIGN", "EOL", "ID",
+  "INTEGER", "FLOAT", "STRING", "BOOLEAN", "$accept", "programa",
   "lista_declaraciones", "declaracion", "exp", YY_NULLPTR
 };
 
@@ -550,8 +552,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,     2,     6,    -4,    -6,    -5,    -6,    -6,    -6,    -6,
-      -6,    -6,     3,    -6
+       0,     3,     7,     0,    -6,    -5,    -6,    -6,    -6,    -6,
+      -6,    -6,    -6,     4,    -6
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -559,20 +561,20 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     2,     4,     0,     1,     3,     6,     7,
-       8,     9,     0,     5
+       0,     0,     0,     2,     4,     0,     1,     3,    10,     6,
+       7,     8,     9,     0,     5
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    -6,     5,    -6
+      -6,    -6,    -6,     6,    -6
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     3,     4,    12
+       0,     2,     3,     4,    13
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -580,32 +582,34 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       8,     9,    10,    11,     1,     5,     6,    13,     7
+       8,     9,    10,    11,    12,     1,     5,     6,    14,     7
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,     6,     7,     8,     8,     3,     0,     4,     3
+       5,     6,     7,     8,     9,     5,     3,     0,     4,     3
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     8,    10,    11,    12,     3,     0,    12,     5,     6,
-       7,     8,    13,     4
+       0,     5,    11,    12,    13,     3,     0,    13,     5,     6,
+       7,     8,     9,    14,     4
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     9,    10,    11,    11,    12,    13,    13,    13,    13
+       0,    10,    11,    12,    12,    13,    14,    14,    14,    14,
+      14
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     2,     1,     4,     1,     1,     1,     1
+       0,     2,     1,     2,     1,     4,     1,     1,     1,     1,
+       1
 };
 
 
@@ -1074,7 +1078,7 @@ yyreduce:
                                   //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
                                   fprintf(yyout, "ID: %s pren per valor: %s\n", (yyvsp[-3].expr_val).name, valueToString((yyvsp[-1].expr_val)));
                                 }
-#line 1078 "parser.tab.c"
+#line 1082 "parser.tab.c"
     break;
 
   case 6: /* exp: INTEGER  */
@@ -1083,7 +1087,7 @@ yyreduce:
           (yyval.expr_val) = (yyvsp[0].expr_val);
           (yyval.expr_val).val_type = INT_TYPE;
       }
-#line 1087 "parser.tab.c"
+#line 1091 "parser.tab.c"
     break;
 
   case 7: /* exp: FLOAT  */
@@ -1092,7 +1096,7 @@ yyreduce:
           (yyval.expr_val) = (yyvsp[0].expr_val);
           (yyval.expr_val).val_type = FLOAT_TYPE;
       }
-#line 1096 "parser.tab.c"
+#line 1100 "parser.tab.c"
     break;
 
   case 8: /* exp: STRING  */
@@ -1101,20 +1105,29 @@ yyreduce:
           (yyval.expr_val) = (yyvsp[0].expr_val);
           (yyval.expr_val).val_type = STRING_TYPE;
       }
-#line 1105 "parser.tab.c"
+#line 1109 "parser.tab.c"
     break;
 
-  case 9: /* exp: ID  */
+  case 9: /* exp: BOOLEAN  */
 #line 53 "parser.y"
+              {
+        (yyval.expr_val) = (yyvsp[0].expr_val);
+        (yyval.expr_val).val_type = BOOLEAN_TYPE;
+      }
+#line 1118 "parser.tab.c"
+    break;
+
+  case 10: /* exp: ID  */
+#line 57 "parser.y"
          {
           // Aquí podrías buscar el ID en tu tabla de símbolos para determinar el tipo
           (yyval.expr_val).val_type = UNKNOWN_TYPE; // Actualiza esto según tu lógica
       }
-#line 1114 "parser.tab.c"
+#line 1127 "parser.tab.c"
     break;
 
 
-#line 1118 "parser.tab.c"
+#line 1131 "parser.tab.c"
 
       default: break;
     }
@@ -1307,5 +1320,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 58 "parser.y"
+#line 62 "parser.y"
 

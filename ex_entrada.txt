@@ -1,3 +1,5 @@
 x:=1.5
 y:=5
 textoejemplo:="Hola"
+booltest:=true
+booltest:=false

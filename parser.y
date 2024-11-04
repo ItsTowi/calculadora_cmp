@@ -22,7 +22,7 @@ extern int yylex();
 }
 
 %token ASSIGN EOL
-%token <expr_val> INTEGER FLOAT STRING ID
+%token <expr_val> ID INTEGER FLOAT STRING BOOLEAN
 %type <expr_val> declaracion lista_declaraciones exp
 
 %start programa
@@ -49,6 +49,10 @@ exp: INTEGER {
     | STRING {
           $$ = $1;
           $$.val_type = STRING_TYPE;
+      }
+    | BOOLEAN {
+        $$ = $1;
+        $$.val_type = BOOLEAN_TYPE;
       }
     | ID {
           // Aquí podrías buscar el ID en tu tabla de símbolos para determinar el tipo
