@@ -122,7 +122,9 @@ enum yysymbol_kind_t
   YYSYMBOL_programa = 11,                  /* programa  */
   YYSYMBOL_lista_declaraciones = 12,       /* lista_declaraciones  */
   YYSYMBOL_declaracion = 13,               /* declaracion  */
-  YYSYMBOL_exp = 14                        /* exp  */
+  YYSYMBOL_exp = 14,                       /* exp  */
+  YYSYMBOL_aritmetica = 15,                /* aritmetica  */
+  YYSYMBOL_booleana = 16                   /* booleana  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -455,11 +457,11 @@ union yyalloc
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  10
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  5
+#define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  10
+#define YYNRULES  12
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  15
+#define YYNSTATES  17
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   264
@@ -509,8 +511,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    32,    32,    34,    34,    36,    41,    45,    49,    53,
-      57
+       0,    32,    32,    34,    34,    36,    45,    45,    47,    51,
+      55,    59,    65
 };
 #endif
 
@@ -528,7 +530,7 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "ASSIGN", "EOL", "ID",
   "INTEGER", "FLOAT", "STRING", "BOOLEAN", "$accept", "programa",
-  "lista_declaraciones", "declaracion", "exp", YY_NULLPTR
+  "lista_declaraciones", "declaracion", "exp", "aritmetica", "booleana", YY_NULLPTR
 };
 
 static const char *
@@ -553,7 +555,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 static const yytype_int8 yypact[] =
 {
        0,     3,     7,     0,    -6,    -5,    -6,    -6,    -6,    -6,
-      -6,    -6,    -6,     4,    -6
+      -6,    -6,    -6,     4,    -6,    -6,    -6
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -561,20 +563,20 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     2,     4,     0,     1,     3,    10,     6,
-       7,     8,     9,     0,     5
+       0,     0,     0,     2,     4,     0,     1,     3,    11,     8,
+       9,    10,    12,     0,     6,     7,     5
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    -6,     6,    -6
+      -6,    -6,    -6,     6,    -6,    -6,    -6
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     3,     4,    13
+       0,     2,     3,     4,    13,    14,    15
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -582,7 +584,7 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       8,     9,    10,    11,    12,     1,     5,     6,    14,     7
+       8,     9,    10,    11,    12,     1,     5,     6,    16,     7
 };
 
 static const yytype_int8 yycheck[] =
@@ -595,21 +597,21 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     5,    11,    12,    13,     3,     0,    13,     5,     6,
-       7,     8,     9,    14,     4
+       7,     8,     9,    14,    15,    16,     4
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    10,    11,    12,    12,    13,    14,    14,    14,    14,
-      14
+       0,    10,    11,    12,    12,    13,    14,    14,    15,    15,
+      15,    15,    16
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     1,     4,     1,     1,     1,     1,
-       1
+       1,     1,     1
 };
 
 
@@ -1076,58 +1078,62 @@ yyreduce:
 #line 36 "parser.y"
                                {
                                   //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
-                                  fprintf(yyout, "ID: %s pren per valor: %s\n", (yyvsp[-3].expr_val).name, valueToString((yyvsp[-1].expr_val)));
+                                  if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE) {
+                                    yyerror((yyvsp[-1].expr_val).value.val_string);
+                                  } else {
+                                    fprintf(yyout, "ID: %s pren per valor: %s\n", (yyvsp[-3].expr_val).name, valueToString((yyvsp[-1].expr_val)));
+                                  }
                                 }
-#line 1082 "parser.tab.c"
+#line 1088 "parser.tab.c"
     break;
 
-  case 6: /* exp: INTEGER  */
-#line 41 "parser.y"
-             {
+  case 8: /* aritmetica: INTEGER  */
+#line 47 "parser.y"
+                    {
           (yyval.expr_val) = (yyvsp[0].expr_val);
           (yyval.expr_val).val_type = INT_TYPE;
       }
-#line 1091 "parser.tab.c"
+#line 1097 "parser.tab.c"
     break;
 
-  case 7: /* exp: FLOAT  */
-#line 45 "parser.y"
+  case 9: /* aritmetica: FLOAT  */
+#line 51 "parser.y"
             {
           (yyval.expr_val) = (yyvsp[0].expr_val);
           (yyval.expr_val).val_type = FLOAT_TYPE;
       }
-#line 1100 "parser.tab.c"
+#line 1106 "parser.tab.c"
     break;
 
-  case 8: /* exp: STRING  */
-#line 49 "parser.y"
+  case 10: /* aritmetica: STRING  */
+#line 55 "parser.y"
              {
           (yyval.expr_val) = (yyvsp[0].expr_val);
           (yyval.expr_val).val_type = STRING_TYPE;
       }
-#line 1109 "parser.tab.c"
+#line 1115 "parser.tab.c"
     break;
 
-  case 9: /* exp: BOOLEAN  */
-#line 53 "parser.y"
-              {
-        (yyval.expr_val) = (yyvsp[0].expr_val);
-        (yyval.expr_val).val_type = BOOLEAN_TYPE;
-      }
-#line 1118 "parser.tab.c"
-    break;
-
-  case 10: /* exp: ID  */
-#line 57 "parser.y"
+  case 11: /* aritmetica: ID  */
+#line 59 "parser.y"
          {
           // Aquí podrías buscar el ID en tu tabla de símbolos para determinar el tipo
           (yyval.expr_val).val_type = UNKNOWN_TYPE; // Actualiza esto según tu lógica
       }
-#line 1127 "parser.tab.c"
+#line 1124 "parser.tab.c"
+    break;
+
+  case 12: /* booleana: BOOLEAN  */
+#line 65 "parser.y"
+                  {
+        (yyval.expr_val) = (yyvsp[0].expr_val);
+        (yyval.expr_val).val_type = BOOLEAN_TYPE;
+      }
+#line 1133 "parser.tab.c"
     break;
 
 
-#line 1131 "parser.tab.c"
+#line 1137 "parser.tab.c"
 
       default: break;
     }
@@ -1320,5 +1326,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 62 "parser.y"
+#line 70 "parser.y"
 

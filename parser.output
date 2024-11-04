@@ -9,11 +9,15 @@ Grammar
 
     4 declaracion: ID ASSIGN exp EOL
 
-    5 exp: INTEGER
-    6    | FLOAT
-    7    | STRING
-    8    | BOOLEAN
-    9    | ID
+    5 exp: aritmetica
+    6    | booleana
+
+    7 aritmetica: INTEGER
+    8           | FLOAT
+    9           | STRING
+   10           | ID
+
+   11 booleana: BOOLEAN
 
 
 Terminals, with rules where they appear
@@ -22,11 +26,11 @@ Terminals, with rules where they appear
     error (256)
     ASSIGN (258) 4
     EOL (259) 4
-    ID <expr_val> (260) 4 9
-    INTEGER <expr_val> (261) 5
-    FLOAT <expr_val> (262) 6
-    STRING <expr_val> (263) 7
-    BOOLEAN <expr_val> (264) 8
+    ID <expr_val> (260) 4 10
+    INTEGER <expr_val> (261) 7
+    FLOAT <expr_val> (262) 8
+    STRING <expr_val> (263) 9
+    BOOLEAN <expr_val> (264) 11
 
 
 Nonterminals, with rules where they appear
@@ -43,8 +47,14 @@ Nonterminals, with rules where they appear
         on left: 4
         on right: 2 3
     exp <expr_val> (14)
-        on left: 5 6 7 8 9
+        on left: 5 6
         on right: 4
+    aritmetica <expr_val> (15)
+        on left: 7 8 9 10
+        on right: 5
+    booleana <expr_val> (16)
+        on left: 11
+        on right: 6
 
 
 State 0
@@ -101,7 +111,9 @@ State 5
     STRING   shift, and go to state 11
     BOOLEAN  shift, and go to state 12
 
-    exp  go to state 13
+    exp         go to state 13
+    aritmetica  go to state 14
+    booleana    go to state 15
 
 
 State 6
@@ -120,47 +132,61 @@ State 7
 
 State 8
 
-    9 exp: ID •
+   10 aritmetica: ID •
 
-    $default  reduce using rule 9 (exp)
+    $default  reduce using rule 10 (aritmetica)
 
 
 State 9
 
-    5 exp: INTEGER •
+    7 aritmetica: INTEGER •
 
-    $default  reduce using rule 5 (exp)
+    $default  reduce using rule 7 (aritmetica)
 
 
 State 10
 
-    6 exp: FLOAT •
+    8 aritmetica: FLOAT •
 
-    $default  reduce using rule 6 (exp)
+    $default  reduce using rule 8 (aritmetica)
 
 
 State 11
 
-    7 exp: STRING •
+    9 aritmetica: STRING •
 
-    $default  reduce using rule 7 (exp)
+    $default  reduce using rule 9 (aritmetica)
 
 
 State 12
 
-    8 exp: BOOLEAN •
+   11 booleana: BOOLEAN •
 
-    $default  reduce using rule 8 (exp)
+    $default  reduce using rule 11 (booleana)
 
 
 State 13
 
     4 declaracion: ID ASSIGN exp • EOL
 
-    EOL  shift, and go to state 14
+    EOL  shift, and go to state 16
 
 
 State 14
+
+    5 exp: aritmetica •
+
+    $default  reduce using rule 5 (exp)
+
+
+State 15
+
+    6 exp: booleana •
+
+    $default  reduce using rule 6 (exp)
+
+
+State 16
 
     4 declaracion: ID ASSIGN exp EOL •
 

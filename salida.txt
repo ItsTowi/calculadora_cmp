@@ -1,5 +1,5 @@
 ID: x pren per valor: 1.500000
 ID: y pren per valor: 5
 ID: textoejemplo pren per valor: Hola
-ID: booltest pren per valor: true
-ID: booltest pren per valor: false
+ID: booltest1 pren per valor: true
+ID: booltest2 pren per valor: false

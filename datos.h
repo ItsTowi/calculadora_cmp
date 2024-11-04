@@ -6,7 +6,7 @@
 #define STR_MAX_LENGTH 200
 
 typedef enum {
-  UNKNOWN_TYPE = 1,
+  UNKNOWN_TYPE,
   INT_TYPE,
   FLOAT_TYPE,
   STRING_TYPE,

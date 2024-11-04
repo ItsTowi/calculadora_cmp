@@ -23,7 +23,7 @@ extern int yylex();
 
 %token ASSIGN EOL
 %token <expr_val> ID INTEGER FLOAT STRING BOOLEAN
-%type <expr_val> declaracion lista_declaraciones exp
+%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana
 
 %start programa
 
@@ -35,10 +35,16 @@ lista_declaraciones: lista_declaraciones declaracion | declaracion;
 
 declaracion: ID ASSIGN exp EOL {
                                   //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
-                                  fprintf(yyout, "ID: %s pren per valor: %s\n", $1.name, valueToString($3));
+                                  if ($3.val_type == UNKNOWN_TYPE) {
+                                    yyerror($3.value.val_string);
+                                  } else {
+                                    fprintf(yyout, "ID: %s pren per valor: %s\n", $1.name, valueToString($3));
+                                  }
                                 };
 
-exp: INTEGER {
+exp: aritmetica | booleana;
+
+aritmetica: INTEGER {
           $$ = $1;
           $$.val_type = INT_TYPE;
       }
@@ -50,13 +56,15 @@ exp: INTEGER {
           $$ = $1;
           $$.val_type = STRING_TYPE;
       }
-    | BOOLEAN {
-        $$ = $1;
-        $$.val_type = BOOLEAN_TYPE;
-      }
     | ID {
           // Aquí podrías buscar el ID en tu tabla de símbolos para determinar el tipo
           $$.val_type = UNKNOWN_TYPE; // Actualiza esto según tu lógica
+      };
+
+
+booleana: BOOLEAN {
+        $$ = $1;
+        $$.val_type = BOOLEAN_TYPE;
       };
 
 %%
