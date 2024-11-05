@@ -29,6 +29,8 @@ typedef struct {
 char *type_to_str(data_type val_type);
 char *value_info_to_str(value_info value);
 char *valueToString(value_info v);
+value_info sumaAritmetica(value_info v1, value_info v2);
+value_info restaAritmetica(value_info v1, value_info v2);
 
 
 #endif

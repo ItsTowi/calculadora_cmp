@@ -21,9 +21,9 @@ extern int yylex();
     value_info expr_val;
 }
 
-%token ASSIGN EOL
-%token <expr_val> ID INTEGER FLOAT STRING BOOLEAN
-%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana
+%token ASSIGN ONELINECMNT MULTILINECMNT EOL
+%token <expr_val> ID INTEGER FLOAT STRING BOOLEAN ADD SUB MULT DIV MOD POW LPAREN RPAREN
+%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana termino factor primario
 
 %start programa
 
@@ -39,28 +39,31 @@ declaracion: ID ASSIGN exp EOL {
                                     yyerror($3.value.val_string);
                                   } else {
                                     fprintf(yyout, "ID: %s pren per valor: %s\n", $1.name, valueToString($3));
+                                    //yylineno++;
                                   }
-                                };
+                                }
+              | ONELINECMNT {
+                              fprintf(yyout, "COMENTARIO DE UNA LINEA EN LA LINEA %d\n", yylineno - 1);
+                              //yylineno++;
+                            }
+              | MULTILINECMNT {
+                                fprintf(yyout, "COMENTARIO DE MULTIPLES LINEAS %d\n", yylineno - 1);
+                              };
 
 exp: aritmetica | booleana;
 
-aritmetica: INTEGER {
-          $$ = $1;
-          $$.val_type = INT_TYPE;
-      }
-    | FLOAT {
-          $$ = $1;
-          $$.val_type = FLOAT_TYPE;
-      }
-    | STRING {
-          $$ = $1;
-          $$.val_type = STRING_TYPE;
-      }
-    | ID {
-          // Aquí podrías buscar el ID en tu tabla de símbolos para determinar el tipo
-          $$.val_type = UNKNOWN_TYPE; // Actualiza esto según tu lógica
-      };
+aritmetica: termino | aritmetica ADD termino  {
+                                                $$ = sumaAritmetica($1, $3);
+                                              } 
+                    | aritmetica SUB termino  {
+                                                $$ = restaAritmetica($1, $3);
+                                              };
 
+termino: factor | termino MULT factor | termino DIV factor | termino MOD factor;
+
+factor: primario | factor POW primario;
+
+primario: INTEGER | FLOAT | STRING | ID | LPAREN aritmetica RPAREN;
 
 booleana: BOOLEAN {
         $$ = $1;

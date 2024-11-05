@@ -1,2 +1,6 @@
 Porque he de poner un espacio en blanco al final de mi documento
 Importa el orden de las reglas en el lexer.l?
+Se tiene que poder hacer un comentario del estilo "x:=10 //Ejemplo"
+Entiendo que la variable yylineno se aumenta sola, pero es normal que le tenga que restar 1 para imprimir el numero de linea?
+He visto que hay un metodo para hacer lo de los comentarios con "Estados" lo he de hacer así?
+la symtab la voy a utilizar para guardar identificadores y su valor no?

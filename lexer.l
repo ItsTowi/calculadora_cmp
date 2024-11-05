@@ -12,6 +12,7 @@
 %option noyywrap
 %option noinput
 %option nounput
+%x IN_COMMENT
 
 lletra  [a-zA-Z]
 digit   [0-9]
@@ -44,6 +45,15 @@ string \"([^\\"]|\\.)*\"
 ":="                        { 
                               return ASSIGN; 
                             }
+
+"+"                         { printf("Token SUMA: %s\n",yytext); return ADD; }
+"-"                         { return SUB; }
+"*"                         { return MULT; }
+"/"                         { return DIV; }
+"%"                         { return MOD; }
+"**"                        { return POW; }
+"("                         { return LPAREN; }
+")"                         { return RPAREN; }
 
 {digit}({digit})*           {
                               yylval.expr_val.value.val_int = atoi(yytext);
@@ -78,6 +88,25 @@ string \"([^\\"]|\\.)*\"
 "\r"                        {}
 " "                         {}
 .                           { fprintf(stderr, "Carácter inesperado: '%s' en línea %d\n", yytext, yylineno);}
+
+
+
+"//".*"\n"                  { 
+                              return ONELINECMNT; 
+                            }
+
+
+
+<INITIAL>{
+"/*"            BEGIN(IN_COMMENT);
+}
+<IN_COMMENT>{
+"*/"            BEGIN(INITIAL);
+[^*\n]+                             /* eat comment in chunks */
+"*"                                 /* eat the lone star */
+\n    { return MULTILINECMNT;}
+}
+
 
 %%
 

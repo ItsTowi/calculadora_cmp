@@ -1,5 +1,5 @@
-x:=1.5
-y:=5
-textoejemplo:="Hola"
-booltest1:=true
-booltest2:=false
+x := 4 + 9
+y := 2.5 - 3
+textoejemplo := "Hola"
+booltest1 := true
+booltest2 := false
