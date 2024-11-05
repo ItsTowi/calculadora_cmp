@@ -15,6 +15,7 @@ extern int yylex();
   /* Les definicions que s'utilitzen al %union han d'estar aqui */
   #include "datos.h"
   #include "funciones.h"
+  #include "symtab.h"
 }
 
 %union{
@@ -39,6 +40,7 @@ declaracion: ID ASSIGN exp EOL {
                                     yyerror($3.value.val_string);
                                   } else {
                                     fprintf(yyout, "ID: %s pren per valor: %s\n", $1.name, valueToString($3));
+                                    sym_enter($1.name, (void*) &$3);
                                     //yylineno++;
                                   }
                                 }
@@ -75,8 +77,20 @@ factor: primario | factor POW primario  {
 
 primario: INTEGER 
           | FLOAT 
-          | STRING 
-          | ID 
+          | STRING
+          | ID                        {
+                                          if(sym_lookup($1.name, (void*) &$1) == SYMTAB_NOT_FOUND) 
+                                          {	
+                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
+                                            //erfl = 1; 
+                                            //YYERROR;
+                                          } 
+												                  else 
+                                          { 
+                                            $$.val_type = $1.val_type;
+                                            $$.val_type=$1.val_type;
+                                          }
+                                      }
           | LPAREN aritmetica RPAREN  {
                                           $$ = $2;
                                       };

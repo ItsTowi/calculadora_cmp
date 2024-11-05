@@ -139,15 +139,6 @@ typedef const char * sym_name_type;     /* If you are using something other */
 /* Uncomment the following to include sym_histogram in the compile          */
 /* #define SYM_HISTOGRAM */
 
-
-/****************************************************************************/
-/*                                                                          */
-/*                   end of #defines to configure symtab                    /
-/*    Most configuration can be accomplished by editing lines above this.   */
-/*                                                                          */
-/****************************************************************************/
-
-
 #if !defined(SYM_REQUIRE_SET_SCOPE) && !defined(SYM_SCOPE_STACK_DEPTH) && defined(SYM_DEEP_BINDING)
 #define SYM_REQUIRE_SET_SCOPE
 #endif

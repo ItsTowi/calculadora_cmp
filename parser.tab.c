@@ -525,9 +525,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    32,    32,    34,    34,    36,    45,    49,    53,    53,
-      55,    55,    58,    62,    62,    65,    68,    72,    72,    76,
-      77,    78,    79,    80,    84
+       0,    33,    33,    35,    35,    37,    47,    51,    55,    55,
+      57,    57,    60,    64,    64,    67,    70,    74,    74,    78,
+      79,    80,    81,    94,    98
 };
 #endif
 
@@ -1106,103 +1106,122 @@ yyreduce:
   switch (yyn)
     {
   case 5: /* declaracion: ID ASSIGN exp EOL  */
-#line 36 "parser.y"
+#line 37 "parser.y"
                                {
                                   //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
                                   if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE) {
                                     yyerror((yyvsp[-1].expr_val).value.val_string);
                                   } else {
                                     fprintf(yyout, "ID: %s pren per valor: %s\n", (yyvsp[-3].expr_val).name, valueToString((yyvsp[-1].expr_val)));
+                                    sym_enter((yyvsp[-3].expr_val).name, (void*) &(yyvsp[-1].expr_val));
                                     //yylineno++;
                                   }
                                 }
-#line 1120 "parser.tab.c"
+#line 1121 "parser.tab.c"
     break;
 
   case 6: /* declaracion: ONELINECMNT  */
-#line 45 "parser.y"
+#line 47 "parser.y"
                             {
                               fprintf(yyout, "COMENTARIO DE UNA LINEA EN LA LINEA %d\n", yylineno - 1);
                               //yylineno++;
                             }
-#line 1129 "parser.tab.c"
+#line 1130 "parser.tab.c"
     break;
 
   case 7: /* declaracion: MULTILINECMNT  */
-#line 49 "parser.y"
+#line 51 "parser.y"
                               {
                                 fprintf(yyout, "COMENTARIO DE MULTIPLES LINEAS %d\n", yylineno - 1);
                               }
-#line 1137 "parser.tab.c"
+#line 1138 "parser.tab.c"
     break;
 
   case 11: /* aritmetica: aritmetica ADD termino  */
-#line 55 "parser.y"
+#line 57 "parser.y"
                                               {
                                                 (yyval.expr_val) = sumaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                               }
-#line 1145 "parser.tab.c"
+#line 1146 "parser.tab.c"
     break;
 
   case 12: /* aritmetica: aritmetica SUB termino  */
-#line 58 "parser.y"
+#line 60 "parser.y"
                                               {
                                                 (yyval.expr_val) = restaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                               }
-#line 1153 "parser.tab.c"
+#line 1154 "parser.tab.c"
     break;
 
   case 14: /* termino: termino MULT factor  */
-#line 62 "parser.y"
+#line 64 "parser.y"
                                       {
                                         (yyval.expr_val) = multAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                       }
-#line 1161 "parser.tab.c"
+#line 1162 "parser.tab.c"
     break;
 
   case 15: /* termino: termino DIV factor  */
-#line 65 "parser.y"
+#line 67 "parser.y"
                                       {
                                         (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                       }
-#line 1169 "parser.tab.c"
+#line 1170 "parser.tab.c"
     break;
 
   case 16: /* termino: termino MOD factor  */
-#line 68 "parser.y"
+#line 70 "parser.y"
                                       {
                                         (yyval.expr_val) = modAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                       }
-#line 1177 "parser.tab.c"
+#line 1178 "parser.tab.c"
     break;
 
   case 18: /* factor: factor POW primario  */
-#line 72 "parser.y"
+#line 74 "parser.y"
                                         {
                                           (yyval.expr_val) = potAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         }
-#line 1185 "parser.tab.c"
+#line 1186 "parser.tab.c"
+    break;
+
+  case 22: /* primario: ID  */
+#line 81 "parser.y"
+                                      {
+                                          if(sym_lookup((yyvsp[0].expr_val).name, (void*) &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
+                                          {	
+                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
+                                            //erfl = 1; 
+                                            //YYERROR;
+                                          } 
+												                  else 
+                                          { 
+                                            (yyval.expr_val).val_type = (yyvsp[0].expr_val).val_type;
+                                            (yyval.expr_val).val_type=(yyvsp[0].expr_val).val_type;
+                                          }
+                                      }
+#line 1204 "parser.tab.c"
     break;
 
   case 23: /* primario: LPAREN aritmetica RPAREN  */
-#line 80 "parser.y"
+#line 94 "parser.y"
                                       {
                                           (yyval.expr_val) = (yyvsp[-1].expr_val);
                                       }
-#line 1193 "parser.tab.c"
+#line 1212 "parser.tab.c"
     break;
 
   case 24: /* booleana: BOOLEAN  */
-#line 84 "parser.y"
+#line 98 "parser.y"
                   {
         (yyval.expr_val) = (yyvsp[0].expr_val);
         (yyval.expr_val).val_type = BOOLEAN_TYPE;
       }
-#line 1202 "parser.tab.c"
+#line 1221 "parser.tab.c"
     break;
 
 
-#line 1206 "parser.tab.c"
+#line 1225 "parser.tab.c"
 
       default: break;
     }
@@ -1395,5 +1414,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 89 "parser.y"
+#line 103 "parser.y"
 

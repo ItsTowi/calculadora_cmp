@@ -23,7 +23,7 @@ OBJ = *.o
 SRC = main.c
 BIN = calc.exe
 
-SRC_EXTRA = datos.c funciones.c
+SRC_EXTRA = datos.c funciones.c symtab.c
 
 LFLAGS =
 YFLAGS = -d -v

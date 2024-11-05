@@ -50,8 +50,9 @@ extern int yydebug;
   /* Les definicions que s'utilitzen al %union han d'estar aqui */
   #include "datos.h"
   #include "funciones.h"
+  #include "symtab.h"
 
-#line 55 "parser.tab.h"
+#line 56 "parser.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -87,11 +88,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 20 "parser.y"
+#line 21 "parser.y"
 
     value_info expr_val;
 
-#line 95 "parser.tab.h"
+#line 96 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
