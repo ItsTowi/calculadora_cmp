@@ -38,6 +38,8 @@ string \"([^\\"]|\\.)*\"
 [a-zA-Z][a-zA-Z0-9]*        { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng); 
+
+                              
                               printf("Token ID: %s\n",yytext);
                               return ID; 
                             }

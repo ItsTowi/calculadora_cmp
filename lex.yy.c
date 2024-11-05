@@ -835,60 +835,62 @@ YY_RULE_SETUP
 { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng); 
+
+                              
                               printf("Token ID: %s\n",yytext);
                               return ID; 
                             }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 45 "lexer.l"
+#line 47 "lexer.l"
 { 
                               return ASSIGN; 
                             }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 49 "lexer.l"
+#line 51 "lexer.l"
 { printf("Token SUMA: %s\n",yytext); return ADD; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 50 "lexer.l"
+#line 52 "lexer.l"
 { return SUB; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 53 "lexer.l"
 { return MULT; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 52 "lexer.l"
+#line 54 "lexer.l"
 { return DIV; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 53 "lexer.l"
+#line 55 "lexer.l"
 { return MOD; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 54 "lexer.l"
+#line 56 "lexer.l"
 { return POW; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 55 "lexer.l"
+#line 57 "lexer.l"
 { return LPAREN; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 56 "lexer.l"
+#line 58 "lexer.l"
 { return RPAREN; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 58 "lexer.l"
+#line 60 "lexer.l"
 {
                               yylval.expr_val.value.val_int = atoi(yytext);
                               yylval.expr_val.val_type = INT_TYPE;
@@ -898,7 +900,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 66 "lexer.l"
+#line 68 "lexer.l"
 {
                               yylval.expr_val.value.val_float = atof(yytext);
                               yylval.expr_val.val_type = FLOAT_TYPE;
@@ -909,7 +911,7 @@ YY_RULE_SETUP
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 73 "lexer.l"
+#line 75 "lexer.l"
 {
                               // Asegúrate de que la longitud de yytext no exceda STR_MAX_LENGTH
                               yylval.expr_val.val_type = STRING_TYPE;
@@ -924,35 +926,35 @@ YY_RULE_SETUP
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 84 "lexer.l"
+#line 86 "lexer.l"
 { 
                               return EOL;
                             }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 87 "lexer.l"
+#line 89 "lexer.l"
 {}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 88 "lexer.l"
+#line 90 "lexer.l"
 {}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 89 "lexer.l"
+#line 91 "lexer.l"
 {}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 90 "lexer.l"
+#line 92 "lexer.l"
 { fprintf(stderr, "Carácter inesperado: '%s' en línea %d\n", yytext, yylineno);}
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 94 "lexer.l"
+#line 96 "lexer.l"
 { 
                               return ONELINECMNT; 
                             }
@@ -960,39 +962,39 @@ YY_RULE_SETUP
 
 case 22:
 YY_RULE_SETUP
-#line 101 "lexer.l"
+#line 103 "lexer.l"
 BEGIN(IN_COMMENT);
 	YY_BREAK
 
 
 case 23:
 YY_RULE_SETUP
-#line 104 "lexer.l"
+#line 106 "lexer.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 105 "lexer.l"
+#line 107 "lexer.l"
 /* eat comment in chunks */
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 106 "lexer.l"
+#line 108 "lexer.l"
 /* eat the lone star */
 	YY_BREAK
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 107 "lexer.l"
+#line 109 "lexer.l"
 { return MULTILINECMNT;}
 	YY_BREAK
 
 case 27:
 YY_RULE_SETUP
-#line 111 "lexer.l"
+#line 113 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 996 "lex.yy.c"
+#line 998 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(IN_COMMENT):
 	yyterminate();
@@ -1969,7 +1971,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 111 "lexer.l"
+#line 113 "lexer.l"
 
 
 

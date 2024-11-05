@@ -8,10 +8,10 @@
 /*             #defines and typedefs to configure symtab                    */
 /*                                                                          */
 /****************************************************************************/
-
+#include "datos.h"
 
 /* The type of the value field of symbol table entries                      */
-typedef void * sym_value_type;          /* you will need to replace this    */
+typedef value_info sym_value_type;          /* you will need to replace this    */
                                         /* with a declaration appropriate   */
                                         /* for your application.            */
 					/*Ho subtituim per un unio o struct */

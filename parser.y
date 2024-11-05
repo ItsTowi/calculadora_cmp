@@ -40,8 +40,7 @@ declaracion: ID ASSIGN exp EOL {
                                     yyerror($3.value.val_string);
                                   } else {
                                     fprintf(yyout, "ID: %s pren per valor: %s\n", $1.name, valueToString($3));
-                                    sym_enter($1.name, (void*) &$3);
-                                    //yylineno++;
+                                    sym_enter($1.name, &$3);
                                   }
                                 }
               | ONELINECMNT {
@@ -75,20 +74,24 @@ factor: primario | factor POW primario  {
                                           $$ = potAritmetica($1, $3);
                                         };
 
-primario: INTEGER 
-          | FLOAT 
-          | STRING
+primario: INTEGER                     {
+                                        $$ = $1;
+                                      }
+          | FLOAT                     {
+                                        $$ = $1;
+                                      }
+          | STRING                    {
+                                        $$ = $1;
+                                      }
           | ID                        {
-                                          if(sym_lookup($1.name, (void*) &$1) == SYMTAB_NOT_FOUND) 
+                                          if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
                                           {	
                                             yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
-                                            //erfl = 1; 
-                                            //YYERROR;
                                           } 
 												                  else 
                                           { 
                                             $$.val_type = $1.val_type;
-                                            $$.val_type=$1.val_type;
+                                            $$.value =$1.value;
                                           }
                                       }
           | LPAREN aritmetica RPAREN  {
