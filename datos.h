@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <math.h>
 
 #ifndef datos_H
 #define datos_H
@@ -31,6 +32,10 @@ char *value_info_to_str(value_info value);
 char *valueToString(value_info v);
 value_info sumaAritmetica(value_info v1, value_info v2);
 value_info restaAritmetica(value_info v1, value_info v2);
+value_info multAritmetica(value_info v1, value_info v2);
+value_info divAritmetica(value_info v1, value_info v2);
+value_info modAritmetica(value_info v1, value_info v2);
+value_info potAritmetica(value_info v1, value_info v2);
 
 
 #endif

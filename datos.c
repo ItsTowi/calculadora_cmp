@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "datos.h"
 
 
@@ -139,6 +140,142 @@ value_info restaAritmetica(value_info v1, value_info v2) {
     // Manejar caso donde los tipos no son compatibles
     else {
         fprintf(stderr, "Error: tipos incompatibles para la operación de resta.\n");
+    }
+
+    return resultado;
+}
+
+
+
+value_info multAritmetica(value_info v1, value_info v2) {
+    value_info resultado = {.val_type = UNKNOWN_TYPE};
+
+    // Multiplicar enteros
+    if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
+        resultado.val_type = INT_TYPE;
+        resultado.value.val_int = v1.value.val_int * v2.value.val_int;
+    }
+    // Multiplicar flotantes
+    else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = v1.value.val_float * v2.value.val_float;
+    }
+    // Manejo de combinaciones de tipos
+    else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = v1.value.val_int * v2.value.val_float;
+    }
+    else if (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE) {
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = v1.value.val_float * v2.value.val_int;
+    }
+    // Manejar caso donde los tipos no son compatibles
+    else {
+        fprintf(stderr, "Error: tipos incompatibles para la operación de multiplicación.\n");
+    }
+
+    return resultado;
+}
+
+
+value_info divAritmetica(value_info v1, value_info v2) {
+    value_info resultado = {.val_type = UNKNOWN_TYPE};
+
+    // División entre enteros
+    if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
+        if (v2.value.val_int == 0) {
+            fprintf(stderr, "Error: División por cero.\n");
+            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            return resultado;
+        }
+        resultado.val_type = INT_TYPE;
+        resultado.value.val_int = v1.value.val_int / v2.value.val_int;
+    }
+    // División entre flotantes
+    else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
+        if (v2.value.val_float == 0.0) {
+            fprintf(stderr, "Error: División por cero.\n");
+            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            return resultado;
+        }
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = v1.value.val_float / v2.value.val_float;
+    }
+    // Manejo de combinaciones de tipos
+    else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
+        if (v2.value.val_float == 0.0) {
+            fprintf(stderr, "Error: División por cero.\n");
+            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            return resultado;
+        }
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = v1.value.val_int / v2.value.val_float;
+    }
+    else if (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE) {
+        if (v2.value.val_int == 0) {
+            fprintf(stderr, "Error: División por cero.\n");
+            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            return resultado;
+        }
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = v1.value.val_float / v2.value.val_int;
+    }
+    // Manejar caso donde los tipos no son compatibles
+    else {
+        fprintf(stderr, "Error: tipos incompatibles para la operación de división.\n");
+    }
+
+    return resultado;
+}
+
+
+value_info modAritmetica(value_info v1, value_info v2) {
+    value_info resultado = {.val_type = UNKNOWN_TYPE};
+
+    // Módulo entre enteros
+    if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
+        if (v2.value.val_int == 0) {
+            fprintf(stderr, "Error: División por cero en módulo.\n");
+            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            return resultado;
+        }
+        resultado.val_type = INT_TYPE;
+        resultado.value.val_int = v1.value.val_int % v2.value.val_int;
+    }
+    // Manejo de tipos incompatibles
+    else {
+        fprintf(stderr, "Error: tipos incompatibles para la operación de módulo.\n");
+    }
+
+    return resultado;
+}
+
+
+value_info potAritmetica(value_info v1, value_info v2) {
+    value_info resultado = {.val_type = UNKNOWN_TYPE};
+
+    // Potencia entre enteros
+    if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
+        resultado.val_type = INT_TYPE;
+        resultado.value.val_int = (int)pow(v1.value.val_int, v2.value.val_int);
+    }
+    // Potencia entre flotantes
+    else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = pow(v1.value.val_float, v2.value.val_float);
+    }
+    // Combinación de tipos: int y float
+    else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = pow(v1.value.val_int, v2.value.val_float);
+    }
+    else if (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE) {
+        resultado.val_type = FLOAT_TYPE;
+        resultado.value.val_float = pow(v1.value.val_float, v2.value.val_int);
+    }
+    // Manejo de tipos incompatibles
+    else {
+        fprintf(stderr, "Error: tipos incompatibles para la operación de potencia.\n");
     }
 
     return resultado;

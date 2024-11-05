@@ -32,12 +32,10 @@ CFLAGS = -Wall -g
 EG_IN = ex_entrada.txt
 EG_OUT = salida.txt
 
-
-
 ######################################################################
 
 all : yacc lex
-	$(CC) -o $(BIN) $(CFLAGS) $(SRC) $(SRC_EXTRA) $(YACC_OUT_C) $(LEX_OUT) $(LIB)
+	$(CC) -o $(BIN) $(CFLAGS) $(SRC) $(SRC_EXTRA) $(YACC_OUT_C) $(LEX_OUT) $(LIB) -lm
 	./$(BIN) $(EG_IN) $(EG_OUT)
 
 yacc : $(SRC_YACC)

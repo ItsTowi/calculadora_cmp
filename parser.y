@@ -59,11 +59,27 @@ aritmetica: termino | aritmetica ADD termino  {
                                                 $$ = restaAritmetica($1, $3);
                                               };
 
-termino: factor | termino MULT factor | termino DIV factor | termino MOD factor;
+termino: factor | termino MULT factor {
+                                        $$ = multAritmetica($1, $3);
+                                      } 
+                | termino DIV factor  {
+                                        $$ = divAritmetica($1, $3);
+                                      }
+                | termino MOD factor  {
+                                        $$ = modAritmetica($1, $3);
+                                      };
 
-factor: primario | factor POW primario;
+factor: primario | factor POW primario  {
+                                          $$ = potAritmetica($1, $3);
+                                        };
 
-primario: INTEGER | FLOAT | STRING | ID | LPAREN aritmetica RPAREN;
+primario: INTEGER 
+          | FLOAT 
+          | STRING 
+          | ID 
+          | LPAREN aritmetica RPAREN  {
+                                          $$ = $2;
+                                      };
 
 booleana: BOOLEAN {
         $$ = $1;

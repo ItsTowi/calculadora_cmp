@@ -526,8 +526,8 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int8 yyrline[] =
 {
        0,    32,    32,    34,    34,    36,    45,    49,    53,    53,
-      55,    55,    58,    62,    62,    62,    62,    64,    64,    66,
-      66,    66,    66,    66,    68
+      55,    55,    58,    62,    62,    65,    68,    72,    72,    76,
+      77,    78,    79,    80,    84
 };
 #endif
 
@@ -1152,17 +1152,57 @@ yyreduce:
 #line 1153 "parser.tab.c"
     break;
 
-  case 24: /* booleana: BOOLEAN  */
+  case 14: /* termino: termino MULT factor  */
+#line 62 "parser.y"
+                                      {
+                                        (yyval.expr_val) = multAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                      }
+#line 1161 "parser.tab.c"
+    break;
+
+  case 15: /* termino: termino DIV factor  */
+#line 65 "parser.y"
+                                      {
+                                        (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                      }
+#line 1169 "parser.tab.c"
+    break;
+
+  case 16: /* termino: termino MOD factor  */
 #line 68 "parser.y"
+                                      {
+                                        (yyval.expr_val) = modAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                      }
+#line 1177 "parser.tab.c"
+    break;
+
+  case 18: /* factor: factor POW primario  */
+#line 72 "parser.y"
+                                        {
+                                          (yyval.expr_val) = potAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                        }
+#line 1185 "parser.tab.c"
+    break;
+
+  case 23: /* primario: LPAREN aritmetica RPAREN  */
+#line 80 "parser.y"
+                                      {
+                                          (yyval.expr_val) = (yyvsp[-1].expr_val);
+                                      }
+#line 1193 "parser.tab.c"
+    break;
+
+  case 24: /* booleana: BOOLEAN  */
+#line 84 "parser.y"
                   {
         (yyval.expr_val) = (yyvsp[0].expr_val);
         (yyval.expr_val).val_type = BOOLEAN_TYPE;
       }
-#line 1162 "parser.tab.c"
+#line 1202 "parser.tab.c"
     break;
 
 
-#line 1166 "parser.tab.c"
+#line 1206 "parser.tab.c"
 
       default: break;
     }
@@ -1355,5 +1395,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 73 "parser.y"
+#line 89 "parser.y"
 
