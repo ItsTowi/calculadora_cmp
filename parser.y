@@ -98,9 +98,5 @@ primario: INTEGER                     {
                                           $$ = $2;
                                       };
 
-booleana: BOOLEAN {
-        $$ = $1;
-        $$.val_type = BOOLEAN_TYPE;
-      };
 
 %%
