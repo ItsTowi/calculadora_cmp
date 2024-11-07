@@ -36,6 +36,9 @@ value_info multAritmetica(value_info v1, value_info v2);
 value_info divAritmetica(value_info v1, value_info v2);
 value_info modAritmetica(value_info v1, value_info v2);
 value_info potAritmetica(value_info v1, value_info v2);
+value_info orBooleana(value_info v1, value_info v2);
+value_info andBooleana(value_info v1, value_info v2);
+value_info notBooleana(value_info v1);
 
 
 #endif

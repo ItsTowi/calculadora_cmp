@@ -35,13 +35,27 @@ string \"([^\\"]|\\.)*\"
                               return BOOLEAN;
                             }
 
+
+"and"                       { return AND; }
+"or"                        { return OR; }
+"not"                       { return NOT; }
+
 [a-zA-Z][a-zA-Z0-9]*        { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng); 
 
+
+                              value_info aux;
+                              if (sym_lookup(yytext, &aux) == SYMTAB_NOT_FOUND){
+                                return ID;
+                              } 
+                              else 
+                              {  
+                                if (aux.val_type == BOOLEAN_TYPE) return B_ID;
+                                else return A_ID;
+                              }
                               
                               printf("Token ID: %s\n",yytext);
-                              return ID; 
                             }
 
 ":="                        { 
@@ -56,6 +70,15 @@ string \"([^\\"]|\\.)*\"
 "**"                        { return POW; }
 "("                         { return LPAREN; }
 ")"                         { return RPAREN; }
+
+
+">"                         { return OPRELACIONAL; }
+">="                        { return OPRELACIONAL; }
+"<"                         { return OPRELACIONAL; }
+"<="                        { return OPRELACIONAL; }
+"="                         { return OPRELACIONAL; }
+"<>"                        { return OPRELACIONAL; }
+
 
 {digit}({digit})*           {
                               yylval.expr_val.value.val_int = atoi(yytext);

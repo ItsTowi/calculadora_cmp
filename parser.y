@@ -23,8 +23,8 @@ extern int yylex();
 }
 
 %token ASSIGN ONELINECMNT MULTILINECMNT EOL
-%token <expr_val> ID INTEGER FLOAT STRING BOOLEAN ADD SUB MULT DIV MOD POW LPAREN RPAREN
-%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana termino factor primario
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT STRING BOOLEAN ADD SUB MULT DIV MOD POW AND OR NOT OPRELACIONAL LPAREN RPAREN
+%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana bool1 bool2 bool3 bool_aritmetic termino factor primario
 
 %start programa
 
@@ -94,9 +94,55 @@ primario: INTEGER                     {
                                             $$.value =$1.value;
                                           }
                                       }
+          | A_ID                        {
+                                          if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
+                                          {	
+                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
+                                          } 
+												                  else 
+                                          { 
+                                            $$.val_type = $1.val_type;
+                                            $$.value =$1.value;
+                                          }
+                                      }
           | LPAREN aritmetica RPAREN  {
                                           $$ = $2;
                                       };
 
+booleana: bool1 
+          | booleana OR bool1         {
+                                        $$ = orBooleana($1, $3);
+                                      };
+
+bool1: bool2 
+      | bool1 AND bool2               {
+                                        $$ = andBooleana($1,$3);
+                                      };
+
+bool2: bool3 
+      | NOT bool2                     {
+                                        $$ = notBooleana($2);
+                                      };
+
+bool3:  bool_aritmetic 
+        | LPAREN booleana RPAREN      {
+                                        $$ = $2;
+                                      }
+        | BOOLEAN                     {
+                                        $$ = $1;
+                                      }
+        | B_ID                        {
+                                        if (sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND)
+                                        {
+                                          yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n");
+                                        }
+                                        else
+                                        {
+                                          $$.val_type = $1.val_type;
+                                          $$.value = $1.value;
+                                        }
+                                      };
+
+bool_aritmetic: aritmetica OPRELACIONAL aritmetica;
 
 %%

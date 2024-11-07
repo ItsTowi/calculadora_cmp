@@ -280,3 +280,20 @@ value_info potAritmetica(value_info v1, value_info v2) {
 
     return resultado;
 }
+
+
+value_info orBooleana(value_info v1, value_info v2)
+{
+    value_info resultado = {.val_type = UNKNOWN_TYPE};
+    return resultado;
+}
+value_info andBooleana(value_info v1, value_info v2)
+{
+    value_info resultado = {.val_type = UNKNOWN_TYPE};
+    return resultado;
+}
+value_info notBooleana(value_info v1)
+{
+    value_info resultado = {.val_type = UNKNOWN_TYPE};
+    return resultado;
+}

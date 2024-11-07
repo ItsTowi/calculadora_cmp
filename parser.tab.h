@@ -68,18 +68,24 @@ extern int yydebug;
     MULTILINECMNT = 260,           /* MULTILINECMNT  */
     EOL = 261,                     /* EOL  */
     ID = 262,                      /* ID  */
-    INTEGER = 263,                 /* INTEGER  */
-    FLOAT = 264,                   /* FLOAT  */
-    STRING = 265,                  /* STRING  */
-    BOOLEAN = 266,                 /* BOOLEAN  */
-    ADD = 267,                     /* ADD  */
-    SUB = 268,                     /* SUB  */
-    MULT = 269,                    /* MULT  */
-    DIV = 270,                     /* DIV  */
-    MOD = 271,                     /* MOD  */
-    POW = 272,                     /* POW  */
-    LPAREN = 273,                  /* LPAREN  */
-    RPAREN = 274                   /* RPAREN  */
+    A_ID = 263,                    /* A_ID  */
+    B_ID = 264,                    /* B_ID  */
+    INTEGER = 265,                 /* INTEGER  */
+    FLOAT = 266,                   /* FLOAT  */
+    STRING = 267,                  /* STRING  */
+    BOOLEAN = 268,                 /* BOOLEAN  */
+    ADD = 269,                     /* ADD  */
+    SUB = 270,                     /* SUB  */
+    MULT = 271,                    /* MULT  */
+    DIV = 272,                     /* DIV  */
+    MOD = 273,                     /* MOD  */
+    POW = 274,                     /* POW  */
+    AND = 275,                     /* AND  */
+    OR = 276,                      /* OR  */
+    NOT = 277,                     /* NOT  */
+    OPRELACIONAL = 278,            /* OPRELACIONAL  */
+    LPAREN = 279,                  /* LPAREN  */
+    RPAREN = 280                   /* RPAREN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -92,7 +98,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 96 "parser.tab.h"
+#line 102 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
