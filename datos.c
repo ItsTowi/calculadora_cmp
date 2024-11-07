@@ -284,16 +284,84 @@ value_info potAritmetica(value_info v1, value_info v2) {
 
 value_info orBooleana(value_info v1, value_info v2)
 {
-    value_info resultado = {.val_type = UNKNOWN_TYPE};
+    value_info resultado = {.val_type = BOOLEAN_TYPE};
+    if (v1.val_type == BOOLEAN_TYPE && v2.val_type == BOOLEAN_TYPE) {
+        resultado.value.val_boolean = v1.value.val_boolean || v2.value.val_boolean;
+    } else {
+        resultado.val_type = UNKNOWN_TYPE;
+    }
     return resultado;
 }
+
 value_info andBooleana(value_info v1, value_info v2)
 {
-    value_info resultado = {.val_type = UNKNOWN_TYPE};
+    value_info resultado = {.val_type = BOOLEAN_TYPE};
+    if (v1.val_type == BOOLEAN_TYPE && v2.val_type == BOOLEAN_TYPE) {
+        resultado.value.val_boolean = v1.value.val_boolean && v2.value.val_boolean;
+    } else {
+        resultado.val_type = UNKNOWN_TYPE;
+    }
     return resultado;
 }
+
 value_info notBooleana(value_info v1)
 {
-    value_info resultado = {.val_type = UNKNOWN_TYPE};
+    value_info resultado = {.val_type = BOOLEAN_TYPE};
+    if (v1.val_type == BOOLEAN_TYPE) {
+        resultado.value.val_boolean = !v1.value.val_boolean;
+    } else {
+        resultado.val_type = UNKNOWN_TYPE;
+    }
+    return resultado;
+}
+
+value_info opRelacional(value_info v1, value_info operador, value_info v2)
+{
+    value_info resultado = {.val_type = BOOLEAN_TYPE};
+
+    // Verifica que al menos uno de los operandos sea de tipo NUMERO (INT_TYPE o FLOAT_TYPE)
+    if ((v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) ||
+        (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) ||
+        (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) ||
+        (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE)) {
+
+        // Si v1 es INT_TYPE y v2 es FLOAT_TYPE o viceversa, convertimos INT a FLOAT
+        if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
+            v1.value.val_float = (float)v1.value.val_int;
+            v1.val_type = FLOAT_TYPE;  // Convertimos v1 a FLOAT_TYPE
+        }
+        else if (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE) {
+            v2.value.val_float = (float)v2.value.val_int;
+            v2.val_type = FLOAT_TYPE;  // Convertimos v2 a FLOAT_TYPE
+        }
+
+        // Comparaciones después de asegurarse de que ambos operandos son FLOAT_TYPE
+        if (strcmp(operador.value.val_string, "<") == 0) {
+            resultado.value.val_boolean = v1.value.val_float < v2.value.val_float;
+        }
+        else if (strcmp(operador.value.val_string, "<=") == 0) {
+            resultado.value.val_boolean = v1.value.val_float <= v2.value.val_float;
+        }
+        else if (strcmp(operador.value.val_string, ">") == 0) {
+            resultado.value.val_boolean = v1.value.val_float > v2.value.val_float;
+        }
+        else if (strcmp(operador.value.val_string, ">=") == 0) {
+            resultado.value.val_boolean = v1.value.val_float >= v2.value.val_float;
+        }
+        else if (strcmp(operador.value.val_string, "=") == 0) {
+            resultado.value.val_boolean = v1.value.val_float == v2.value.val_float;
+        }
+        else if (strcmp(operador.value.val_string, "<>") == 0) {
+            resultado.value.val_boolean = v1.value.val_float != v2.value.val_float;
+        }
+        else {
+            resultado.val_type = UNKNOWN_TYPE;
+        }
+    }
+    else {
+        // Si los tipos no son compatibles (no son enteros ni flotantes)
+        resultado.val_type = UNKNOWN_TYPE;
+    }
+
     return resultado;
 }

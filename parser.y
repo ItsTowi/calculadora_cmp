@@ -124,7 +124,7 @@ bool2: bool3
                                         $$ = notBooleana($2);
                                       };
 
-bool3:  bool_aritmetic 
+bool3:  bool_aritmetic
         | LPAREN booleana RPAREN      {
                                         $$ = $2;
                                       }
@@ -143,6 +143,10 @@ bool3:  bool_aritmetic
                                         }
                                       };
 
-bool_aritmetic: aritmetica OPRELACIONAL aritmetica;
+bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
+                                                      //printf("%s\n", valueToString($1));
+                                                      //printf("%d\n", $3.value.val_int);
+                                                      $$ = opRelacional($1,$2,$3);
+                                                    };
 
 %%

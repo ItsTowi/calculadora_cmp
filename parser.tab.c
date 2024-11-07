@@ -1332,8 +1332,18 @@ yyreduce:
 #line 1333 "parser.tab.c"
     break;
 
+  case 35: /* bool_aritmetic: aritmetica OPRELACIONAL aritmetica  */
+#line 146 "parser.y"
+                                                    {
+                                                      //printf("%s\n", valueToString($1));
+                                                      //printf("%d\n", $3.value.val_int);
+                                                      (yyval.expr_val) = opRelacional((yyvsp[-2].expr_val),(yyvsp[-1].expr_val),(yyvsp[0].expr_val));
+                                                    }
+#line 1343 "parser.tab.c"
+    break;
 
-#line 1337 "parser.tab.c"
+
+#line 1347 "parser.tab.c"
 
       default: break;
     }
@@ -1526,4 +1536,4 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 148 "parser.y"
+#line 152 "parser.y"

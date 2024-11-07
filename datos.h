@@ -39,6 +39,6 @@ value_info potAritmetica(value_info v1, value_info v2);
 value_info orBooleana(value_info v1, value_info v2);
 value_info andBooleana(value_info v1, value_info v2);
 value_info notBooleana(value_info v1);
-
+value_info opRelacional(value_info v1, value_info operator, value_info v2);
 
 #endif

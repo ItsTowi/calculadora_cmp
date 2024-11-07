@@ -72,12 +72,12 @@ string \"([^\\"]|\\.)*\"
 ")"                         { return RPAREN; }
 
 
-">"                         { return OPRELACIONAL; }
-">="                        { return OPRELACIONAL; }
-"<"                         { return OPRELACIONAL; }
-"<="                        { return OPRELACIONAL; }
-"="                         { return OPRELACIONAL; }
-"<>"                        { return OPRELACIONAL; }
+">"                         { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
+">="                        { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
+"<"                         { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
+"<="                        { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
+"="                         { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
+"<>"                        { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
 
 
 {digit}({digit})*           {

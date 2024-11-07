@@ -924,32 +924,32 @@ YY_RULE_SETUP
 case 16:
 YY_RULE_SETUP
 #line 75 "lexer.l"
-{ return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 76 "lexer.l"
-{ return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 77 "lexer.l"
-{ return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 78 "lexer.l"
-{ return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 79 "lexer.l"
-{ return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 80 "lexer.l"
-{ return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
