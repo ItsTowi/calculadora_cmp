@@ -1,5 +1,6 @@
 ID: x pren per valor: 1.500000
 ID: i pren per valor: 5
 ID: z pren per valor: 31.250000
-ID: s pren per valor: Hol
+ID: s pren per valor: Hola
 ID: b pren per valor: true
+ID: y pren per valor: 0.026177

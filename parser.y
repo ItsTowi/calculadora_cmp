@@ -23,8 +23,8 @@ extern int yylex();
 }
 
 %token ASSIGN ONELINECMNT MULTILINECMNT EOL
-%token <expr_val> ID A_ID B_ID INTEGER FLOAT STRING BOOLEAN ADD SUB MULT DIV MOD POW AND OR NOT OPRELACIONAL LPAREN RPAREN
-%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana bool1 bool2 bool3 bool_aritmetic termino factor primario
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT STRING BOOLEAN ADD SUB MULT DIV MOD POW SIN COS TAN AND OR NOT OPRELACIONAL LPAREN RPAREN
+%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana bool1 bool2 bool3 bool_aritmetic termino factor primario op_trig
 
 %start programa
 
@@ -107,7 +107,10 @@ primario: INTEGER                     {
                                       }
           | LPAREN aritmetica RPAREN  {
                                           $$ = $2;
-                                      };
+                                      }
+          | op_trig LPAREN aritmetica RPAREN { $$ = opTrigonometrica($1, $3); };
+
+op_trig: SIN | COS | TAN;
 
 booleana: bool1 
           | booleana OR bool1         {
