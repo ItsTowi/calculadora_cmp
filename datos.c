@@ -282,6 +282,23 @@ value_info potAritmetica(value_info v1, value_info v2) {
     return resultado;
 }
 
+value_info cambioAritmetica(value_info v) {
+    value_info resultado;
+    resultado.val_type = v.val_type;
+    
+    if (v.val_type == INT_TYPE) {
+        resultado.value.val_int = -v.value.val_int;
+    } else if (v.val_type == FLOAT_TYPE) {
+        resultado.value.val_float = -v.value.val_float;
+    } else {
+        // Si el tipo no es soportado, marcarlo como tipo desconocido
+        resultado.val_type = UNKNOWN_TYPE;
+        fprintf(stderr, "Error: tipo de dato incompatible para cambio de signo.\n");
+    }
+    
+    return resultado;
+}
+
 
 value_info opTrigonometrica(value_info trigFunction, value_info v1)
 {

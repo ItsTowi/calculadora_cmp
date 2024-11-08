@@ -36,11 +36,25 @@ lista_declaraciones: lista_declaraciones declaracion | declaracion;
 
 declaracion: ID ASSIGN exp EOL {
                                   //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
-                                  if ($3.val_type == UNKNOWN_TYPE) {
+                                  if ($3.val_type == UNKNOWN_TYPE) 
+                                  {
                                     yyerror($3.value.val_string);
-                                  } else {
+                                  } 
+                                  else 
+                                  {
                                     fprintf(yyout, "ID: %s pren per valor: %s\n", $1.name, valueToString($3));
                                     sym_enter($1.name, &$3);
+                                  }
+                                }
+              | exp EOL         {
+                                  if ($1.val_type == UNKNOWN_TYPE)
+                                  {
+                                    yyerror($1.value.val_string);
+                                  }
+                                  else
+                                  {
+                                    if ($1.name == NULL) fprintf(yyout, "Line %d, unsaved EXPRESSION with value %s\n", yylineno, valueToString($1));
+										                else fprintf(yyout, "Line %d, EXPRESSION %s with value %s\n", yylineno, $1.name, valueToString($1));
                                   }
                                 }
               | ONELINECMNT {
@@ -59,6 +73,8 @@ aritmetica: termino | aritmetica ADD termino  {
                     | aritmetica SUB termino  {
                                                 $$ = restaAritmetica($1, $3);
                                               };
+                    | SUB termino             { $$ = cambioAritmetica($2); }
+                    | ADD termino             { $$ = $2; };   
 
 termino: factor | termino MULT factor {
                                         $$ = multAritmetica($1, $3);
@@ -70,9 +86,10 @@ termino: factor | termino MULT factor {
                                         $$ = modAritmetica($1, $3);
                                       };
 
-factor: primario | factor POW primario  {
+factor: primario 
+        | factor POW primario          {
                                           $$ = potAritmetica($1, $3);
-                                        };
+                                       };                        
 
 primario: INTEGER                     {
                                         $$ = $1;

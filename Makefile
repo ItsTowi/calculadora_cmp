@@ -50,3 +50,8 @@ clean :
 eg : $(EG_IN)
 	./$(BIN) $(EG_IN) $(EG_OUT)
 	cat $(EG_OUT)
+
+debug : 
+	$(YACC) $(YFLAGS) -Wcounterexamples $(SRC_YACC)
+
+######################################################################
