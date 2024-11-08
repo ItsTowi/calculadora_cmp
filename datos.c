@@ -16,6 +16,10 @@ char *type_to_str(data_type val_type)
     return strdup("Integer");
   } else if (val_type == FLOAT_TYPE) {
     return strdup("Float");
+  } else if (val_type == STRING_TYPE){
+    return strdup("String");
+  } else if (val_type == BOOLEAN_TYPE){
+    return strdup("Boolean");
   } else {
     return strdup("Error: incorrect value for 'val_type'");
   }

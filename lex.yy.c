@@ -875,17 +875,17 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 40 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "bin"; return BIN; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "bin"; return BIN; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 41 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "hex"; return HEX; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "hex"; return HEX; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 42 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "oct"; return OCT; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "oct"; return OCT; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
@@ -905,17 +905,17 @@ YY_RULE_SETUP
 case 11:
 YY_RULE_SETUP
 #line 47 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "sin"; return SIN; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "sin"; return SIN; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 48 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "cos"; return COS; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "cos"; return COS; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 49 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "tan"; return TAN; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "tan"; return TAN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
@@ -932,7 +932,7 @@ YY_RULE_SETUP
 #line 53 "lexer.l"
 { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
-                              strncpy(yylval.expr_val.name, yytext, yyleng); 
+                              strncpy(yylval.expr_val.name, yytext, yyleng);
 
 
                               value_info aux;
@@ -1003,32 +1003,32 @@ YY_RULE_SETUP
 case 27:
 YY_RULE_SETUP
 #line 86 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 87 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 88 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 89 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 90 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 91 "lexer.l"
-{ yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP

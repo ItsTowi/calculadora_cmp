@@ -37,22 +37,22 @@ string \"([^\\"]|\\.)*\"
 
 "PI"                        { return PI; }
 "E"                         { return E; }
-"BIN"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "bin"; return BIN; }
-"HEX"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "hex"; return HEX; }
-"OCT"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "oct"; return OCT; }
+"BIN"                       { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "bin"; return BIN; }
+"HEX"                       { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "hex"; return HEX; }
+"OCT"                       { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "oct"; return OCT; }
 
 "and"                       { return AND; }
 "or"                        { return OR; }
 "not"                       { return NOT; }
-"sin"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "sin"; return SIN; }
-"cos"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "cos"; return COS; }
-"tan"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "tan"; return TAN; }
+"sin"                       { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "sin"; return SIN; }
+"cos"                       { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "cos"; return COS; }
+"tan"                       { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "tan"; return TAN; }
 "len"                       { return LEN; }
 "substr"                    { return SUBSTR; }
 
 [a-zA-Z][a-zA-Z0-9]*        { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
-                              strncpy(yylval.expr_val.name, yytext, yyleng); 
+                              strncpy(yylval.expr_val.name, yytext, yyleng);
 
 
                               value_info aux;
@@ -83,12 +83,12 @@ string \"([^\\"]|\\.)*\"
 ")"                         { return RPAREN; }
 
 
-">"                         { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
-">="                        { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
-"<"                         { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
-"<="                        { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
-"="                         { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
-"<>"                        { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
+">"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
+">="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
+"<"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
+"<="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
+"="                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
+"<>"                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
 
 
 {digit}({digit})*           {

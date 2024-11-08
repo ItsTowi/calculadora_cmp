@@ -42,8 +42,9 @@ declaracion: ID ASSIGN exp EOL {
                                   } 
                                   else 
                                   {
-                                    fprintf(yyout, "ID: %s pren per valor: %s\n", $1.name, valueToString($3));
+                                    $1.val_type = $3.val_type;
                                     sym_enter($1.name, &$3);
+                                    fprintf(yyout, "ID: %s pren amb tipus %s per valor: %s\n", $1.name, type_to_str($1.val_type) ,valueToString($3));
                                   }
                                 }
               | exp EOL         {
@@ -53,8 +54,8 @@ declaracion: ID ASSIGN exp EOL {
                                   }
                                   else
                                   {
-                                    if ($1.name == NULL) fprintf(yyout, "Line %d, unsaved EXPRESSION with value %s\n", yylineno, valueToString($1));
-										                else fprintf(yyout, "Line %d, EXPRESSION %s with value %s\n", yylineno, $1.name, valueToString($1));
+                                    if ($1.name == NULL) fprintf(yyout, "Line %d, unsaved EXPRESSION with value %s and type %s\n", yylineno, valueToString($1), type_to_str($1.val_type));
+										                else fprintf(yyout, "Line %d, EXPRESSION %s with value %s and type %s\n", yylineno, $1.name, valueToString($1), type_to_str($1.val_type));
                                   }
                                 }
               | ONELINECMNT {
@@ -98,6 +99,7 @@ primario: INTEGER                     {
                                         $$ = $1;
                                       }
           | STRING                    {
+                                        printf("%s\n", type_to_str($1.val_type));
                                         $$ = $1;
                                       }
           | PI                        {
