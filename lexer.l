@@ -42,6 +42,8 @@ string \"([^\\"]|\\.)*\"
 "sin"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "sin"; return SIN; }
 "cos"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "cos"; return COS; }
 "tan"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "tan"; return TAN; }
+"len"                       { return LEN; }
+"substr"                    { return SUBSTR; }
 
 [a-zA-Z][a-zA-Z0-9]*        { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
@@ -65,6 +67,7 @@ string \"([^\\"]|\\.)*\"
                               return ASSIGN; 
                             }
 
+","                         { return COMMA; }
 "+"                         { printf("Token SUMA: %s\n",yytext); return ADD; }
 "-"                         { return SUB; }
 "*"                         { return MULT; }

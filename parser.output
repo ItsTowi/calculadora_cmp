@@ -36,26 +36,28 @@ Grammar
    25         | A_ID
    26         | LPAREN aritmetica RPAREN
    27         | op_trig LPAREN aritmetica RPAREN
+   28         | LEN LPAREN aritmetica RPAREN
+   29         | SUBSTR LPAREN aritmetica COMMA INTEGER COMMA INTEGER RPAREN
 
-   28 op_trig: SIN
-   29        | COS
-   30        | TAN
+   30 op_trig: SIN
+   31        | COS
+   32        | TAN
 
-   31 booleana: bool1
-   32         | booleana OR bool1
+   33 booleana: bool1
+   34         | booleana OR bool1
 
-   33 bool1: bool2
-   34      | bool1 AND bool2
+   35 bool1: bool2
+   36      | bool1 AND bool2
 
-   35 bool2: bool3
-   36      | NOT bool2
+   37 bool2: bool3
+   38      | NOT bool2
 
-   37 bool3: bool_aritmetic
-   38      | LPAREN booleana RPAREN
-   39      | BOOLEAN
-   40      | B_ID
+   39 bool3: bool_aritmetic
+   40      | LPAREN booleana RPAREN
+   41      | BOOLEAN
+   42      | B_ID
 
-   41 bool_aritmetic: aritmetica OPRELACIONAL aritmetica
+   43 bool_aritmetic: aritmetica OPRELACIONAL aritmetica
 
 
 Terminals, with rules where they appear
@@ -65,77 +67,80 @@ Terminals, with rules where they appear
     ASSIGN (258) 4
     ONELINECMNT (259) 6
     MULTILINECMNT (260) 7
-    EOL (261) 4 5
-    ID <expr_val> (262) 4 24
-    A_ID <expr_val> (263) 25
-    B_ID <expr_val> (264) 40
-    INTEGER <expr_val> (265) 21
-    FLOAT <expr_val> (266) 22
-    STRING <expr_val> (267) 23
-    BOOLEAN <expr_val> (268) 39
-    ADD <expr_val> (269) 11 14
-    SUB <expr_val> (270) 12 13
-    MULT <expr_val> (271) 16
-    DIV <expr_val> (272) 17
-    MOD <expr_val> (273) 18
-    POW <expr_val> (274) 20
-    SIN <expr_val> (275) 28
-    COS <expr_val> (276) 29
-    TAN <expr_val> (277) 30
-    AND <expr_val> (278) 34
-    OR <expr_val> (279) 32
-    NOT <expr_val> (280) 36
-    OPRELACIONAL <expr_val> (281) 41
-    LPAREN <expr_val> (282) 26 27 38
-    RPAREN <expr_val> (283) 26 27 38
+    COMMA (261) 29
+    EOL (262) 4 5
+    ID <expr_val> (263) 4 24
+    A_ID <expr_val> (264) 25
+    B_ID <expr_val> (265) 42
+    INTEGER <expr_val> (266) 21 29
+    FLOAT <expr_val> (267) 22
+    STRING <expr_val> (268) 23
+    BOOLEAN <expr_val> (269) 41
+    ADD <expr_val> (270) 11 14
+    SUB <expr_val> (271) 12 13
+    MULT <expr_val> (272) 16
+    DIV <expr_val> (273) 17
+    MOD <expr_val> (274) 18
+    POW <expr_val> (275) 20
+    SIN <expr_val> (276) 30
+    COS <expr_val> (277) 31
+    TAN <expr_val> (278) 32
+    LEN <expr_val> (279) 28
+    SUBSTR <expr_val> (280) 29
+    AND <expr_val> (281) 36
+    OR <expr_val> (282) 34
+    NOT <expr_val> (283) 38
+    OPRELACIONAL <expr_val> (284) 43
+    LPAREN <expr_val> (285) 26 27 28 29 40
+    RPAREN <expr_val> (286) 26 27 28 29 40
 
 
 Nonterminals, with rules where they appear
 
-    $accept (29)
+    $accept (32)
         on left: 0
-    programa (30)
+    programa (33)
         on left: 1
         on right: 0
-    lista_declaraciones <expr_val> (31)
+    lista_declaraciones <expr_val> (34)
         on left: 2 3
         on right: 1 2
-    declaracion <expr_val> (32)
+    declaracion <expr_val> (35)
         on left: 4 5 6 7
         on right: 2 3
-    exp <expr_val> (33)
+    exp <expr_val> (36)
         on left: 8 9
         on right: 4 5
-    aritmetica <expr_val> (34)
+    aritmetica <expr_val> (37)
         on left: 10 11 12 13 14
-        on right: 8 11 12 26 27 41
-    termino <expr_val> (35)
+        on right: 8 11 12 26 27 28 29 43
+    termino <expr_val> (38)
         on left: 15 16 17 18
         on right: 10 11 12 13 14 16 17 18
-    factor <expr_val> (36)
+    factor <expr_val> (39)
         on left: 19 20
         on right: 15 16 17 18 20
-    primario <expr_val> (37)
-        on left: 21 22 23 24 25 26 27
+    primario <expr_val> (40)
+        on left: 21 22 23 24 25 26 27 28 29
         on right: 19 20
-    op_trig <expr_val> (38)
-        on left: 28 29 30
+    op_trig <expr_val> (41)
+        on left: 30 31 32
         on right: 27
-    booleana <expr_val> (39)
-        on left: 31 32
-        on right: 9 32 38
-    bool1 <expr_val> (40)
+    booleana <expr_val> (42)
         on left: 33 34
-        on right: 31 32 34
-    bool2 <expr_val> (41)
+        on right: 9 34 40
+    bool1 <expr_val> (43)
         on left: 35 36
         on right: 33 34 36
-    bool3 <expr_val> (42)
-        on left: 37 38 39 40
-        on right: 35
-    bool_aritmetic <expr_val> (43)
-        on left: 41
+    bool2 <expr_val> (44)
+        on left: 37 38
+        on right: 35 36 38
+    bool3 <expr_val> (45)
+        on left: 39 40 41 42
         on right: 37
+    bool_aritmetic <expr_val> (46)
+        on left: 43
+        on right: 39
 
 
 State 0
@@ -156,23 +161,25 @@ State 0
     SIN            shift, and go to state 12
     COS            shift, and go to state 13
     TAN            shift, and go to state 14
-    NOT            shift, and go to state 15
-    LPAREN         shift, and go to state 16
+    LEN            shift, and go to state 15
+    SUBSTR         shift, and go to state 16
+    NOT            shift, and go to state 17
+    LPAREN         shift, and go to state 18
 
-    programa             go to state 17
-    lista_declaraciones  go to state 18
-    declaracion          go to state 19
-    exp                  go to state 20
-    aritmetica           go to state 21
-    termino              go to state 22
-    factor               go to state 23
-    primario             go to state 24
-    op_trig              go to state 25
-    booleana             go to state 26
-    bool1                go to state 27
-    bool2                go to state 28
-    bool3                go to state 29
-    bool_aritmetic       go to state 30
+    programa             go to state 19
+    lista_declaraciones  go to state 20
+    declaracion          go to state 21
+    exp                  go to state 22
+    aritmetica           go to state 23
+    termino              go to state 24
+    factor               go to state 25
+    primario             go to state 26
+    op_trig              go to state 27
+    booleana             go to state 28
+    bool1                go to state 29
+    bool2                go to state 30
+    bool3                go to state 31
+    bool_aritmetic       go to state 32
 
 
 State 1
@@ -194,7 +201,7 @@ State 3
     4 declaracion: ID • ASSIGN exp EOL
    24 primario: ID •
 
-    ASSIGN  shift, and go to state 31
+    ASSIGN  shift, and go to state 33
 
     $default  reduce using rule 24 (primario)
 
@@ -208,9 +215,9 @@ State 4
 
 State 5
 
-   40 bool3: B_ID •
+   42 bool3: B_ID •
 
-    $default  reduce using rule 40 (bool3)
+    $default  reduce using rule 42 (bool3)
 
 
 State 6
@@ -236,16 +243,16 @@ State 8
 
 State 9
 
-   39 bool3: BOOLEAN •
+   41 bool3: BOOLEAN •
 
-    $default  reduce using rule 39 (bool3)
+    $default  reduce using rule 41 (bool3)
 
 
 State 10
 
    14 aritmetica: ADD • termino
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
@@ -253,19 +260,21 @@ State 10
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    termino   go to state 34
-    factor    go to state 23
-    primario  go to state 24
-    op_trig   go to state 25
+    termino   go to state 36
+    factor    go to state 25
+    primario  go to state 26
+    op_trig   go to state 27
 
 
 State 11
 
    13 aritmetica: SUB • termino
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
@@ -273,70 +282,56 @@ State 11
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    termino   go to state 35
-    factor    go to state 23
-    primario  go to state 24
-    op_trig   go to state 25
+    termino   go to state 37
+    factor    go to state 25
+    primario  go to state 26
+    op_trig   go to state 27
 
 
 State 12
 
-   28 op_trig: SIN •
-
-    $default  reduce using rule 28 (op_trig)
-
-
-State 13
-
-   29 op_trig: COS •
-
-    $default  reduce using rule 29 (op_trig)
-
-
-State 14
-
-   30 op_trig: TAN •
+   30 op_trig: SIN •
 
     $default  reduce using rule 30 (op_trig)
 
 
+State 13
+
+   31 op_trig: COS •
+
+    $default  reduce using rule 31 (op_trig)
+
+
+State 14
+
+   32 op_trig: TAN •
+
+    $default  reduce using rule 32 (op_trig)
+
+
 State 15
 
-   36 bool2: NOT • bool2
+   28 primario: LEN • LPAREN aritmetica RPAREN
 
-    ID       shift, and go to state 32
-    A_ID     shift, and go to state 4
-    B_ID     shift, and go to state 5
-    INTEGER  shift, and go to state 6
-    FLOAT    shift, and go to state 7
-    STRING   shift, and go to state 8
-    BOOLEAN  shift, and go to state 9
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
-    SIN      shift, and go to state 12
-    COS      shift, and go to state 13
-    TAN      shift, and go to state 14
-    NOT      shift, and go to state 15
-    LPAREN   shift, and go to state 16
-
-    aritmetica      go to state 36
-    termino         go to state 22
-    factor          go to state 23
-    primario        go to state 24
-    op_trig         go to state 25
-    bool2           go to state 37
-    bool3           go to state 29
-    bool_aritmetic  go to state 30
+    LPAREN  shift, and go to state 38
 
 
 State 16
 
-   26 primario: LPAREN • aritmetica RPAREN
-   38 bool3: LPAREN • booleana RPAREN
+   29 primario: SUBSTR • LPAREN aritmetica COMMA INTEGER COMMA INTEGER RPAREN
 
-    ID       shift, and go to state 32
+    LPAREN  shift, and go to state 39
+
+
+State 17
+
+   38 bool2: NOT • bool2
+
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     B_ID     shift, and go to state 5
     INTEGER  shift, and go to state 6
@@ -348,29 +343,63 @@ State 16
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    NOT      shift, and go to state 15
-    LPAREN   shift, and go to state 16
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    NOT      shift, and go to state 17
+    LPAREN   shift, and go to state 18
 
-    aritmetica      go to state 38
-    termino         go to state 22
-    factor          go to state 23
-    primario        go to state 24
-    op_trig         go to state 25
-    booleana        go to state 39
-    bool1           go to state 27
-    bool2           go to state 28
-    bool3           go to state 29
-    bool_aritmetic  go to state 30
-
-
-State 17
-
-    0 $accept: programa • $end
-
-    $end  shift, and go to state 40
+    aritmetica      go to state 40
+    termino         go to state 24
+    factor          go to state 25
+    primario        go to state 26
+    op_trig         go to state 27
+    bool2           go to state 41
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
 
 
 State 18
+
+   26 primario: LPAREN • aritmetica RPAREN
+   40 bool3: LPAREN • booleana RPAREN
+
+    ID       shift, and go to state 34
+    A_ID     shift, and go to state 4
+    B_ID     shift, and go to state 5
+    INTEGER  shift, and go to state 6
+    FLOAT    shift, and go to state 7
+    STRING   shift, and go to state 8
+    BOOLEAN  shift, and go to state 9
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    SIN      shift, and go to state 12
+    COS      shift, and go to state 13
+    TAN      shift, and go to state 14
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    NOT      shift, and go to state 17
+    LPAREN   shift, and go to state 18
+
+    aritmetica      go to state 42
+    termino         go to state 24
+    factor          go to state 25
+    primario        go to state 26
+    op_trig         go to state 27
+    booleana        go to state 43
+    bool1           go to state 29
+    bool2           go to state 30
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
+
+
+State 19
+
+    0 $accept: programa • $end
+
+    $end  shift, and go to state 44
+
+
+State 20
 
     1 programa: lista_declaraciones •
     2 lista_declaraciones: lista_declaraciones • declaracion
@@ -389,137 +418,139 @@ State 18
     SIN            shift, and go to state 12
     COS            shift, and go to state 13
     TAN            shift, and go to state 14
-    NOT            shift, and go to state 15
-    LPAREN         shift, and go to state 16
+    LEN            shift, and go to state 15
+    SUBSTR         shift, and go to state 16
+    NOT            shift, and go to state 17
+    LPAREN         shift, and go to state 18
 
     $default  reduce using rule 1 (programa)
 
-    declaracion     go to state 41
-    exp             go to state 20
-    aritmetica      go to state 21
-    termino         go to state 22
-    factor          go to state 23
-    primario        go to state 24
-    op_trig         go to state 25
-    booleana        go to state 26
-    bool1           go to state 27
-    bool2           go to state 28
-    bool3           go to state 29
-    bool_aritmetic  go to state 30
+    declaracion     go to state 45
+    exp             go to state 22
+    aritmetica      go to state 23
+    termino         go to state 24
+    factor          go to state 25
+    primario        go to state 26
+    op_trig         go to state 27
+    booleana        go to state 28
+    bool1           go to state 29
+    bool2           go to state 30
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
 
 
-State 19
+State 21
 
     3 lista_declaraciones: declaracion •
 
     $default  reduce using rule 3 (lista_declaraciones)
 
 
-State 20
+State 22
 
     5 declaracion: exp • EOL
 
-    EOL  shift, and go to state 42
+    EOL  shift, and go to state 46
 
 
-State 21
+State 23
 
     8 exp: aritmetica •
    11 aritmetica: aritmetica • ADD termino
    12           | aritmetica • SUB termino
-   41 bool_aritmetic: aritmetica • OPRELACIONAL aritmetica
+   43 bool_aritmetic: aritmetica • OPRELACIONAL aritmetica
 
-    ADD           shift, and go to state 43
-    SUB           shift, and go to state 44
-    OPRELACIONAL  shift, and go to state 45
+    ADD           shift, and go to state 47
+    SUB           shift, and go to state 48
+    OPRELACIONAL  shift, and go to state 49
 
     $default  reduce using rule 8 (exp)
 
 
-State 22
+State 24
 
    10 aritmetica: termino •
    16 termino: termino • MULT factor
    17        | termino • DIV factor
    18        | termino • MOD factor
 
-    MULT  shift, and go to state 46
-    DIV   shift, and go to state 47
-    MOD   shift, and go to state 48
+    MULT  shift, and go to state 50
+    DIV   shift, and go to state 51
+    MOD   shift, and go to state 52
 
     $default  reduce using rule 10 (aritmetica)
 
 
-State 23
+State 25
 
    15 termino: factor •
    20 factor: factor • POW primario
 
-    POW  shift, and go to state 49
+    POW  shift, and go to state 53
 
     $default  reduce using rule 15 (termino)
 
 
-State 24
+State 26
 
    19 factor: primario •
 
     $default  reduce using rule 19 (factor)
 
 
-State 25
+State 27
 
    27 primario: op_trig • LPAREN aritmetica RPAREN
 
-    LPAREN  shift, and go to state 50
-
-
-State 26
-
-    9 exp: booleana •
-   32 booleana: booleana • OR bool1
-
-    OR  shift, and go to state 51
-
-    $default  reduce using rule 9 (exp)
-
-
-State 27
-
-   31 booleana: bool1 •
-   34 bool1: bool1 • AND bool2
-
-    AND  shift, and go to state 52
-
-    $default  reduce using rule 31 (booleana)
+    LPAREN  shift, and go to state 54
 
 
 State 28
 
-   33 bool1: bool2 •
+    9 exp: booleana •
+   34 booleana: booleana • OR bool1
 
-    $default  reduce using rule 33 (bool1)
+    OR  shift, and go to state 55
+
+    $default  reduce using rule 9 (exp)
 
 
 State 29
 
-   35 bool2: bool3 •
+   33 booleana: bool1 •
+   36 bool1: bool1 • AND bool2
 
-    $default  reduce using rule 35 (bool2)
+    AND  shift, and go to state 56
+
+    $default  reduce using rule 33 (booleana)
 
 
 State 30
 
-   37 bool3: bool_aritmetic •
+   35 bool1: bool2 •
 
-    $default  reduce using rule 37 (bool3)
+    $default  reduce using rule 35 (bool1)
 
 
 State 31
 
+   37 bool2: bool3 •
+
+    $default  reduce using rule 37 (bool2)
+
+
+State 32
+
+   39 bool3: bool_aritmetic •
+
+    $default  reduce using rule 39 (bool3)
+
+
+State 33
+
     4 declaracion: ID ASSIGN • exp EOL
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     B_ID     shift, and go to state 5
     INTEGER  shift, and go to state 6
@@ -531,34 +562,36 @@ State 31
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    NOT      shift, and go to state 15
-    LPAREN   shift, and go to state 16
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    NOT      shift, and go to state 17
+    LPAREN   shift, and go to state 18
 
-    exp             go to state 53
-    aritmetica      go to state 21
-    termino         go to state 22
-    factor          go to state 23
-    primario        go to state 24
-    op_trig         go to state 25
-    booleana        go to state 26
-    bool1           go to state 27
-    bool2           go to state 28
-    bool3           go to state 29
-    bool_aritmetic  go to state 30
+    exp             go to state 57
+    aritmetica      go to state 23
+    termino         go to state 24
+    factor          go to state 25
+    primario        go to state 26
+    op_trig         go to state 27
+    booleana        go to state 28
+    bool1           go to state 29
+    bool2           go to state 30
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
 
 
-State 32
+State 34
 
    24 primario: ID •
 
     $default  reduce using rule 24 (primario)
 
 
-State 33
+State 35
 
    26 primario: LPAREN • aritmetica RPAREN
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
@@ -568,109 +601,161 @@ State 33
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    aritmetica  go to state 54
-    termino     go to state 22
-    factor      go to state 23
-    primario    go to state 24
-    op_trig     go to state 25
+    aritmetica  go to state 58
+    termino     go to state 24
+    factor      go to state 25
+    primario    go to state 26
+    op_trig     go to state 27
 
 
-State 34
+State 36
 
    14 aritmetica: ADD termino •
    16 termino: termino • MULT factor
    17        | termino • DIV factor
    18        | termino • MOD factor
 
-    MULT  shift, and go to state 46
-    DIV   shift, and go to state 47
-    MOD   shift, and go to state 48
+    MULT  shift, and go to state 50
+    DIV   shift, and go to state 51
+    MOD   shift, and go to state 52
 
     $default  reduce using rule 14 (aritmetica)
 
 
-State 35
+State 37
 
    13 aritmetica: SUB termino •
    16 termino: termino • MULT factor
    17        | termino • DIV factor
    18        | termino • MOD factor
 
-    MULT  shift, and go to state 46
-    DIV   shift, and go to state 47
-    MOD   shift, and go to state 48
+    MULT  shift, and go to state 50
+    DIV   shift, and go to state 51
+    MOD   shift, and go to state 52
 
     $default  reduce using rule 13 (aritmetica)
 
 
-State 36
-
-   11 aritmetica: aritmetica • ADD termino
-   12           | aritmetica • SUB termino
-   41 bool_aritmetic: aritmetica • OPRELACIONAL aritmetica
-
-    ADD           shift, and go to state 43
-    SUB           shift, and go to state 44
-    OPRELACIONAL  shift, and go to state 45
-
-
-State 37
-
-   36 bool2: NOT bool2 •
-
-    $default  reduce using rule 36 (bool2)
-
-
 State 38
 
-   11 aritmetica: aritmetica • ADD termino
-   12           | aritmetica • SUB termino
-   26 primario: LPAREN aritmetica • RPAREN
-   41 bool_aritmetic: aritmetica • OPRELACIONAL aritmetica
+   28 primario: LEN LPAREN • aritmetica RPAREN
 
-    ADD           shift, and go to state 43
-    SUB           shift, and go to state 44
-    OPRELACIONAL  shift, and go to state 45
-    RPAREN        shift, and go to state 55
+    ID       shift, and go to state 34
+    A_ID     shift, and go to state 4
+    INTEGER  shift, and go to state 6
+    FLOAT    shift, and go to state 7
+    STRING   shift, and go to state 8
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    SIN      shift, and go to state 12
+    COS      shift, and go to state 13
+    TAN      shift, and go to state 14
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
+
+    aritmetica  go to state 59
+    termino     go to state 24
+    factor      go to state 25
+    primario    go to state 26
+    op_trig     go to state 27
 
 
 State 39
 
-   32 booleana: booleana • OR bool1
-   38 bool3: LPAREN booleana • RPAREN
+   29 primario: SUBSTR LPAREN • aritmetica COMMA INTEGER COMMA INTEGER RPAREN
 
-    OR      shift, and go to state 51
-    RPAREN  shift, and go to state 56
+    ID       shift, and go to state 34
+    A_ID     shift, and go to state 4
+    INTEGER  shift, and go to state 6
+    FLOAT    shift, and go to state 7
+    STRING   shift, and go to state 8
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    SIN      shift, and go to state 12
+    COS      shift, and go to state 13
+    TAN      shift, and go to state 14
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
+
+    aritmetica  go to state 60
+    termino     go to state 24
+    factor      go to state 25
+    primario    go to state 26
+    op_trig     go to state 27
 
 
 State 40
+
+   11 aritmetica: aritmetica • ADD termino
+   12           | aritmetica • SUB termino
+   43 bool_aritmetic: aritmetica • OPRELACIONAL aritmetica
+
+    ADD           shift, and go to state 47
+    SUB           shift, and go to state 48
+    OPRELACIONAL  shift, and go to state 49
+
+
+State 41
+
+   38 bool2: NOT bool2 •
+
+    $default  reduce using rule 38 (bool2)
+
+
+State 42
+
+   11 aritmetica: aritmetica • ADD termino
+   12           | aritmetica • SUB termino
+   26 primario: LPAREN aritmetica • RPAREN
+   43 bool_aritmetic: aritmetica • OPRELACIONAL aritmetica
+
+    ADD           shift, and go to state 47
+    SUB           shift, and go to state 48
+    OPRELACIONAL  shift, and go to state 49
+    RPAREN        shift, and go to state 61
+
+
+State 43
+
+   34 booleana: booleana • OR bool1
+   40 bool3: LPAREN booleana • RPAREN
+
+    OR      shift, and go to state 55
+    RPAREN  shift, and go to state 62
+
+
+State 44
 
     0 $accept: programa $end •
 
     $default  accept
 
 
-State 41
+State 45
 
     2 lista_declaraciones: lista_declaraciones declaracion •
 
     $default  reduce using rule 2 (lista_declaraciones)
 
 
-State 42
+State 46
 
     5 declaracion: exp EOL •
 
     $default  reduce using rule 5 (declaracion)
 
 
-State 43
+State 47
 
    11 aritmetica: aritmetica ADD • termino
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
@@ -678,100 +763,21 @@ State 43
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    termino   go to state 57
-    factor    go to state 23
-    primario  go to state 24
-    op_trig   go to state 25
-
-
-State 44
-
-   12 aritmetica: aritmetica SUB • termino
-
-    ID       shift, and go to state 32
-    A_ID     shift, and go to state 4
-    INTEGER  shift, and go to state 6
-    FLOAT    shift, and go to state 7
-    STRING   shift, and go to state 8
-    SIN      shift, and go to state 12
-    COS      shift, and go to state 13
-    TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
-
-    termino   go to state 58
-    factor    go to state 23
-    primario  go to state 24
-    op_trig   go to state 25
-
-
-State 45
-
-   41 bool_aritmetic: aritmetica OPRELACIONAL • aritmetica
-
-    ID       shift, and go to state 32
-    A_ID     shift, and go to state 4
-    INTEGER  shift, and go to state 6
-    FLOAT    shift, and go to state 7
-    STRING   shift, and go to state 8
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
-    SIN      shift, and go to state 12
-    COS      shift, and go to state 13
-    TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
-
-    aritmetica  go to state 59
-    termino     go to state 22
-    factor      go to state 23
-    primario    go to state 24
-    op_trig     go to state 25
-
-
-State 46
-
-   16 termino: termino MULT • factor
-
-    ID       shift, and go to state 32
-    A_ID     shift, and go to state 4
-    INTEGER  shift, and go to state 6
-    FLOAT    shift, and go to state 7
-    STRING   shift, and go to state 8
-    SIN      shift, and go to state 12
-    COS      shift, and go to state 13
-    TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
-
-    factor    go to state 60
-    primario  go to state 24
-    op_trig   go to state 25
-
-
-State 47
-
-   17 termino: termino DIV • factor
-
-    ID       shift, and go to state 32
-    A_ID     shift, and go to state 4
-    INTEGER  shift, and go to state 6
-    FLOAT    shift, and go to state 7
-    STRING   shift, and go to state 8
-    SIN      shift, and go to state 12
-    COS      shift, and go to state 13
-    TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
-
-    factor    go to state 61
-    primario  go to state 24
-    op_trig   go to state 25
+    termino   go to state 63
+    factor    go to state 25
+    primario  go to state 26
+    op_trig   go to state 27
 
 
 State 48
 
-   18 termino: termino MOD • factor
+   12 aritmetica: aritmetica SUB • termino
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
@@ -779,89 +785,154 @@ State 48
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    factor    go to state 62
-    primario  go to state 24
-    op_trig   go to state 25
+    termino   go to state 64
+    factor    go to state 25
+    primario  go to state 26
+    op_trig   go to state 27
 
 
 State 49
 
-   20 factor: factor POW • primario
+   43 bool_aritmetic: aritmetica OPRELACIONAL • aritmetica
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
     STRING   shift, and go to state 8
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    primario  go to state 63
-    op_trig   go to state 25
+    aritmetica  go to state 65
+    termino     go to state 24
+    factor      go to state 25
+    primario    go to state 26
+    op_trig     go to state 27
 
 
 State 50
 
-   27 primario: op_trig LPAREN • aritmetica RPAREN
+   16 termino: termino MULT • factor
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
     STRING   shift, and go to state 8
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    LPAREN   shift, and go to state 33
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    aritmetica  go to state 64
-    termino     go to state 22
-    factor      go to state 23
-    primario    go to state 24
-    op_trig     go to state 25
+    factor    go to state 66
+    primario  go to state 26
+    op_trig   go to state 27
 
 
 State 51
 
-   32 booleana: booleana OR • bool1
+   17 termino: termino DIV • factor
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
-    B_ID     shift, and go to state 5
     INTEGER  shift, and go to state 6
     FLOAT    shift, and go to state 7
     STRING   shift, and go to state 8
-    BOOLEAN  shift, and go to state 9
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    NOT      shift, and go to state 15
-    LPAREN   shift, and go to state 16
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
 
-    aritmetica      go to state 36
-    termino         go to state 22
-    factor          go to state 23
-    primario        go to state 24
-    op_trig         go to state 25
-    bool1           go to state 65
-    bool2           go to state 28
-    bool3           go to state 29
-    bool_aritmetic  go to state 30
+    factor    go to state 67
+    primario  go to state 26
+    op_trig   go to state 27
 
 
 State 52
 
-   34 bool1: bool1 AND • bool2
+   18 termino: termino MOD • factor
 
-    ID       shift, and go to state 32
+    ID       shift, and go to state 34
+    A_ID     shift, and go to state 4
+    INTEGER  shift, and go to state 6
+    FLOAT    shift, and go to state 7
+    STRING   shift, and go to state 8
+    SIN      shift, and go to state 12
+    COS      shift, and go to state 13
+    TAN      shift, and go to state 14
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
+
+    factor    go to state 68
+    primario  go to state 26
+    op_trig   go to state 27
+
+
+State 53
+
+   20 factor: factor POW • primario
+
+    ID       shift, and go to state 34
+    A_ID     shift, and go to state 4
+    INTEGER  shift, and go to state 6
+    FLOAT    shift, and go to state 7
+    STRING   shift, and go to state 8
+    SIN      shift, and go to state 12
+    COS      shift, and go to state 13
+    TAN      shift, and go to state 14
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
+
+    primario  go to state 69
+    op_trig   go to state 27
+
+
+State 54
+
+   27 primario: op_trig LPAREN • aritmetica RPAREN
+
+    ID       shift, and go to state 34
+    A_ID     shift, and go to state 4
+    INTEGER  shift, and go to state 6
+    FLOAT    shift, and go to state 7
+    STRING   shift, and go to state 8
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    SIN      shift, and go to state 12
+    COS      shift, and go to state 13
+    TAN      shift, and go to state 14
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    LPAREN   shift, and go to state 35
+
+    aritmetica  go to state 70
+    termino     go to state 24
+    factor      go to state 25
+    primario    go to state 26
+    op_trig     go to state 27
+
+
+State 55
+
+   34 booleana: booleana OR • bool1
+
+    ID       shift, and go to state 34
     A_ID     shift, and go to state 4
     B_ID     shift, and go to state 5
     INTEGER  shift, and go to state 6
@@ -873,165 +944,263 @@ State 52
     SIN      shift, and go to state 12
     COS      shift, and go to state 13
     TAN      shift, and go to state 14
-    NOT      shift, and go to state 15
-    LPAREN   shift, and go to state 16
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    NOT      shift, and go to state 17
+    LPAREN   shift, and go to state 18
 
-    aritmetica      go to state 36
-    termino         go to state 22
-    factor          go to state 23
-    primario        go to state 24
-    op_trig         go to state 25
-    bool2           go to state 66
-    bool3           go to state 29
-    bool_aritmetic  go to state 30
+    aritmetica      go to state 40
+    termino         go to state 24
+    factor          go to state 25
+    primario        go to state 26
+    op_trig         go to state 27
+    bool1           go to state 71
+    bool2           go to state 30
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
 
 
-State 53
+State 56
+
+   36 bool1: bool1 AND • bool2
+
+    ID       shift, and go to state 34
+    A_ID     shift, and go to state 4
+    B_ID     shift, and go to state 5
+    INTEGER  shift, and go to state 6
+    FLOAT    shift, and go to state 7
+    STRING   shift, and go to state 8
+    BOOLEAN  shift, and go to state 9
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    SIN      shift, and go to state 12
+    COS      shift, and go to state 13
+    TAN      shift, and go to state 14
+    LEN      shift, and go to state 15
+    SUBSTR   shift, and go to state 16
+    NOT      shift, and go to state 17
+    LPAREN   shift, and go to state 18
+
+    aritmetica      go to state 40
+    termino         go to state 24
+    factor          go to state 25
+    primario        go to state 26
+    op_trig         go to state 27
+    bool2           go to state 72
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
+
+
+State 57
 
     4 declaracion: ID ASSIGN exp • EOL
 
-    EOL  shift, and go to state 67
+    EOL  shift, and go to state 73
 
 
-State 54
+State 58
 
    11 aritmetica: aritmetica • ADD termino
    12           | aritmetica • SUB termino
    26 primario: LPAREN aritmetica • RPAREN
 
-    ADD     shift, and go to state 43
-    SUB     shift, and go to state 44
-    RPAREN  shift, and go to state 55
-
-
-State 55
-
-   26 primario: LPAREN aritmetica RPAREN •
-
-    $default  reduce using rule 26 (primario)
-
-
-State 56
-
-   38 bool3: LPAREN booleana RPAREN •
-
-    $default  reduce using rule 38 (bool3)
-
-
-State 57
-
-   11 aritmetica: aritmetica ADD termino •
-   16 termino: termino • MULT factor
-   17        | termino • DIV factor
-   18        | termino • MOD factor
-
-    MULT  shift, and go to state 46
-    DIV   shift, and go to state 47
-    MOD   shift, and go to state 48
-
-    $default  reduce using rule 11 (aritmetica)
-
-
-State 58
-
-   12 aritmetica: aritmetica SUB termino •
-   16 termino: termino • MULT factor
-   17        | termino • DIV factor
-   18        | termino • MOD factor
-
-    MULT  shift, and go to state 46
-    DIV   shift, and go to state 47
-    MOD   shift, and go to state 48
-
-    $default  reduce using rule 12 (aritmetica)
+    ADD     shift, and go to state 47
+    SUB     shift, and go to state 48
+    RPAREN  shift, and go to state 61
 
 
 State 59
 
    11 aritmetica: aritmetica • ADD termino
    12           | aritmetica • SUB termino
-   41 bool_aritmetic: aritmetica OPRELACIONAL aritmetica •
+   28 primario: LEN LPAREN aritmetica • RPAREN
 
-    ADD  shift, and go to state 43
-    SUB  shift, and go to state 44
-
-    $default  reduce using rule 41 (bool_aritmetic)
+    ADD     shift, and go to state 47
+    SUB     shift, and go to state 48
+    RPAREN  shift, and go to state 74
 
 
 State 60
 
-   16 termino: termino MULT factor •
-   20 factor: factor • POW primario
+   11 aritmetica: aritmetica • ADD termino
+   12           | aritmetica • SUB termino
+   29 primario: SUBSTR LPAREN aritmetica • COMMA INTEGER COMMA INTEGER RPAREN
 
-    POW  shift, and go to state 49
-
-    $default  reduce using rule 16 (termino)
+    COMMA  shift, and go to state 75
+    ADD    shift, and go to state 47
+    SUB    shift, and go to state 48
 
 
 State 61
 
-   17 termino: termino DIV factor •
-   20 factor: factor • POW primario
+   26 primario: LPAREN aritmetica RPAREN •
 
-    POW  shift, and go to state 49
-
-    $default  reduce using rule 17 (termino)
+    $default  reduce using rule 26 (primario)
 
 
 State 62
 
+   40 bool3: LPAREN booleana RPAREN •
+
+    $default  reduce using rule 40 (bool3)
+
+
+State 63
+
+   11 aritmetica: aritmetica ADD termino •
+   16 termino: termino • MULT factor
+   17        | termino • DIV factor
+   18        | termino • MOD factor
+
+    MULT  shift, and go to state 50
+    DIV   shift, and go to state 51
+    MOD   shift, and go to state 52
+
+    $default  reduce using rule 11 (aritmetica)
+
+
+State 64
+
+   12 aritmetica: aritmetica SUB termino •
+   16 termino: termino • MULT factor
+   17        | termino • DIV factor
+   18        | termino • MOD factor
+
+    MULT  shift, and go to state 50
+    DIV   shift, and go to state 51
+    MOD   shift, and go to state 52
+
+    $default  reduce using rule 12 (aritmetica)
+
+
+State 65
+
+   11 aritmetica: aritmetica • ADD termino
+   12           | aritmetica • SUB termino
+   43 bool_aritmetic: aritmetica OPRELACIONAL aritmetica •
+
+    ADD  shift, and go to state 47
+    SUB  shift, and go to state 48
+
+    $default  reduce using rule 43 (bool_aritmetic)
+
+
+State 66
+
+   16 termino: termino MULT factor •
+   20 factor: factor • POW primario
+
+    POW  shift, and go to state 53
+
+    $default  reduce using rule 16 (termino)
+
+
+State 67
+
+   17 termino: termino DIV factor •
+   20 factor: factor • POW primario
+
+    POW  shift, and go to state 53
+
+    $default  reduce using rule 17 (termino)
+
+
+State 68
+
    18 termino: termino MOD factor •
    20 factor: factor • POW primario
 
-    POW  shift, and go to state 49
+    POW  shift, and go to state 53
 
     $default  reduce using rule 18 (termino)
 
 
-State 63
+State 69
 
    20 factor: factor POW primario •
 
     $default  reduce using rule 20 (factor)
 
 
-State 64
+State 70
 
    11 aritmetica: aritmetica • ADD termino
    12           | aritmetica • SUB termino
    27 primario: op_trig LPAREN aritmetica • RPAREN
 
-    ADD     shift, and go to state 43
-    SUB     shift, and go to state 44
-    RPAREN  shift, and go to state 68
+    ADD     shift, and go to state 47
+    SUB     shift, and go to state 48
+    RPAREN  shift, and go to state 76
 
 
-State 65
+State 71
 
-   32 booleana: booleana OR bool1 •
-   34 bool1: bool1 • AND bool2
+   34 booleana: booleana OR bool1 •
+   36 bool1: bool1 • AND bool2
 
-    AND  shift, and go to state 52
+    AND  shift, and go to state 56
 
-    $default  reduce using rule 32 (booleana)
-
-
-State 66
-
-   34 bool1: bool1 AND bool2 •
-
-    $default  reduce using rule 34 (bool1)
+    $default  reduce using rule 34 (booleana)
 
 
-State 67
+State 72
+
+   36 bool1: bool1 AND bool2 •
+
+    $default  reduce using rule 36 (bool1)
+
+
+State 73
 
     4 declaracion: ID ASSIGN exp EOL •
 
     $default  reduce using rule 4 (declaracion)
 
 
-State 68
+State 74
+
+   28 primario: LEN LPAREN aritmetica RPAREN •
+
+    $default  reduce using rule 28 (primario)
+
+
+State 75
+
+   29 primario: SUBSTR LPAREN aritmetica COMMA • INTEGER COMMA INTEGER RPAREN
+
+    INTEGER  shift, and go to state 77
+
+
+State 76
 
    27 primario: op_trig LPAREN aritmetica RPAREN •
 
     $default  reduce using rule 27 (primario)
+
+
+State 77
+
+   29 primario: SUBSTR LPAREN aritmetica COMMA INTEGER • COMMA INTEGER RPAREN
+
+    COMMA  shift, and go to state 78
+
+
+State 78
+
+   29 primario: SUBSTR LPAREN aritmetica COMMA INTEGER COMMA • INTEGER RPAREN
+
+    INTEGER  shift, and go to state 79
+
+
+State 79
+
+   29 primario: SUBSTR LPAREN aritmetica COMMA INTEGER COMMA INTEGER • RPAREN
+
+    RPAREN  shift, and go to state 80
+
+
+State 80
+
+   29 primario: SUBSTR LPAREN aritmetica COMMA INTEGER COMMA INTEGER RPAREN •
+
+    $default  reduce using rule 29 (primario)

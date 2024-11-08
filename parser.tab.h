@@ -66,29 +66,32 @@ extern int yydebug;
     ASSIGN = 258,                  /* ASSIGN  */
     ONELINECMNT = 259,             /* ONELINECMNT  */
     MULTILINECMNT = 260,           /* MULTILINECMNT  */
-    EOL = 261,                     /* EOL  */
-    ID = 262,                      /* ID  */
-    A_ID = 263,                    /* A_ID  */
-    B_ID = 264,                    /* B_ID  */
-    INTEGER = 265,                 /* INTEGER  */
-    FLOAT = 266,                   /* FLOAT  */
-    STRING = 267,                  /* STRING  */
-    BOOLEAN = 268,                 /* BOOLEAN  */
-    ADD = 269,                     /* ADD  */
-    SUB = 270,                     /* SUB  */
-    MULT = 271,                    /* MULT  */
-    DIV = 272,                     /* DIV  */
-    MOD = 273,                     /* MOD  */
-    POW = 274,                     /* POW  */
-    SIN = 275,                     /* SIN  */
-    COS = 276,                     /* COS  */
-    TAN = 277,                     /* TAN  */
-    AND = 278,                     /* AND  */
-    OR = 279,                      /* OR  */
-    NOT = 280,                     /* NOT  */
-    OPRELACIONAL = 281,            /* OPRELACIONAL  */
-    LPAREN = 282,                  /* LPAREN  */
-    RPAREN = 283                   /* RPAREN  */
+    COMMA = 261,                   /* COMMA  */
+    EOL = 262,                     /* EOL  */
+    ID = 263,                      /* ID  */
+    A_ID = 264,                    /* A_ID  */
+    B_ID = 265,                    /* B_ID  */
+    INTEGER = 266,                 /* INTEGER  */
+    FLOAT = 267,                   /* FLOAT  */
+    STRING = 268,                  /* STRING  */
+    BOOLEAN = 269,                 /* BOOLEAN  */
+    ADD = 270,                     /* ADD  */
+    SUB = 271,                     /* SUB  */
+    MULT = 272,                    /* MULT  */
+    DIV = 273,                     /* DIV  */
+    MOD = 274,                     /* MOD  */
+    POW = 275,                     /* POW  */
+    SIN = 276,                     /* SIN  */
+    COS = 277,                     /* COS  */
+    TAN = 278,                     /* TAN  */
+    LEN = 279,                     /* LEN  */
+    SUBSTR = 280,                  /* SUBSTR  */
+    AND = 281,                     /* AND  */
+    OR = 282,                      /* OR  */
+    NOT = 283,                     /* NOT  */
+    OPRELACIONAL = 284,            /* OPRELACIONAL  */
+    LPAREN = 285,                  /* LPAREN  */
+    RPAREN = 286                   /* RPAREN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -101,7 +104,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 105 "parser.tab.h"
+#line 108 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

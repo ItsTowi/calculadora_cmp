@@ -1,0 +1,3 @@
+x := "hola"
+y := len(x)
+substr(x,2,3)

@@ -300,6 +300,49 @@ value_info cambioAritmetica(value_info v) {
 }
 
 
+value_info calcularLen(value_info v) {
+    value_info result;
+    if (v.val_type == STRING_TYPE) {
+        // Si el tipo es STRING, calculamos la longitud
+        result.val_type = INT_TYPE;
+        result.value.val_int = strlen(v.value.val_string);
+    } else {
+        // En caso de error, podrías agregar manejo de error aquí
+        result.val_type = UNKNOWN_TYPE;
+    }
+    return result;
+}
+
+value_info substring(value_info v1, int inicio, int distancia) {
+    value_info result;
+    if (v1.val_type == STRING_TYPE) {
+        int len = strlen(v1.value.val_string);
+        
+        // Validar que las posiciones estén dentro de los límites
+        if (inicio < 0 || inicio >= len || distancia < 0 || (inicio + distancia) > len) {
+            result.val_type = UNKNOWN_TYPE;  // Error en las posiciones
+            return result;
+        }
+
+        // Reservar memoria para la subcadena
+        char *sub = (char*)malloc((distancia + 1) * sizeof(char));
+        if (!sub) {
+            result.val_type = UNKNOWN_TYPE;  // Error de memoria
+            return result;
+        }
+
+        // Copiar la subcadena
+        strncpy(sub, v1.value.val_string + inicio, distancia);
+        sub[distancia] = '\0';  // Asegurarse de que la subcadena esté terminada con '\0'
+
+        result.val_type = STRING_TYPE;
+        result.value.val_string = sub;
+    } else {
+        result.val_type = UNKNOWN_TYPE;
+    }
+    return result;
+}
+
 value_info opTrigonometrica(value_info trigFunction, value_info v1)
 {
     value_info resultado;
