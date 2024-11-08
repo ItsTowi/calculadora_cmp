@@ -70,7 +70,7 @@ exp: aritmetica | booleana;
 
 aritmetica: termino | aritmetica ADD termino  {
                                                 $$ = sumaAritmetica($1, $3);
-                                              } 
+                                              }
                     | aritmetica SUB termino  {
                                                 $$ = restaAritmetica($1, $3);
                                               };

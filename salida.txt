@@ -1,15 +1,17 @@
+COMENTARIO DE UNA LINEA EN LA LINEA 1
 ID: x pren amb tipus Float per valor: 1.500000
 ID: i pren amb tipus Integer per valor: 5
 ID: z pren amb tipus Float per valor: 31.250000
 ID: s pren amb tipus String per valor: Hola
 ID: b pren amb tipus Boolean per valor: true
-COMENTARIO DE UNA LINEA EN LA LINEA 6
-Line 8, EXPRESSION x with value 1.500000 and type Float
-Line 9, EXPRESSION i with value 5 and type Integer
-Line 10, EXPRESSION z with value 31.250000 and type Float
-Line 11, EXPRESSION s with value Hola and type String
-Line 12, EXPRESSION b with value true and type Boolean
-COMENTARIO DE UNA LINEA EN LA LINEA 12
-Line 14, unsaved EXPRESSION with value 15 and type Integer
-Line 15, unsaved EXPRESSION with value -3.500000 and type Float
-Line 16, unsaved EXPRESSION with value true and type Boolean
+COMENTARIO DE UNA LINEA EN LA LINEA 7
+Line 9, EXPRESSION x with value 1.500000 and type Float
+Line 10, EXPRESSION i with value 5 and type Integer
+Line 11, EXPRESSION z with value 31.250000 and type Float
+Line 12, EXPRESSION s with value Hola and type String
+Line 13, EXPRESSION b with value true and type Boolean
+COMENTARIO DE UNA LINEA EN LA LINEA 13
+Line 15, unsaved EXPRESSION with value 15 and type Integer
+Line 16, unsaved EXPRESSION with value -3.500000 and type Float
+Line 17, unsaved EXPRESSION with value HolaHola5--1.50 and type String
+Line 18, unsaved EXPRESSION with value true and type Boolean

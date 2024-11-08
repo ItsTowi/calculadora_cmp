@@ -1,5 +1,17 @@
-x := "hola"
-y := len(x)
-z := substr(x,0,3)
-a := x + z
-i := E + 2
+// assignacions
+x := 1.5
+i := 5
+z := i * (x + i) - i / 4.0
+s := "Hola"
+b := z > 3 or not (i > 0 and i <= 10) or false
+// Expressions basiques
+x
+i
+z
+s
+b
+// Expresiones complejas
+i + i * 2
+-i + x
+s + (s + i) + "--" + x
+b or not b

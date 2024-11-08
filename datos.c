@@ -116,6 +116,60 @@ value_info sumaAritmetica(value_info v1, value_info v2) {
             resultado.val_type = UNKNOWN_TYPE;
         }
     }
+    // Concatenar STRING + INT
+    else if ((v1.val_type == STRING_TYPE && v2.val_type == INT_TYPE) ||
+             (v1.val_type == INT_TYPE && v2.val_type == STRING_TYPE)) {
+        resultado.val_type = STRING_TYPE;
+
+        // Convertir INT a cadena
+        char buffer[20];
+        int num = (v1.val_type == INT_TYPE) ? v1.value.val_int : v2.value.val_int;
+        snprintf(buffer, sizeof(buffer), "%d", num);
+
+        // Concatenar
+        const char *str_part = (v1.val_type == STRING_TYPE) ? v1.value.val_string : v2.value.val_string;
+        size_t total_length = strlen(str_part) + strlen(buffer);
+
+        if (total_length < STR_MAX_LENGTH) {
+            resultado.value.val_string = (char *)malloc((total_length + 1) * sizeof(char));
+            if (resultado.value.val_string == NULL) {
+                fprintf(stderr, "Error: no se pudo asignar memoria para la concatenación de STRING + INT.\n");
+                resultado.val_type = UNKNOWN_TYPE;
+            } else {
+                snprintf(resultado.value.val_string, total_length + 1, "%s%s", str_part, buffer);
+            }
+        } else {
+            fprintf(stderr, "Error: la concatenación de STRING + INT excede el tamaño máximo permitido.\n");
+            resultado.val_type = UNKNOWN_TYPE;
+        }
+    }
+    // Concatenar STRING + FLOAT
+    else if ((v1.val_type == STRING_TYPE && v2.val_type == FLOAT_TYPE) ||
+             (v1.val_type == FLOAT_TYPE && v2.val_type == STRING_TYPE)) {
+        resultado.val_type = STRING_TYPE;
+
+        // Convertir FLOAT a cadena
+        char buffer[20];
+        float num = (v1.val_type == FLOAT_TYPE) ? v1.value.val_float : v2.value.val_float;
+        snprintf(buffer, sizeof(buffer), "%.2f", num);
+
+        // Concatenar
+        const char *str_part = (v1.val_type == STRING_TYPE) ? v1.value.val_string : v2.value.val_string;
+        size_t total_length = strlen(str_part) + strlen(buffer);
+
+        if (total_length < STR_MAX_LENGTH) {
+            resultado.value.val_string = (char *)malloc((total_length + 1) * sizeof(char));
+            if (resultado.value.val_string == NULL) {
+                fprintf(stderr, "Error: no se pudo asignar memoria para la concatenación de STRING + FLOAT.\n");
+                resultado.val_type = UNKNOWN_TYPE;
+            } else {
+                snprintf(resultado.value.val_string, total_length + 1, "%s%s", str_part, buffer);
+            }
+        } else {
+            fprintf(stderr, "Error: la concatenación de STRING + FLOAT excede el tamaño máximo permitido.\n");
+            resultado.val_type = UNKNOWN_TYPE;
+        }
+    }
     // Manejo de combinaciones de tipos
     else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
@@ -125,7 +179,6 @@ value_info sumaAritmetica(value_info v1, value_info v2) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float + v2.value.val_int;
     }
-
     else {
         fprintf(stderr, "Error: tipos incompatibles para la operación.\n");
     }
