@@ -5,6 +5,8 @@
 #define datos_H
 
 #define STR_MAX_LENGTH 200
+#define PI_VALUE 3.14159265359
+#define E_VALUE  2.71828182846
 
 typedef enum {
   UNKNOWN_TYPE,
@@ -30,6 +32,8 @@ typedef struct {
 char *type_to_str(data_type val_type);
 char *value_info_to_str(value_info value);
 char *valueToString(value_info v);
+value_info constantePI();
+value_info constanteE();
 value_info sumaAritmetica(value_info v1, value_info v2);
 value_info restaAritmetica(value_info v1, value_info v2);
 value_info multAritmetica(value_info v1, value_info v2);
@@ -39,6 +43,10 @@ value_info potAritmetica(value_info v1, value_info v2);
 value_info cambioAritmetica(value_info v);
 value_info calcularLen(value_info v);
 value_info substring(value_info v1, int inicio , int distancia);
+value_info representacioNum(value_info representacion, value_info v);
+char* transformarBinarioInt(int num);
+char* transformarHexaInt(int num);
+char* transformarOctalInt(int num);
 value_info orBooleana(value_info v1, value_info v2);
 value_info andBooleana(value_info v1, value_info v2);
 value_info notBooleana(value_info v1);

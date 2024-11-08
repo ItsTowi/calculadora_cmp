@@ -23,8 +23,8 @@ extern int yylex();
 }
 
 %token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL
-%token <expr_val> ID A_ID B_ID INTEGER FLOAT STRING BOOLEAN ADD SUB MULT DIV MOD POW SIN COS TAN LEN SUBSTR AND OR NOT OPRELACIONAL LPAREN RPAREN
-%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana bool1 bool2 bool3 bool_aritmetic termino factor primario op_trig
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT STRING BOOLEAN PI E ADD SUB MULT DIV MOD POW SIN COS TAN LEN SUBSTR BIN HEX OCT AND OR NOT OPRELACIONAL LPAREN RPAREN
+%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana bool1 bool2 bool3 bool_aritmetic termino factor primario op_trig representacioNum
 
 %start programa
 
@@ -100,6 +100,12 @@ primario: INTEGER                     {
           | STRING                    {
                                         $$ = $1;
                                       }
+          | PI                        {
+                                        $$ = constantePI();
+                                      }
+          | E                         {
+                                        $$ = constanteE();
+                                      }
           | ID                        {
                                           if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
                                           {	
@@ -127,9 +133,12 @@ primario: INTEGER                     {
                                       }
           | op_trig LPAREN aritmetica RPAREN { $$ = opTrigonometrica($1, $3); }
           | LEN LPAREN aritmetica RPAREN { $$ = calcularLen($3); }
-          | SUBSTR LPAREN aritmetica COMMA INTEGER COMMA INTEGER RPAREN { $$ = substring($3, $5.value.val_int, $7.value.val_int); };
+          | SUBSTR LPAREN aritmetica COMMA INTEGER COMMA INTEGER RPAREN { $$ = substring($3, $5.value.val_int, $7.value.val_int); }
+          | representacioNum LPAREN aritmetica RPAREN { $$ = representacioNum($1 ,$3); }
 
 op_trig: SIN | COS | TAN;
+
+representacioNum: BIN | HEX | OCT;
 
 booleana: bool1 
           | booleana OR bool1         {

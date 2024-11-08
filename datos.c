@@ -61,6 +61,20 @@ char* valueToString(value_info v) {
     return str;
 }
 
+value_info constantePI() {
+    value_info result;
+    result.val_type = FLOAT_TYPE;
+    result.value.val_float = PI_VALUE;
+    return result;
+}
+
+value_info constanteE() {
+    value_info result;
+    result.val_type = FLOAT_TYPE;
+    result.value.val_float = E_VALUE;
+    return result;
+}
+
 
 value_info sumaAritmetica(value_info v1, value_info v2) {
     value_info resultado = {.val_type = UNKNOWN_TYPE};
@@ -282,6 +296,56 @@ value_info potAritmetica(value_info v1, value_info v2) {
     return resultado;
 }
 
+value_info representacioNum(value_info representacion, value_info v) {
+    value_info resultado = {.val_type = STRING_TYPE};
+
+    if (v.val_type == INT_TYPE) {
+        if (strcmp(representacion.value.val_string, "bin") == 0) {
+            resultado.value.val_string = transformarBinarioInt(v.value.val_int);
+        } else if (strcmp(representacion.value.val_string, "hex") == 0) {
+            resultado.value.val_string = transformarHexaInt(v.value.val_int);
+        } else if (strcmp(representacion.value.val_string, "oct") == 0) {
+            resultado.value.val_string = transformarOctalInt(v.value.val_int);
+        }
+    } 
+
+    else if (v.val_type == FLOAT_TYPE) {
+        if (strcmp(representacion.value.val_string, "bin") == 0) {
+            resultado.value.val_string = transformarBinarioInt((int)v.value.val_float);
+        } else if (strcmp(representacion.value.val_string, "hex") == 0) {
+            resultado.value.val_string = transformarHexaInt((int)v.value.val_float);
+        } else if (strcmp(representacion.value.val_string, "oct") == 0) {
+            resultado.value.val_string = transformarOctalInt((int)v.value.val_float);
+        }
+    }
+
+    return resultado;
+}
+
+char* transformarBinarioInt(int num) {
+    char* binario = (char*)malloc(33);
+    binario[32] = '\0';
+
+    for (int i = 31; i >= 0; --i) {
+        binario[31 - i] = (num & (1 << i)) ? '1' : '0';
+    }
+
+    return binario;
+}
+
+char* transformarHexaInt(int num) {
+    char* hexa = (char*)malloc(9);
+    snprintf(hexa, 9, "%X", num);
+    return hexa;
+}
+
+char* transformarOctalInt(int num) {
+    char* octal = (char*)malloc(12);
+    snprintf(octal, 12, "%o", num);
+    return octal;
+}
+
+
 value_info cambioAritmetica(value_info v) {
     value_info resultado;
     resultado.val_type = v.val_type;
@@ -315,19 +379,22 @@ value_info calcularLen(value_info v) {
 
 value_info substring(value_info v1, int inicio, int distancia) {
     value_info result;
+
     if (v1.val_type == STRING_TYPE) {
-        int len = strlen(v1.value.val_string);
         
+        int len = strlen(v1.value.val_string);
         // Validar que las posiciones estén dentro de los límites
         if (inicio < 0 || inicio >= len || distancia < 0 || (inicio + distancia) > len) {
             result.val_type = UNKNOWN_TYPE;  // Error en las posiciones
             return result;
+            printf("UNKOWN");
         }
 
         // Reservar memoria para la subcadena
         char *sub = (char*)malloc((distancia + 1) * sizeof(char));
         if (!sub) {
             result.val_type = UNKNOWN_TYPE;  // Error de memoria
+            
             return result;
         }
 
@@ -340,6 +407,7 @@ value_info substring(value_info v1, int inicio, int distancia) {
     } else {
         result.val_type = UNKNOWN_TYPE;
     }
+
     return result;
 }
 

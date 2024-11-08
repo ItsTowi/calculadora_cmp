@@ -75,23 +75,28 @@ extern int yydebug;
     FLOAT = 267,                   /* FLOAT  */
     STRING = 268,                  /* STRING  */
     BOOLEAN = 269,                 /* BOOLEAN  */
-    ADD = 270,                     /* ADD  */
-    SUB = 271,                     /* SUB  */
-    MULT = 272,                    /* MULT  */
-    DIV = 273,                     /* DIV  */
-    MOD = 274,                     /* MOD  */
-    POW = 275,                     /* POW  */
-    SIN = 276,                     /* SIN  */
-    COS = 277,                     /* COS  */
-    TAN = 278,                     /* TAN  */
-    LEN = 279,                     /* LEN  */
-    SUBSTR = 280,                  /* SUBSTR  */
-    AND = 281,                     /* AND  */
-    OR = 282,                      /* OR  */
-    NOT = 283,                     /* NOT  */
-    OPRELACIONAL = 284,            /* OPRELACIONAL  */
-    LPAREN = 285,                  /* LPAREN  */
-    RPAREN = 286                   /* RPAREN  */
+    PI = 270,                      /* PI  */
+    E = 271,                       /* E  */
+    ADD = 272,                     /* ADD  */
+    SUB = 273,                     /* SUB  */
+    MULT = 274,                    /* MULT  */
+    DIV = 275,                     /* DIV  */
+    MOD = 276,                     /* MOD  */
+    POW = 277,                     /* POW  */
+    SIN = 278,                     /* SIN  */
+    COS = 279,                     /* COS  */
+    TAN = 280,                     /* TAN  */
+    LEN = 281,                     /* LEN  */
+    SUBSTR = 282,                  /* SUBSTR  */
+    BIN = 283,                     /* BIN  */
+    HEX = 284,                     /* HEX  */
+    OCT = 285,                     /* OCT  */
+    AND = 286,                     /* AND  */
+    OR = 287,                      /* OR  */
+    NOT = 288,                     /* NOT  */
+    OPRELACIONAL = 289,            /* OPRELACIONAL  */
+    LPAREN = 290,                  /* LPAREN  */
+    RPAREN = 291                   /* RPAREN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -104,7 +109,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 108 "parser.tab.h"
+#line 113 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

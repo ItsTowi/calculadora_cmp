@@ -35,6 +35,11 @@ string \"([^\\"]|\\.)*\"
                               return BOOLEAN;
                             }
 
+"PI"                        { return PI; }
+"E"                         { return E; }
+"BIN"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "bin"; return BIN; }
+"HEX"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "hex"; return HEX; }
+"OCT"                       { yylval.expr_val.val_type = STRING; yylval.expr_val.value.val_string = "oct"; return OCT; }
 
 "and"                       { return AND; }
 "or"                        { return OR; }

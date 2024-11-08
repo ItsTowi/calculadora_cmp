@@ -1,2 +1,1 @@
-ID: x pren per valor: hola
-ID: y pren per valor: 4
+Line 2, unsaved EXPRESSION with value 40
