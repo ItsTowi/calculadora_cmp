@@ -3,10 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAXLEN 100
 
 extern FILE *yyout;
 extern int yylineno;
 extern int yylex();
+char *sentenciasC3A[MAXLEN];
+int num_temportales = 1;
 /*extern void yyerror(char*);*/
 
 %}
@@ -70,6 +73,7 @@ exp: aritmetica | booleana;
 
 aritmetica: termino | aritmetica ADD termino  {
                                                 $$ = sumaAritmetica($1, $3);
+
                                               }
                     | aritmetica SUB termino  {
                                                 $$ = restaAritmetica($1, $3);
