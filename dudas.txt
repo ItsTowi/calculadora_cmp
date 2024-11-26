@@ -4,5 +4,6 @@ Se tiene que poder hacer un comentario del estilo "x:=10 //Ejemplo"
 Entiendo que la variable yylineno se aumenta sola, pero es normal que le tenga que restar 1 para imprimir el numero de linea?
 He visto que hay un metodo para hacer lo de los comentarios con "Estados" lo he de hacer así?
 
+//Nueva rama
 
 pag 30 flex estados
