@@ -1,4 +1,4 @@
 // assignacions
 x := 1.5
 i := 5
-w := i - x + 10.5
+w := 4 / 2

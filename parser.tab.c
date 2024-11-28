@@ -179,8 +179,10 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
 
  void sumaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
 
-#line 184 "parser.tab.c"
+#line 186 "parser.tab.c"
 
 
 #ifdef short
@@ -566,12 +568,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    48,    48,    50,    50,    52,    67,    78,    82,    86,
-      86,    88,    88,    93,    97,    98,   100,   100,   103,   106,
-     110,   111,   115,   119,   122,   126,   129,   132,   143,   154,
-     157,   158,   159,   160,   162,   162,   162,   164,   164,   164,
-     166,   167,   171,   172,   176,   177,   181,   182,   185,   188,
-     200
+       0,    50,    50,    52,    52,    54,    69,    80,    84,    88,
+      88,    90,    90,    95,    99,   100,   102,   102,   106,   110,
+     114,   115,   119,   123,   126,   130,   133,   136,   147,   158,
+     161,   162,   163,   164,   166,   166,   166,   168,   168,   168,
+     170,   171,   175,   176,   180,   181,   185,   186,   189,   192,
+     204
 };
 #endif
 
@@ -1202,13 +1204,13 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: lista_declaraciones  */
-#line 48 "parser.y"
+#line 50 "parser.y"
                               {print_sentences();}
-#line 1208 "parser.tab.c"
+#line 1210 "parser.tab.c"
     break;
 
   case 5: /* declaracion: ID ASSIGN exp EOL  */
-#line 52 "parser.y"
+#line 54 "parser.y"
                                {
                                   //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
                                   if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE) 
@@ -1224,11 +1226,11 @@ yyreduce:
                                     fprintf(yyout, "ID: %s pren amb tipus %s per valor: %s\n", (yyvsp[-3].expr_val).name, type_to_str((yyvsp[-3].expr_val).val_type) ,valueToString((yyvsp[-1].expr_val)));
                                   }
                                 }
-#line 1228 "parser.tab.c"
+#line 1230 "parser.tab.c"
     break;
 
   case 6: /* declaracion: exp EOL  */
-#line 67 "parser.y"
+#line 69 "parser.y"
                                 {
                                   if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE)
                                   {
@@ -1240,133 +1242,135 @@ yyreduce:
 										                else fprintf(yyout, "Line %d, EXPRESSION %s with value %s and type %s\n", yylineno, (yyvsp[-1].expr_val).name, valueToString((yyvsp[-1].expr_val)), type_to_str((yyvsp[-1].expr_val).val_type));
                                   }
                                 }
-#line 1244 "parser.tab.c"
+#line 1246 "parser.tab.c"
     break;
 
   case 7: /* declaracion: ONELINECMNT  */
-#line 78 "parser.y"
+#line 80 "parser.y"
                             {
                               fprintf(yyout, "COMENTARIO DE UNA LINEA EN LA LINEA %d\n", yylineno - 1);
                               //yylineno++;
                             }
-#line 1253 "parser.tab.c"
+#line 1255 "parser.tab.c"
     break;
 
   case 8: /* declaracion: MULTILINECMNT  */
-#line 82 "parser.y"
+#line 84 "parser.y"
                               {
                                 fprintf(yyout, "COMENTARIO DE MULTIPLES LINEAS %d\n", yylineno - 1);
                               }
-#line 1261 "parser.tab.c"
+#line 1263 "parser.tab.c"
     break;
 
   case 12: /* aritmetica: aritmetica ADD termino  */
-#line 88 "parser.y"
+#line 90 "parser.y"
                                               {
                                                 (yyval.expr_val) = sumaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                                 sumaArtimetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "+", (yyvsp[0].expr_val));
 
                                               }
-#line 1271 "parser.tab.c"
+#line 1273 "parser.tab.c"
     break;
 
   case 13: /* aritmetica: aritmetica SUB termino  */
-#line 93 "parser.y"
+#line 95 "parser.y"
                                               {
                                                 (yyval.expr_val) = restaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                                 restaArtimetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "-", (yyvsp[0].expr_val));
                                               }
-#line 1280 "parser.tab.c"
+#line 1282 "parser.tab.c"
     break;
 
   case 14: /* aritmetica: SUB termino  */
-#line 97 "parser.y"
+#line 99 "parser.y"
                                               { (yyval.expr_val) = cambioAritmetica((yyvsp[0].expr_val)); }
-#line 1286 "parser.tab.c"
+#line 1288 "parser.tab.c"
     break;
 
   case 15: /* aritmetica: ADD termino  */
-#line 98 "parser.y"
+#line 100 "parser.y"
                                               { (yyval.expr_val) = (yyvsp[0].expr_val); }
-#line 1292 "parser.tab.c"
+#line 1294 "parser.tab.c"
     break;
 
   case 17: /* termino: termino MULT factor  */
-#line 100 "parser.y"
+#line 102 "parser.y"
                                       {
                                         (yyval.expr_val) = multAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                        multiplicacionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "*", (yyvsp[0].expr_val));
                                       }
-#line 1300 "parser.tab.c"
+#line 1303 "parser.tab.c"
     break;
 
   case 18: /* termino: termino DIV factor  */
-#line 103 "parser.y"
+#line 106 "parser.y"
                                       {
                                         (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                        divisionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "/", (yyvsp[0].expr_val));
                                       }
-#line 1308 "parser.tab.c"
+#line 1312 "parser.tab.c"
     break;
 
   case 19: /* termino: termino MOD factor  */
-#line 106 "parser.y"
+#line 110 "parser.y"
                                       {
                                         (yyval.expr_val) = modAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                       }
-#line 1316 "parser.tab.c"
+#line 1320 "parser.tab.c"
     break;
 
   case 21: /* factor: factor POW primario  */
-#line 111 "parser.y"
+#line 115 "parser.y"
                                        {
                                           (yyval.expr_val) = potAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                        }
-#line 1324 "parser.tab.c"
+#line 1328 "parser.tab.c"
     break;
 
   case 22: /* primario: INTEGER  */
-#line 115 "parser.y"
+#line 119 "parser.y"
                                       {
                                         (yyvsp[0].expr_val).name = NULL;
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1333 "parser.tab.c"
+#line 1337 "parser.tab.c"
     break;
 
   case 23: /* primario: FLOAT  */
-#line 119 "parser.y"
+#line 123 "parser.y"
                                       {
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1341 "parser.tab.c"
+#line 1345 "parser.tab.c"
     break;
 
   case 24: /* primario: STRING  */
-#line 122 "parser.y"
+#line 126 "parser.y"
                                       {
                                         printf("%s\n", type_to_str((yyvsp[0].expr_val).val_type));
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1350 "parser.tab.c"
+#line 1354 "parser.tab.c"
     break;
 
   case 25: /* primario: PI  */
-#line 126 "parser.y"
+#line 130 "parser.y"
                                       {
                                         (yyval.expr_val) = constantePI();
                                       }
-#line 1358 "parser.tab.c"
+#line 1362 "parser.tab.c"
     break;
 
   case 26: /* primario: E  */
-#line 129 "parser.y"
+#line 133 "parser.y"
                                       {
                                         (yyval.expr_val) = constanteE();
                                       }
-#line 1366 "parser.tab.c"
+#line 1370 "parser.tab.c"
     break;
 
   case 27: /* primario: ID  */
-#line 132 "parser.y"
+#line 136 "parser.y"
                                       {
                                           if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
                                           {	
@@ -1378,11 +1382,11 @@ yyreduce:
                                             (yyval.expr_val).value =(yyvsp[0].expr_val).value;
                                           }
                                       }
-#line 1382 "parser.tab.c"
+#line 1386 "parser.tab.c"
     break;
 
   case 28: /* primario: A_ID  */
-#line 143 "parser.y"
+#line 147 "parser.y"
                                         {
                                           if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
                                           {	
@@ -1394,83 +1398,83 @@ yyreduce:
                                             (yyval.expr_val).value =(yyvsp[0].expr_val).value;
                                           }
                                       }
-#line 1398 "parser.tab.c"
+#line 1402 "parser.tab.c"
     break;
 
   case 29: /* primario: LPAREN aritmetica RPAREN  */
-#line 154 "parser.y"
+#line 158 "parser.y"
                                       {
                                           (yyval.expr_val) = (yyvsp[-1].expr_val);
                                       }
-#line 1406 "parser.tab.c"
+#line 1410 "parser.tab.c"
     break;
 
   case 30: /* primario: op_trig LPAREN aritmetica RPAREN  */
-#line 157 "parser.y"
+#line 161 "parser.y"
                                              { (yyval.expr_val) = opTrigonometrica((yyvsp[-3].expr_val), (yyvsp[-1].expr_val)); }
-#line 1412 "parser.tab.c"
+#line 1416 "parser.tab.c"
     break;
 
   case 31: /* primario: LEN LPAREN aritmetica RPAREN  */
-#line 158 "parser.y"
+#line 162 "parser.y"
                                          { (yyval.expr_val) = calcularLen((yyvsp[-1].expr_val)); }
-#line 1418 "parser.tab.c"
+#line 1422 "parser.tab.c"
     break;
 
   case 32: /* primario: SUBSTR LPAREN aritmetica COMMA INTEGER COMMA INTEGER RPAREN  */
-#line 159 "parser.y"
+#line 163 "parser.y"
                                                                         { (yyval.expr_val) = substring((yyvsp[-5].expr_val), (yyvsp[-3].expr_val).value.val_int, (yyvsp[-1].expr_val).value.val_int); }
-#line 1424 "parser.tab.c"
+#line 1428 "parser.tab.c"
     break;
 
   case 33: /* primario: representacioNum LPAREN aritmetica RPAREN  */
-#line 160 "parser.y"
+#line 164 "parser.y"
                                                       { (yyval.expr_val) = representacioNum((yyvsp[-3].expr_val) ,(yyvsp[-1].expr_val)); }
-#line 1430 "parser.tab.c"
+#line 1434 "parser.tab.c"
     break;
 
   case 41: /* booleana: booleana OR bool1  */
-#line 167 "parser.y"
+#line 171 "parser.y"
                                       {
                                         (yyval.expr_val) = orBooleana((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                       }
-#line 1438 "parser.tab.c"
+#line 1442 "parser.tab.c"
     break;
 
   case 43: /* bool1: bool1 AND bool2  */
-#line 172 "parser.y"
+#line 176 "parser.y"
                                       {
                                         (yyval.expr_val) = andBooleana((yyvsp[-2].expr_val),(yyvsp[0].expr_val));
                                       }
-#line 1446 "parser.tab.c"
+#line 1450 "parser.tab.c"
     break;
 
   case 45: /* bool2: NOT bool2  */
-#line 177 "parser.y"
+#line 181 "parser.y"
                                       {
                                         (yyval.expr_val) = notBooleana((yyvsp[0].expr_val));
                                       }
-#line 1454 "parser.tab.c"
+#line 1458 "parser.tab.c"
     break;
 
   case 47: /* bool3: LPAREN booleana RPAREN  */
-#line 182 "parser.y"
+#line 186 "parser.y"
                                       {
                                         (yyval.expr_val) = (yyvsp[-1].expr_val);
                                       }
-#line 1462 "parser.tab.c"
+#line 1466 "parser.tab.c"
     break;
 
   case 48: /* bool3: BOOLEAN  */
-#line 185 "parser.y"
+#line 189 "parser.y"
                                       {
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1470 "parser.tab.c"
+#line 1474 "parser.tab.c"
     break;
 
   case 49: /* bool3: B_ID  */
-#line 188 "parser.y"
+#line 192 "parser.y"
                                       {
                                         if (sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND)
                                         {
@@ -1482,21 +1486,21 @@ yyreduce:
                                           (yyval.expr_val).value = (yyvsp[0].expr_val).value;
                                         }
                                       }
-#line 1486 "parser.tab.c"
+#line 1490 "parser.tab.c"
     break;
 
   case 50: /* bool_aritmetic: aritmetica OPRELACIONAL aritmetica  */
-#line 200 "parser.y"
+#line 204 "parser.y"
                                                     {
                                                       //printf("%s\n", valueToString($1));
                                                       //printf("%d\n", $3.value.val_int);
                                                       (yyval.expr_val) = opRelacional((yyvsp[-2].expr_val),(yyvsp[-1].expr_val),(yyvsp[0].expr_val));
                                                     }
-#line 1496 "parser.tab.c"
+#line 1500 "parser.tab.c"
     break;
 
 
-#line 1500 "parser.tab.c"
+#line 1504 "parser.tab.c"
 
       default: break;
     }
@@ -1689,7 +1693,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 206 "parser.y"
+#line 210 "parser.y"
 
 
 
@@ -1838,6 +1842,154 @@ void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2) 
         if (v2.name == NULL) free(v2_str);
     }
 }
+
+void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+    char* v1_str;
+    char* v2_str;
+
+    // Verificamos si v1 y v2 son de tipos numéricos (enteros o flotantes)
+    if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
+        (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
+
+        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+
+        // Determinar el tipo del resultado
+        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
+            s0->val_type = FLOAT_TYPE;  // El resultado será un flotante si alguno de los operandos es flotante
+        } else {
+            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es un entero
+        }
+
+        // Asignar v1_str dependiendo de si v1.name es NULL o no
+        if (v1.name == NULL) {
+            // Si v1.name es NULL, usamos el valor de v1
+            if (v1.val_type == INT_TYPE) {
+                asprintf(&v1_str, "%d", v1.value.val_int);  // Convertimos a cadena el valor entero
+            } else {
+                asprintf(&v1_str, "%f", v1.value.val_float);  // Convertimos a cadena el valor flotante
+            }
+        } else {
+            // Si v1.name no es NULL, usamos el nombre de la variable
+            v1_str = v1.name;
+        }
+
+        // Asignar v2_str dependiendo de si v2.name es NULL o no
+        if (v2.name == NULL) {
+            // Si v2.name es NULL, usamos el valor de v2
+            if (v2.val_type == INT_TYPE) {
+                asprintf(&v2_str, "%d", v2.value.val_int);  // Convertimos el valor entero
+            } else {
+                asprintf(&v2_str, "%f", v2.value.val_float);  // Convertimos el valor flotante
+            }
+        } else {
+            // Si v2.name no es NULL, usamos el nombre de la variable
+            v2_str = v2.name;
+        }
+
+        // Generamos la instrucción según el tipo de operación
+        if (strcmp(op, "*") == 0) {
+            // Operación de multiplicación
+            if (v1.place == NULL) {
+                // Si v1.place es NULL, usamos su valor directamente
+                if (s0->val_type == FLOAT_TYPE) {
+                    addToMatrix(5, s0->place, ":=", v1_str, "MULF", v2_str);  // Multiplicación flotante
+                } else {
+                    addToMatrix(5, s0->place, ":=", v1_str, "MULI", v2_str);  // Multiplicación entera
+                }
+            } else {
+                // Si v1.place no es NULL, usamos su lugar
+                if (s0->val_type == FLOAT_TYPE) {
+                    addToMatrix(5, s0->place, ":=", v1.place, "MULF", v2_str);  // Multiplicación flotante
+                } else {
+                    addToMatrix(5, s0->place, ":=", v1.place, "MULI", v2_str);  // Multiplicación entera
+                }
+            }
+        }
+
+        // Liberar la memoria dinámica asignada con asprintf
+        if (v1.name == NULL) free(v1_str);
+        if (v2.name == NULL) free(v2_str);
+    }
+}
+
+void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+    char* v1_str;
+    char* v2_str;
+
+    // Verificamos si v1 y v2 son de tipos numéricos (enteros o flotantes)
+    if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
+        (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
+
+        // Comprobamos si el divisor (v2) es 0 para evitar la división por cero
+        if ((v2.val_type == INT_TYPE && v2.value.val_int == 0) ||
+            (v2.val_type == FLOAT_TYPE && v2.value.val_float == 0.0)) {
+            // Imprimir un error de división por cero o manejarlo adecuadamente
+            printf("Error: División por cero\n");
+            return;
+        }
+
+        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+
+        // Determinar el tipo del resultado
+        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
+            s0->val_type = FLOAT_TYPE;  // El resultado será un flotante si alguno de los operandos es flotante
+        } else {
+            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es un entero
+        }
+
+        // Asignar v1_str dependiendo de si v1.name es NULL o no
+        if (v1.name == NULL) {
+            // Si v1.name es NULL, usamos el valor de v1
+            if (v1.val_type == INT_TYPE) {
+                asprintf(&v1_str, "%d", v1.value.val_int);  // Convertimos a cadena el valor entero
+            } else {
+                asprintf(&v1_str, "%f", v1.value.val_float);  // Convertimos a cadena el valor flotante
+            }
+        } else {
+            // Si v1.name no es NULL, usamos el nombre de la variable
+            v1_str = v1.name;
+        }
+
+        // Asignar v2_str dependiendo de si v2.name es NULL o no
+        if (v2.name == NULL) {
+            // Si v2.name es NULL, usamos el valor de v2
+            if (v2.val_type == INT_TYPE) {
+                asprintf(&v2_str, "%d", v2.value.val_int);  // Convertimos el valor entero
+            } else {
+                asprintf(&v2_str, "%f", v2.value.val_float);  // Convertimos el valor flotante
+            }
+        } else {
+            // Si v2.name no es NULL, usamos el nombre de la variable
+            v2_str = v2.name;
+        }
+
+        // Generamos la instrucción según el tipo de operación
+        if (strcmp(op, "/") == 0) {
+            // Operación de división
+            if (v1.place == NULL) {
+                // Si v1.place es NULL, usamos su valor directamente
+                if (s0->val_type == FLOAT_TYPE) {
+                    addToMatrix(5, s0->place, ":=", v1_str, "DIVF", v2_str);  // División flotante
+                } else {
+                    addToMatrix(5, s0->place, ":=", v1_str, "DIVI", v2_str);  // División entera
+                }
+            } else {
+                // Si v1.place no es NULL, usamos su lugar
+                if (s0->val_type == FLOAT_TYPE) {
+                    addToMatrix(5, s0->place, ":=", v1.place, "DIVF", v2_str);  // División flotante
+                } else {
+                    addToMatrix(5, s0->place, ":=", v1.place, "DIVI", v2_str);  // División entera
+                }
+            }
+        }
+
+        // Liberar la memoria dinámica asignada con asprintf
+        if (v1.name == NULL) free(v1_str);
+        if (v2.name == NULL) free(v2_str);
+    }
+}
+
+
 
 void addToMatrix(int args_count, ...) {
     va_list args;
