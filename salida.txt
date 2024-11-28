@@ -1,6 +1,2 @@
-COMENTARIO DE UNA LINEA EN LA LINEA 1
-ID: x pren amb tipus Float per valor: 1.500000
-ID: i pren amb tipus Integer per valor: 5
-ID: w pren amb tipus Integer per valor: 2
-1:  $t01 := 4 DIVI 2 
+1:  $t01 := 10 ADDI 10 
 2:  HALT

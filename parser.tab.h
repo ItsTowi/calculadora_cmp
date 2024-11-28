@@ -73,30 +73,18 @@ extern int yydebug;
     B_ID = 265,                    /* B_ID  */
     INTEGER = 266,                 /* INTEGER  */
     FLOAT = 267,                   /* FLOAT  */
-    STRING = 268,                  /* STRING  */
-    BOOLEAN = 269,                 /* BOOLEAN  */
-    PI = 270,                      /* PI  */
-    E = 271,                       /* E  */
-    ADD = 272,                     /* ADD  */
-    SUB = 273,                     /* SUB  */
-    MULT = 274,                    /* MULT  */
-    DIV = 275,                     /* DIV  */
-    MOD = 276,                     /* MOD  */
-    POW = 277,                     /* POW  */
-    SIN = 278,                     /* SIN  */
-    COS = 279,                     /* COS  */
-    TAN = 280,                     /* TAN  */
-    LEN = 281,                     /* LEN  */
-    SUBSTR = 282,                  /* SUBSTR  */
-    BIN = 283,                     /* BIN  */
-    HEX = 284,                     /* HEX  */
-    OCT = 285,                     /* OCT  */
-    AND = 286,                     /* AND  */
-    OR = 287,                      /* OR  */
-    NOT = 288,                     /* NOT  */
-    OPRELACIONAL = 289,            /* OPRELACIONAL  */
-    LPAREN = 290,                  /* LPAREN  */
-    RPAREN = 291                   /* RPAREN  */
+    ADD = 268,                     /* ADD  */
+    SUB = 269,                     /* SUB  */
+    MULT = 270,                    /* MULT  */
+    DIV = 271,                     /* DIV  */
+    MOD = 272,                     /* MOD  */
+    POW = 273,                     /* POW  */
+    LPAREN = 274,                  /* LPAREN  */
+    RPAREN = 275,                  /* RPAREN  */
+    REPEAT = 276,                  /* REPEAT  */
+    DONE = 277,                    /* DONE  */
+    DO = 278,                      /* DO  */
+    M = 279                        /* M  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -109,7 +97,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 113 "parser.tab.h"
+#line 101 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -36,12 +36,14 @@ void print_sentences();
  void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void potenciaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
 %}
  
 
 %token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL
-%token <expr_val> ID A_ID B_ID INTEGER FLOAT STRING BOOLEAN PI E ADD SUB MULT DIV MOD POW SIN COS TAN LEN SUBSTR BIN HEX OCT AND OR NOT OPRELACIONAL LPAREN RPAREN
-%type <expr_val> declaracion lista_declaraciones exp aritmetica booleana bool1 bool2 bool3 bool_aritmetic termino factor primario op_trig representacioNum
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT ADD SUB MULT DIV MOD POW LPAREN RPAREN REPEAT DONE DO M;
+%type <expr_val> declaracion lista_declaraciones declaracion_simple declaracion_iterativa declaracion_iterativa_incondicional exp aritmetica termino factor primario 
 
 %start programa
 
@@ -51,8 +53,9 @@ programa : lista_declaraciones{print_sentences();};
 
 lista_declaraciones: lista_declaraciones declaracion | declaracion;
 
-declaracion: ID ASSIGN exp EOL {
-                                  //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
+declaracion: declaracion_simple | declaracion_iterativa;
+
+declaracion_simple: ID ASSIGN exp EOL {
                                   if ($3.val_type == UNKNOWN_TYPE) 
                                   {
                                     yyerror($3.value.val_string);
@@ -63,7 +66,6 @@ declaracion: ID ASSIGN exp EOL {
                                     if (!($1.name == NULL)) {
                                       sym_enter($1.name, &$3);
                                     }
-                                    fprintf(yyout, "ID: %s pren amb tipus %s per valor: %s\n", $1.name, type_to_str($1.val_type) ,valueToString($3));
                                   }
                                 }
               | exp EOL         {
@@ -71,26 +73,19 @@ declaracion: ID ASSIGN exp EOL {
                                   {
                                     yyerror($1.value.val_string);
                                   }
-                                  else
-                                  {
-                                    if ($1.name == NULL) fprintf(yyout, "Line %d, unsaved EXPRESSION with value %s and type %s\n", yylineno, valueToString($1), type_to_str($1.val_type));
-										                else fprintf(yyout, "Line %d, EXPRESSION %s with value %s and type %s\n", yylineno, $1.name, valueToString($1), type_to_str($1.val_type));
-                                  }
                                 }
-              | ONELINECMNT {
-                              fprintf(yyout, "COMENTARIO DE UNA LINEA EN LA LINEA %d\n", yylineno - 1);
-                              //yylineno++;
-                            }
-              | MULTILINECMNT {
-                                fprintf(yyout, "COMENTARIO DE MULTIPLES LINEAS %d\n", yylineno - 1);
-                              };
+              | ONELINECMNT     {
 
-exp: aritmetica | booleana;
+                                }
+              | MULTILINECMNT   {
+                                };
+              | EOL             {};
+
+exp: aritmetica;
 
 aritmetica: termino | aritmetica ADD termino  {
                                                 $$ = sumaAritmetica($1, $3);
                                                 sumaArtimetica3AC(&$$,$1, "+", $3);
-
                                               }
                     | aritmetica SUB termino  {
                                                 $$ = restaAritmetica($1, $3);
@@ -109,11 +104,13 @@ termino: factor | termino MULT factor {
                                       }
                 | termino MOD factor  {
                                         $$ = modAritmetica($1, $3);
+                                        moduloAritmetica3AC(&$$,$1, "%", $3);
                                       };
 
 factor: primario 
         | factor POW primario          {
                                           $$ = potAritmetica($1, $3);
+                                          potenciaAritmetica3AC(&$$,$1, "**", $3);
                                        };                        
 
 primario: INTEGER                     {
@@ -121,17 +118,8 @@ primario: INTEGER                     {
                                         $$ = $1;
                                       }
           | FLOAT                     {
+                                        $1.name = NULL;
                                         $$ = $1;
-                                      }
-          | STRING                    {
-                                        printf("%s\n", type_to_str($1.val_type));
-                                        $$ = $1;
-                                      }
-          | PI                        {
-                                        $$ = constantePI();
-                                      }
-          | E                         {
-                                        $$ = constanteE();
                                       }
           | ID                        {
                                           if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
@@ -158,54 +146,11 @@ primario: INTEGER                     {
           | LPAREN aritmetica RPAREN  {
                                           $$ = $2;
                                       }
-          | op_trig LPAREN aritmetica RPAREN { $$ = opTrigonometrica($1, $3); }
-          | LEN LPAREN aritmetica RPAREN { $$ = calcularLen($3); }
-          | SUBSTR LPAREN aritmetica COMMA INTEGER COMMA INTEGER RPAREN { $$ = substring($3, $5.value.val_int, $7.value.val_int); }
-          | representacioNum LPAREN aritmetica RPAREN { $$ = representacioNum($1 ,$3); }
 
-op_trig: SIN | COS | TAN;
 
-representacioNum: BIN | HEX | OCT;
+declaracion_iterativa: declaracion_iterativa_incondicional;
 
-booleana: bool1 
-          | booleana OR bool1         {
-                                        $$ = orBooleana($1, $3);
-                                      };
-
-bool1: bool2 
-      | bool1 AND bool2               {
-                                        $$ = andBooleana($1,$3);
-                                      };
-
-bool2: bool3 
-      | NOT bool2                     {
-                                        $$ = notBooleana($2);
-                                      };
-
-bool3:  bool_aritmetic
-        | LPAREN booleana RPAREN      {
-                                        $$ = $2;
-                                      }
-        | BOOLEAN                     {
-                                        $$ = $1;
-                                      }
-        | B_ID                        {
-                                        if (sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND)
-                                        {
-                                          yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n");
-                                        }
-                                        else
-                                        {
-                                          $$.val_type = $1.val_type;
-                                          $$.value = $1.value;
-                                        }
-                                      };
-
-bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
-                                                      //printf("%s\n", valueToString($1));
-                                                      //printf("%d\n", $3.value.val_int);
-                                                      $$ = opRelacional($1,$2,$3);
-                                                    };
+declaracion_iterativa_incondicional: REPEAT aritmetica DO EOL lista_declaraciones DONE {};
 
 %%
 
@@ -501,6 +446,130 @@ void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v
         if (v2.name == NULL) free(v2_str);
     }
 }
+
+void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+    char* v1_str;
+    char* v2_str;
+
+    // Verificamos que ambos operandos sean enteros
+    if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
+
+        // Comprobamos si el divisor (v2) es 0 para evitar un error de módulo por cero
+        if (v2.value.val_int == 0) {
+            // Imprimir un error de módulo por cero o manejarlo adecuadamente
+            printf("Error: Módulo por cero\n");
+            return;
+        }
+
+        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+        s0->val_type = INT_TYPE;     // El resultado del módulo siempre es un entero
+
+        // Asignar v1_str dependiendo de si v1.name es NULL o no
+        if (v1.name == NULL) {
+            asprintf(&v1_str, "%d", v1.value.val_int);
+        } else {
+            v1_str = v1.name;
+        }
+
+        // Asignar v2_str dependiendo de si v2.name es NULL o no
+        if (v2.name == NULL) {
+            asprintf(&v2_str, "%d", v2.value.val_int);
+        } else {
+            v2_str = v2.name;
+        }
+
+        // Generar la instrucción de módulo
+        if (strcmp(op, "%") == 0) {
+            if (v1.place == NULL) {
+                addToMatrix(5, s0->place, ":=", v1_str, "MODI", v2_str);
+            } else {
+                addToMatrix(5, s0->place, ":=", v1.place, "MODI", v2_str);
+            }
+        }
+
+        // Liberar la memoria dinámica asignada con asprintf
+        if (v1.name == NULL) free(v1_str);
+        if (v2.name == NULL) free(v2_str);
+
+    } else {
+        // Si uno o ambos operandos no son enteros, se genera un error
+        printf("Error: Operación de módulo solo soportada entre enteros\n");
+    }
+}
+
+
+void potenciaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+    char* v1_str;
+    char* v2_str;
+
+    // Verificamos que los operandos sean numéricos (enteros o flotantes)
+    if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
+        (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
+
+        // Comprobar si el exponente es negativo y la base es un entero
+        if (v2.val_type == INT_TYPE && v2.value.val_int < 0 && v1.val_type == INT_TYPE) {
+            printf("Error: Potencia con exponente negativo requiere un valor flotante\n");
+            return;
+        }
+
+        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+
+        // Determinar el tipo del resultado
+        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
+            s0->val_type = FLOAT_TYPE;  // El resultado será flotante si alguno de los operandos es flotante
+        } else {
+            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es entero
+        }
+
+        // Asignar v1_str dependiendo de si v1.name es NULL o no
+        if (v1.name == NULL) {
+            if (v1.val_type == INT_TYPE) {
+                asprintf(&v1_str, "%d", v1.value.val_int);
+            } else {
+                asprintf(&v1_str, "%f", v1.value.val_float);
+            }
+        } else {
+            v1_str = v1.name;
+        }
+
+        // Asignar v2_str dependiendo de si v2.name es NULL o no
+        if (v2.name == NULL) {
+            if (v2.val_type == INT_TYPE) {
+                asprintf(&v2_str, "%d", v2.value.val_int);
+            } else {
+                asprintf(&v2_str, "%f", v2.value.val_float);
+            }
+        } else {
+            v2_str = v2.name;
+        }
+
+        // Generar la instrucción de potencia
+        if (strcmp(op, "**") == 0) {
+            if (v1.place == NULL) {
+                if (s0->val_type == FLOAT_TYPE) {
+                    addToMatrix(5, s0->place, ":=", v1_str, "POWF", v2_str);
+                } else {
+                    addToMatrix(5, s0->place, ":=", v1_str, "POWI", v2_str);
+                }
+            } else {
+                if (s0->val_type == FLOAT_TYPE) {
+                    addToMatrix(5, s0->place, ":=", v1.place, "POWF", v2_str);
+                } else {
+                    addToMatrix(5, s0->place, ":=", v1.place, "POWI", v2_str);
+                }
+            }
+        }
+
+        // Liberar la memoria dinámica asignada con asprintf
+        if (v1.name == NULL) free(v1_str);
+        if (v2.name == NULL) free(v2_str);
+
+    } else {
+        // Error si alguno de los operandos no es numérico
+        printf("Error: Operación de potencia solo soportada entre enteros o flotantes\n");
+    }
+}
+
 
 
 
