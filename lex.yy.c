@@ -934,108 +934,108 @@ YY_RULE_SETUP
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng);
 
-
+                              printf("Token ID: %s\n",yytext);
                               value_info aux;
                               if (sym_lookup(yytext, &aux) == SYMTAB_NOT_FOUND){
                                 return ID;
                               } 
                               else 
-                              {  
+                              { 
                                 if (aux.val_type == BOOLEAN_TYPE) return B_ID;
                                 else return A_ID;
                               }
-                              
-                              printf("Token ID: %s\n",yytext);
+                            
                             }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 71 "lexer.l"
+#line 70 "lexer.l"
 { 
                               return ASSIGN; 
                             }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 75 "lexer.l"
+#line 74 "lexer.l"
 { return COMMA; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 76 "lexer.l"
+#line 75 "lexer.l"
 { printf("Token SUMA: %s\n",yytext); return ADD; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 77 "lexer.l"
+#line 76 "lexer.l"
 { return SUB; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 78 "lexer.l"
+#line 77 "lexer.l"
 { return MULT; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 79 "lexer.l"
+#line 78 "lexer.l"
 { return DIV; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 80 "lexer.l"
+#line 79 "lexer.l"
 { return MOD; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 81 "lexer.l"
+#line 80 "lexer.l"
 { return POW; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 81 "lexer.l"
 { return LPAREN; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 83 "lexer.l"
+#line 82 "lexer.l"
 { return RPAREN; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 86 "lexer.l"
+#line 85 "lexer.l"
 { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 87 "lexer.l"
+#line 86 "lexer.l"
 { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 88 "lexer.l"
+#line 87 "lexer.l"
 { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 89 "lexer.l"
+#line 88 "lexer.l"
 { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 90 "lexer.l"
+#line 89 "lexer.l"
 { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 91 "lexer.l"
+#line 90 "lexer.l"
 { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 94 "lexer.l"
+#line 93 "lexer.l"
 {
                               yylval.expr_val.value.val_int = atoi(yytext);
                               yylval.expr_val.val_type = INT_TYPE;
+                              yylval.expr_val.name = NULL;
                               printf("Token INTEGER: %d\n", yylval.expr_val.value.val_int);
                               return INTEGER;
                             }

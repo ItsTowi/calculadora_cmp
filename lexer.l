@@ -54,18 +54,17 @@ string \"([^\\"]|\\.)*\"
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng);
 
-
+                              printf("Token ID: %s\n",yytext);
                               value_info aux;
                               if (sym_lookup(yytext, &aux) == SYMTAB_NOT_FOUND){
                                 return ID;
                               } 
                               else 
-                              {  
+                              { 
                                 if (aux.val_type == BOOLEAN_TYPE) return B_ID;
                                 else return A_ID;
                               }
-                              
-                              printf("Token ID: %s\n",yytext);
+                            
                             }
 
 ":="                        { 
@@ -94,6 +93,7 @@ string \"([^\\"]|\\.)*\"
 {digit}({digit})*           {
                               yylval.expr_val.value.val_int = atoi(yytext);
                               yylval.expr_val.val_type = INT_TYPE;
+                              yylval.expr_val.name = NULL;
                               printf("Token INTEGER: %d\n", yylval.expr_val.value.val_int);
                               return INTEGER;
                             }

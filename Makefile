@@ -29,7 +29,7 @@ LFLAGS =
 YFLAGS = -d -v
 CFLAGS = -Wall -g
 
-EG_IN = ex_entrada2.txt
+EG_IN = ex_entrada3.txt
 EG_OUT = salida.txt
 
 ######################################################################

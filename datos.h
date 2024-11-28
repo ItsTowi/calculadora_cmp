@@ -17,8 +17,9 @@ typedef enum {
 } data_type;
 
 
-typedef struct {
+typedef struct variables {
   char * name;
+  char * place;
   union {
     int val_int;
     float val_float;
