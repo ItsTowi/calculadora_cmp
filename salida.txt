@@ -1,8 +1,7 @@
 COMENTARIO DE UNA LINEA EN LA LINEA 1
 ID: x pren amb tipus Float per valor: 1.500000
 ID: i pren amb tipus Integer per valor: 5
-ID: z pren amb tipus Float per valor: 22.000000
-1:  $t01 := x ADDF i 
-2:  $t02 := $t01 ADDF 10 
-3:  $t03 := $t02 ADDF 5.500000 
-4:  HALT
+ID: w pren amb tipus Float per valor: 14.000000
+1:  $t01 := i SUBF x 
+2:  $t02 := $t01 ADDF x 
+3:  HALT
