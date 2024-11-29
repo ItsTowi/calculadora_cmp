@@ -1,3 +1,5 @@
-repeat 10 do
-y := 10 + 10
+x := 5
+repeat x + 10 do
+    y := y + 10
+    t := 10 + 9
 done

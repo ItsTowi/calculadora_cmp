@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 23 "parser.y"
+#line 24 "parser.y"
 
   /* Les definicions que s'utilitzen al %union han d'estar aqui */
   #include "datos.h"
@@ -83,8 +83,7 @@ extern int yydebug;
     RPAREN = 275,                  /* RPAREN  */
     REPEAT = 276,                  /* REPEAT  */
     DONE = 277,                    /* DONE  */
-    DO = 278,                      /* DO  */
-    M = 279                        /* M  */
+    DO = 278                       /* DO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -93,11 +92,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 30 "parser.y"
+#line 31 "parser.y"
 
     value_info expr_val;
 
-#line 101 "parser.tab.h"
+#line 100 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -2,7 +2,6 @@ Terminals unused in grammar
 
     COMMA
     B_ID
-    M
 
 
 Grammar
@@ -47,7 +46,9 @@ Grammar
 
    28 declaracion_iterativa: declaracion_iterativa_incondicional
 
-   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO EOL lista_declaraciones DONE
+   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE
+
+   30 M: ε
 
 
 Terminals, with rules where they appear
@@ -75,46 +76,48 @@ Terminals, with rules where they appear
     REPEAT <expr_val> (276) 29
     DONE <expr_val> (277) 29
     DO <expr_val> (278) 29
-    M <expr_val> (279)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (25)
+    $accept (24)
         on left: 0
-    programa (26)
+    programa (25)
         on left: 1
         on right: 0
-    lista_declaraciones <expr_val> (27)
+    lista_declaraciones <expr_val> (26)
         on left: 2 3
         on right: 1 2 29
-    declaracion <expr_val> (28)
+    declaracion <expr_val> (27)
         on left: 4 5
         on right: 2 3
-    declaracion_simple <expr_val> (29)
+    declaracion_simple <expr_val> (28)
         on left: 6 7 8 9 10
         on right: 4
-    exp <expr_val> (30)
+    exp <expr_val> (29)
         on left: 11
         on right: 6 7
-    aritmetica <expr_val> (31)
+    aritmetica <expr_val> (30)
         on left: 12 13 14 15 16
         on right: 11 13 14 27 29
-    termino <expr_val> (32)
+    termino <expr_val> (31)
         on left: 17 18 19 20
         on right: 12 13 14 15 16 18 19 20
-    factor <expr_val> (33)
+    factor <expr_val> (32)
         on left: 21 22
         on right: 17 18 19 20 22
-    primario <expr_val> (34)
+    primario <expr_val> (33)
         on left: 23 24 25 26 27
         on right: 21 22
-    declaracion_iterativa <expr_val> (35)
+    declaracion_iterativa <expr_val> (34)
         on left: 28
         on right: 5
-    declaracion_iterativa_incondicional <expr_val> (36)
+    declaracion_iterativa_incondicional <expr_val> (35)
         on left: 29
         on right: 28
+    M <expr_val> (36)
+        on left: 30
+        on right: 29
 
 
 State 0
@@ -248,7 +251,7 @@ State 10
 
 State 11
 
-   29 declaracion_iterativa_incondicional: REPEAT • aritmetica DO EOL lista_declaraciones DONE
+   29 declaracion_iterativa_incondicional: REPEAT • aritmetica DO M EOL lista_declaraciones DONE
 
     ID       shift, and go to state 24
     A_ID     shift, and go to state 5
@@ -448,7 +451,7 @@ State 28
 
    13 aritmetica: aritmetica • ADD termino
    14           | aritmetica • SUB termino
-   29 declaracion_iterativa_incondicional: REPEAT aritmetica • DO EOL lista_declaraciones DONE
+   29 declaracion_iterativa_incondicional: REPEAT aritmetica • DO M EOL lista_declaraciones DONE
 
     ADD  shift, and go to state 32
     SUB  shift, and go to state 33
@@ -577,9 +580,11 @@ State 39
 
 State 40
 
-   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO • EOL lista_declaraciones DONE
+   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO • M EOL lista_declaraciones DONE
 
-    EOL  shift, and go to state 48
+    $default  reduce using rule 30 (M)
+
+    M  go to state 48
 
 
 State 41
@@ -656,36 +661,14 @@ State 47
 
 State 48
 
-   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO EOL • lista_declaraciones DONE
+   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO M • EOL lista_declaraciones DONE
 
-    ONELINECMNT    shift, and go to state 1
-    MULTILINECMNT  shift, and go to state 2
-    EOL            shift, and go to state 3
-    ID             shift, and go to state 4
-    A_ID           shift, and go to state 5
-    INTEGER        shift, and go to state 6
-    FLOAT          shift, and go to state 7
-    ADD            shift, and go to state 8
-    SUB            shift, and go to state 9
-    LPAREN         shift, and go to state 10
-    REPEAT         shift, and go to state 11
-
-    lista_declaraciones                  go to state 49
-    declaracion                          go to state 14
-    declaracion_simple                   go to state 15
-    exp                                  go to state 16
-    aritmetica                           go to state 17
-    termino                              go to state 18
-    factor                               go to state 19
-    primario                             go to state 20
-    declaracion_iterativa                go to state 21
-    declaracion_iterativa_incondicional  go to state 22
+    EOL  shift, and go to state 49
 
 
 State 49
 
-    2 lista_declaraciones: lista_declaraciones • declaracion
-   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO EOL lista_declaraciones • DONE
+   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL • lista_declaraciones DONE
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -698,9 +681,9 @@ State 49
     SUB            shift, and go to state 9
     LPAREN         shift, and go to state 10
     REPEAT         shift, and go to state 11
-    DONE           shift, and go to state 50
 
-    declaracion                          go to state 30
+    lista_declaraciones                  go to state 50
+    declaracion                          go to state 14
     declaracion_simple                   go to state 15
     exp                                  go to state 16
     aritmetica                           go to state 17
@@ -713,6 +696,35 @@ State 49
 
 State 50
 
-   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO EOL lista_declaraciones DONE •
+    2 lista_declaraciones: lista_declaraciones • declaracion
+   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones • DONE
+
+    ONELINECMNT    shift, and go to state 1
+    MULTILINECMNT  shift, and go to state 2
+    EOL            shift, and go to state 3
+    ID             shift, and go to state 4
+    A_ID           shift, and go to state 5
+    INTEGER        shift, and go to state 6
+    FLOAT          shift, and go to state 7
+    ADD            shift, and go to state 8
+    SUB            shift, and go to state 9
+    LPAREN         shift, and go to state 10
+    REPEAT         shift, and go to state 11
+    DONE           shift, and go to state 51
+
+    declaracion                          go to state 30
+    declaracion_simple                   go to state 15
+    exp                                  go to state 16
+    aritmetica                           go to state 17
+    termino                              go to state 18
+    factor                               go to state 19
+    primario                             go to state 20
+    declaracion_iterativa                go to state 21
+    declaracion_iterativa_incondicional  go to state 22
+
+
+State 51
+
+   29 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE •
 
     $default  reduce using rule 29 (declaracion_iterativa_incondicional)

@@ -13,6 +13,7 @@ extern int yylex();
 char *sentenciasC3A[MAXLEN];
 int num_temportales = 1;
 int sig_linea=1;
+char* temp_sq;
 char* nou_temporal();
 void addToMatrix(int args_count, ...);
 void print_sentences();
@@ -32,18 +33,20 @@ void print_sentences();
 }
 
 %{
+ value_info contador;
  void sumaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void potenciaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void addToMatrixSalotIncond(value_info s1, const char* operel, value_info s2, char* line2jump);
 %}
  
 
-%token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL
-%token <expr_val> ID A_ID B_ID INTEGER FLOAT ADD SUB MULT DIV MOD POW LPAREN RPAREN REPEAT DONE DO M;
-%type <expr_val> declaracion lista_declaraciones declaracion_simple declaracion_iterativa declaracion_iterativa_incondicional exp aritmetica termino factor primario 
+%token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL;
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT ADD SUB MULT DIV MOD POW LPAREN RPAREN REPEAT DONE DO;
+%type <expr_val> declaracion lista_declaraciones declaracion_simple declaracion_iterativa declaracion_iterativa_incondicional exp aritmetica termino factor primario M;
 
 %start programa
 
@@ -150,7 +153,25 @@ primario: INTEGER                     {
 
 declaracion_iterativa: declaracion_iterativa_incondicional;
 
-declaracion_iterativa_incondicional: REPEAT aritmetica DO EOL lista_declaraciones DONE {};
+declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE {
+
+	addToMatrix(5, contador.place, ":=", contador.place, "ADDI", "1");
+    printf("valor de aritmetica %s\n", $2.place);
+	addToMatrixSalotIncond(contador, "LT", $2, temp_sq);
+};
+
+
+/* M contendrá la información del contador del bucle y guardará la línea donde empieza el bucle*/
+M : {$$.place = malloc(sizeof(char)*5);
+     $$.val_type = INT_TYPE; /*Un contador siempre es un entero*/
+     strcpy($$.place, nou_temporal());
+     addToMatrix(3, $$.place, ":=", "0");
+     contador.val_type = INT_TYPE;
+     contador.place = $$.place;
+     temp_sq = malloc(sizeof(char)*5);
+     sprintf(temp_sq, "%d", sig_linea);  
+};
+
 
 %%
 
@@ -161,6 +182,40 @@ char* nou_temporal(){
   num_temportales++;
   return buffer;
 }
+
+void addToMatrix(int args_count, ...) {
+    va_list args;
+    va_start(args, args_count);
+    char* buffer = malloc(sizeof(char) * (SENTENCE_MAX_LENGTH + 1));
+    buffer[0] = '\0';
+
+    for (int i = 0; i < args_count; i++) {
+        char* arg = va_arg(args, char*);  // Intento de leer argumento
+        printf("%s\n", arg);
+        strcat(buffer, arg);
+        strcat(buffer, " ");
+    }
+
+    sentenciasC3A[sig_linea] = buffer;
+    printf("Guardado en sentenciasC3A[%d]: %s\n", sig_linea, buffer);
+    sig_linea++;
+
+    va_end(args);
+}
+
+void addToMatrixSalotIncond(value_info s1, const char* operel, value_info s2, char* line2jump){
+	if (s1.val_type==s2.val_type) {
+		char *op= (char *)malloc(sizeof(char)*strlen(operel)+2);
+		strcpy(op, operel);
+		if (s1.val_type==INT_TYPE) strcat(op, "I");
+	 	else strcat(op, "F");
+		addToMatrix(6, "IF", s1.place, op, s2.place, "GOTO", line2jump);
+		free(op);
+	}
+	else yyerror("Tienen que tener el mismo tipo!");
+
+}
+
 
 void sumaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
     char* v1_str;
@@ -569,28 +624,6 @@ void potenciaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v
         printf("Error: Operación de potencia solo soportada entre enteros o flotantes\n");
     }
 }
-
-
-
-
-void addToMatrix(int args_count, ...) {
-    va_list args;
-    va_start(args, args_count);
-    char* buffer = malloc(sizeof(char) * SENTENCE_MAX_LENGTH + 1);
-    for (int i = 0; i < args_count; i++) {
-        char* arg = va_arg(args, char*);
-        strcat(buffer, arg);
-        strcat(buffer, " ");  // Agregar espacio entre los argumentos
-    }
-
-    sentenciasC3A[sig_linea] = buffer;
-    sig_linea++;
-
-    printf("Matriz construida: %s\n", sentenciasC3A[sig_linea-1]);
-
-    va_end(args);
-}
-
 
 void print_sentences(){
   int i;

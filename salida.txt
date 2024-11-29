@@ -1,2 +1,7 @@
-1:  $t01 := 10 ADDI 10 
-2:  HALT
+1:  $t01 := x ADDI 10 
+2:  $t02 := 0 
+3:  $t03 := y ADDI 10 
+4:  $t04 := 10 ADDI 9 
+5:  $t02 := $t02 ADDI 1 
+6:  IF $t02 LTI $t01 GOTO 3 
+7:  HALT
