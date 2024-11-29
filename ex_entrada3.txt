@@ -1,5 +1,7 @@
-x := 5
-repeat x + 10 do
-    y := y + 10
-    t := 10 + 9
+n := 10
+fact := 1
+i := 2
+repeat n - 1 do
+    fact2 := fact * i
+    i2 := i + 1
 done

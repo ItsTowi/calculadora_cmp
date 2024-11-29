@@ -555,10 +555,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    55,    55,    57,    57,    59,    59,    61,    74,    80,
-      83,    85,    87,    89,    89,    93,    97,    98,   100,   100,
-     104,   108,   113,   114,   119,   123,   127,   138,   149,   154,
-     156,   165
+       0,    55,    55,    57,    57,    59,    59,    61,    75,    81,
+      84,    86,    88,    90,    90,    94,    98,    99,   101,   101,
+     105,   109,   114,   115,   120,   124,   128,   139,   150,   155,
+     157,   166
 };
 #endif
 
@@ -1172,130 +1172,131 @@ yyreduce:
                                     (yyvsp[-3].expr_val).val_type = (yyvsp[-1].expr_val).val_type;
                                     if (!((yyvsp[-3].expr_val).name == NULL)) {
                                       sym_enter((yyvsp[-3].expr_val).name, &(yyvsp[-1].expr_val));
+                                      addToMatrix(3, (yyvsp[-3].expr_val).name, ":=", valueToString((yyvsp[-1].expr_val)));
                                     }
                                   }
                                 }
-#line 1179 "parser.tab.c"
+#line 1180 "parser.tab.c"
     break;
 
   case 8: /* declaracion_simple: exp EOL  */
-#line 74 "parser.y"
+#line 75 "parser.y"
                                 {
                                   if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE)
                                   {
                                     yyerror((yyvsp[-1].expr_val).value.val_string);
                                   }
                                 }
-#line 1190 "parser.tab.c"
+#line 1191 "parser.tab.c"
     break;
 
   case 9: /* declaracion_simple: ONELINECMNT  */
-#line 80 "parser.y"
+#line 81 "parser.y"
                                 {
 
                                 }
-#line 1198 "parser.tab.c"
+#line 1199 "parser.tab.c"
     break;
 
   case 10: /* declaracion_simple: MULTILINECMNT  */
-#line 83 "parser.y"
+#line 84 "parser.y"
                                 {
                                 }
-#line 1205 "parser.tab.c"
+#line 1206 "parser.tab.c"
     break;
 
   case 11: /* declaracion_simple: EOL  */
-#line 85 "parser.y"
+#line 86 "parser.y"
                                 {}
-#line 1211 "parser.tab.c"
+#line 1212 "parser.tab.c"
     break;
 
   case 14: /* aritmetica: aritmetica ADD termino  */
-#line 89 "parser.y"
+#line 90 "parser.y"
                                               {
                                                 (yyval.expr_val) = sumaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                                 sumaArtimetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "+", (yyvsp[0].expr_val));
                                               }
-#line 1220 "parser.tab.c"
+#line 1221 "parser.tab.c"
     break;
 
   case 15: /* aritmetica: aritmetica SUB termino  */
-#line 93 "parser.y"
+#line 94 "parser.y"
                                               {
                                                 (yyval.expr_val) = restaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                                 restaArtimetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "-", (yyvsp[0].expr_val));
                                               }
-#line 1229 "parser.tab.c"
+#line 1230 "parser.tab.c"
     break;
 
   case 16: /* aritmetica: SUB termino  */
-#line 97 "parser.y"
+#line 98 "parser.y"
                                               { (yyval.expr_val) = cambioAritmetica((yyvsp[0].expr_val)); }
-#line 1235 "parser.tab.c"
+#line 1236 "parser.tab.c"
     break;
 
   case 17: /* aritmetica: ADD termino  */
-#line 98 "parser.y"
+#line 99 "parser.y"
                                               { (yyval.expr_val) = (yyvsp[0].expr_val); }
-#line 1241 "parser.tab.c"
+#line 1242 "parser.tab.c"
     break;
 
   case 19: /* termino: termino MULT factor  */
-#line 100 "parser.y"
+#line 101 "parser.y"
                                       {
                                         (yyval.expr_val) = multAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         multiplicacionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "*", (yyvsp[0].expr_val));
                                       }
-#line 1250 "parser.tab.c"
+#line 1251 "parser.tab.c"
     break;
 
   case 20: /* termino: termino DIV factor  */
-#line 104 "parser.y"
+#line 105 "parser.y"
                                       {
                                         (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         divisionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "/", (yyvsp[0].expr_val));
                                       }
-#line 1259 "parser.tab.c"
+#line 1260 "parser.tab.c"
     break;
 
   case 21: /* termino: termino MOD factor  */
-#line 108 "parser.y"
+#line 109 "parser.y"
                                       {
                                         (yyval.expr_val) = modAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         moduloAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "%", (yyvsp[0].expr_val));
                                       }
-#line 1268 "parser.tab.c"
+#line 1269 "parser.tab.c"
     break;
 
   case 23: /* factor: factor POW primario  */
-#line 114 "parser.y"
+#line 115 "parser.y"
                                        {
                                           (yyval.expr_val) = potAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                           potenciaAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "**", (yyvsp[0].expr_val));
                                        }
-#line 1277 "parser.tab.c"
+#line 1278 "parser.tab.c"
     break;
 
   case 24: /* primario: INTEGER  */
-#line 119 "parser.y"
+#line 120 "parser.y"
                                       {
                                         (yyvsp[0].expr_val).name = NULL;
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1286 "parser.tab.c"
+#line 1287 "parser.tab.c"
     break;
 
   case 25: /* primario: FLOAT  */
-#line 123 "parser.y"
+#line 124 "parser.y"
                                       {
                                         (yyvsp[0].expr_val).name = NULL;
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1295 "parser.tab.c"
+#line 1296 "parser.tab.c"
     break;
 
   case 26: /* primario: ID  */
-#line 127 "parser.y"
+#line 128 "parser.y"
                                       {
                                           if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
                                           {	
@@ -1307,11 +1308,11 @@ yyreduce:
                                             (yyval.expr_val).value =(yyvsp[0].expr_val).value;
                                           }
                                       }
-#line 1311 "parser.tab.c"
+#line 1312 "parser.tab.c"
     break;
 
   case 27: /* primario: A_ID  */
-#line 138 "parser.y"
+#line 139 "parser.y"
                                         {
                                           if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
                                           {	
@@ -1323,30 +1324,30 @@ yyreduce:
                                             (yyval.expr_val).value =(yyvsp[0].expr_val).value;
                                           }
                                       }
-#line 1327 "parser.tab.c"
+#line 1328 "parser.tab.c"
     break;
 
   case 28: /* primario: LPAREN aritmetica RPAREN  */
-#line 149 "parser.y"
+#line 150 "parser.y"
                                       {
                                           (yyval.expr_val) = (yyvsp[-1].expr_val);
                                       }
-#line 1335 "parser.tab.c"
+#line 1336 "parser.tab.c"
     break;
 
   case 30: /* declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE  */
-#line 156 "parser.y"
+#line 157 "parser.y"
                                                                                          {
 
 	addToMatrix(5, contador.place, ":=", contador.place, "ADDI", "1");
     printf("valor de aritmetica %s\n", (yyvsp[-5].expr_val).place);
 	addToMatrixSalotIncond(contador, "LT", (yyvsp[-5].expr_val), temp_sq);
 }
-#line 1346 "parser.tab.c"
+#line 1347 "parser.tab.c"
     break;
 
   case 31: /* M: %empty  */
-#line 165 "parser.y"
+#line 166 "parser.y"
     {(yyval.expr_val).place = malloc(sizeof(char)*5);
      (yyval.expr_val).val_type = INT_TYPE; /*Un contador siempre es un entero*/
      strcpy((yyval.expr_val).place, nou_temporal());
@@ -1356,11 +1357,11 @@ yyreduce:
      temp_sq = malloc(sizeof(char)*5);
      sprintf(temp_sq, "%d", sig_linea);  
 }
-#line 1360 "parser.tab.c"
+#line 1361 "parser.tab.c"
     break;
 
 
-#line 1364 "parser.tab.c"
+#line 1365 "parser.tab.c"
 
       default: break;
     }
@@ -1553,7 +1554,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 176 "parser.y"
+#line 177 "parser.y"
 
 
 

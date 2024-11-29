@@ -68,6 +68,7 @@ declaracion_simple: ID ASSIGN exp EOL {
                                     $1.val_type = $3.val_type;
                                     if (!($1.name == NULL)) {
                                       sym_enter($1.name, &$3);
+                                      addToMatrix(3, $1.name, ":=", valueToString($3));
                                     }
                                   }
                                 }
