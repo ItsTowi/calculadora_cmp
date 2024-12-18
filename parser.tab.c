@@ -74,8 +74,8 @@
 #include <string.h>
 #include <stdarg.h>
 
-#define MAXLEN 100
-#define SENTENCE_MAX_LENGTH 50
+#define MAXLEN 150
+#define SENTENCE_MAX_LENGTH 150
 
 extern FILE *yyout;
 extern int yylineno;
@@ -163,8 +163,8 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
 #line 35 "parser.y"
 
  value_info contador;
- void sumaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
- void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
@@ -493,18 +493,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  29
+#define YYFINAL  31
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   69
+#define YYLAST   68
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  24
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  13
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  31
+#define YYNRULES  32
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  52
+#define YYNSTATES  56
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   278
@@ -555,10 +555,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    55,    55,    57,    57,    59,    59,    61,    75,    81,
-      84,    86,    88,    90,    90,    94,    98,    99,   101,   101,
-     105,   109,   114,   115,   120,   124,   128,   139,   150,   155,
-     157,   166
+       0,    55,    55,    57,    57,    59,    59,    61,    80,    90,
+      93,    95,    96,   116,   118,   118,   122,   126,   127,   129,
+     129,   133,   137,   142,   143,   148,   152,   156,   169,   181,
+     186,   188,   197
 };
 #endif
 
@@ -590,7 +590,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-31)
+#define YYPACT_NINF (-35)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -604,12 +604,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      27,   -31,   -31,   -31,     2,   -31,   -31,   -31,    50,    50,
-      41,    41,     9,    27,   -31,   -31,    15,    43,    12,    29,
-     -31,   -31,   -31,    41,   -31,    12,    12,     3,     1,   -31,
-     -31,   -31,    50,    50,    50,    50,    50,    50,    23,   -31,
-     -31,    12,    12,    29,    29,    29,   -31,   -31,    26,    27,
-      -1,   -31
+      25,   -35,   -35,   -35,     2,     6,   -35,   -35,    48,    48,
+      39,    39,    22,    25,   -35,   -35,    24,    12,    46,    17,
+     -35,   -35,   -35,    39,    39,   -35,   -35,    46,    46,     3,
+       1,   -35,   -35,   -35,    48,    48,    48,    48,    48,    48,
+      33,    38,   -35,   -35,    46,    46,    17,    17,    17,   -35,
+     -35,   -35,    42,    25,    -1,   -35
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -617,26 +617,26 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     9,    10,    11,    26,    27,    24,    25,     0,     0,
-       0,     0,     0,     2,     4,     5,     0,    12,    13,    18,
-      22,     6,    29,     0,    26,    17,    16,     0,     0,     1,
-       3,     8,     0,     0,     0,     0,     0,     0,     0,    28,
-      31,    14,    15,    19,    20,    21,    23,     7,     0,     0,
-       0,    30
+       0,     9,    10,    11,    27,    28,    25,    26,     0,     0,
+       0,     0,     0,     2,     4,     5,     0,    13,    14,    19,
+      23,     6,    30,     0,     0,    27,    28,    18,    17,     0,
+       0,     1,     3,     8,     0,     0,     0,     0,     0,     0,
+       0,     0,    29,    32,    15,    16,    20,    21,    22,    24,
+       7,    12,     0,     0,     0,    31
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -31,   -31,   -30,   -13,   -31,    22,    53,    -7,     8,    14,
-     -31,   -31,   -31
+     -35,   -35,   -34,   -13,   -35,    19,    44,    -7,    28,    29,
+     -35,   -35,   -35
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
        0,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    48
+      21,    22,    52
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -644,24 +644,24 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      30,    25,    26,     1,     2,    23,     3,     4,     5,    29,
-       6,     7,     8,     9,    32,    33,    32,    33,    10,    50,
-      11,    51,    31,    39,    40,    41,    42,    34,    35,    36,
-      47,     1,     2,    49,     3,     4,     5,    30,     6,     7,
-       8,     9,    43,    44,    45,    38,    10,    37,    11,    24,
-       5,    46,     6,     7,     8,     9,    32,    33,    24,     5,
-      10,     6,     7,    27,    28,     0,     0,     0,     0,    10
+      32,    27,    28,     1,     2,    23,     3,     4,     5,    24,
+       6,     7,     8,     9,    34,    35,    34,    35,    10,    54,
+      11,    55,    31,    42,    43,    34,    35,    44,    45,     1,
+       2,    33,     3,     4,     5,    39,     6,     7,     8,     9,
+      50,    32,    40,    41,    10,    51,    11,    25,    26,    53,
+       6,     7,     8,     9,    29,    30,    25,    26,    10,     6,
+       7,    36,    37,    38,    46,    47,    48,    10,    49
 };
 
 static const yytype_int8 yycheck[] =
 {
-      13,     8,     9,     4,     5,     3,     7,     8,     9,     0,
-      11,    12,    13,    14,    13,    14,    13,    14,    19,    49,
-      21,    22,     7,    20,    23,    32,    33,    15,    16,    17,
-       7,     4,     5,     7,     7,     8,     9,    50,    11,    12,
-      13,    14,    34,    35,    36,    23,    19,    18,    21,     8,
-       9,    37,    11,    12,    13,    14,    13,    14,     8,     9,
-      19,    11,    12,    10,    11,    -1,    -1,    -1,    -1,    19
+      13,     8,     9,     4,     5,     3,     7,     8,     9,     3,
+      11,    12,    13,    14,    13,    14,    13,    14,    19,    53,
+      21,    22,     0,    20,    23,    13,    14,    34,    35,     4,
+       5,     7,     7,     8,     9,    18,    11,    12,    13,    14,
+       7,    54,    23,    24,    19,     7,    21,     8,     9,     7,
+      11,    12,    13,    14,    10,    11,     8,     9,    19,    11,
+      12,    15,    16,    17,    36,    37,    38,    19,    39
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -670,28 +670,28 @@ static const yytype_int8 yystos[] =
 {
        0,     4,     5,     7,     8,     9,    11,    12,    13,    14,
       19,    21,    25,    26,    27,    28,    29,    30,    31,    32,
-      33,    34,    35,     3,     8,    31,    31,    30,    30,     0,
-      27,     7,    13,    14,    15,    16,    17,    18,    29,    20,
-      23,    31,    31,    32,    32,    32,    33,     7,    36,     7,
-      26,    22
+      33,    34,    35,     3,     3,     8,     9,    31,    31,    30,
+      30,     0,    27,     7,    13,    14,    15,    16,    17,    18,
+      29,    29,    20,    23,    31,    31,    32,    32,    32,    33,
+       7,     7,    36,     7,    26,    22
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    24,    25,    26,    26,    27,    27,    28,    28,    28,
-      28,    28,    29,    30,    30,    30,    30,    30,    31,    31,
-      31,    31,    32,    32,    33,    33,    33,    33,    33,    34,
-      35,    36
+      28,    28,    28,    29,    30,    30,    30,    30,    30,    31,
+      31,    31,    31,    32,    32,    33,    33,    33,    33,    33,
+      34,    35,    36
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     1,     1,     1,     4,     2,     1,
-       1,     1,     1,     1,     3,     3,     2,     2,     1,     3,
-       3,     3,     1,     3,     1,     1,     1,     1,     3,     1,
-       7,     0
+       1,     1,     4,     1,     1,     3,     3,     2,     2,     1,
+       3,     3,     3,     1,     3,     1,     1,     1,     1,     3,
+       1,     7,     0
 };
 
 
@@ -1170,184 +1170,220 @@ yyreduce:
                                   else 
                                   {
                                     (yyvsp[-3].expr_val).val_type = (yyvsp[-1].expr_val).val_type;
+                                    (yyvsp[-1].expr_val).name = (yyvsp[-3].expr_val).name;
+                                    printf("Se asigna a la variable %s el valor %s\n", (yyvsp[-3].expr_val).name, valueToString((yyvsp[-1].expr_val)));
                                     if (!((yyvsp[-3].expr_val).name == NULL)) {
                                       sym_enter((yyvsp[-3].expr_val).name, &(yyvsp[-1].expr_val));
-                                      addToMatrix(3, (yyvsp[-3].expr_val).name, ":=", valueToString((yyvsp[-1].expr_val)));
+                                      if ((yyvsp[-1].expr_val).place != NULL)
+                                        addToMatrix(3, (yyvsp[-3].expr_val).name, ":=", (yyvsp[-1].expr_val).place);
+                                      else
+                                        addToMatrix(3, (yyvsp[-3].expr_val).name, ":=", valueToString((yyvsp[-1].expr_val)));
                                     }
                                   }
                                 }
-#line 1180 "parser.tab.c"
+#line 1185 "parser.tab.c"
     break;
 
   case 8: /* declaracion_simple: exp EOL  */
-#line 75 "parser.y"
+#line 80 "parser.y"
                                 {
                                   if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE)
                                   {
                                     yyerror((yyvsp[-1].expr_val).value.val_string);
                                   }
+                                  else 
+                                  {
+                                    addToMatrix(2, "PARAM", (yyvsp[-1].expr_val).name);
+                                  }
                                 }
-#line 1191 "parser.tab.c"
+#line 1200 "parser.tab.c"
     break;
 
   case 9: /* declaracion_simple: ONELINECMNT  */
-#line 81 "parser.y"
+#line 90 "parser.y"
                                 {
 
                                 }
-#line 1199 "parser.tab.c"
+#line 1208 "parser.tab.c"
     break;
 
   case 10: /* declaracion_simple: MULTILINECMNT  */
-#line 84 "parser.y"
+#line 93 "parser.y"
                                 {
                                 }
-#line 1206 "parser.tab.c"
+#line 1215 "parser.tab.c"
     break;
 
   case 11: /* declaracion_simple: EOL  */
-#line 86 "parser.y"
+#line 95 "parser.y"
                                 {}
-#line 1212 "parser.tab.c"
-    break;
-
-  case 14: /* aritmetica: aritmetica ADD termino  */
-#line 90 "parser.y"
-                                              {
-                                                (yyval.expr_val) = sumaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
-                                                sumaArtimetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "+", (yyvsp[0].expr_val));
-                                              }
 #line 1221 "parser.tab.c"
     break;
 
-  case 15: /* aritmetica: aritmetica SUB termino  */
-#line 94 "parser.y"
+  case 12: /* declaracion_simple: A_ID ASSIGN exp EOL  */
+#line 96 "parser.y"
+                                    {
+                                  if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE) 
+                                  {
+                                    yyerror((yyvsp[-1].expr_val).value.val_string);
+                                  } 
+                                  else 
+                                  {
+                                    (yyvsp[-3].expr_val).val_type = (yyvsp[-1].expr_val).val_type;
+                                    (yyvsp[-1].expr_val).name = (yyvsp[-3].expr_val).name;
+                                    printf("Se asigna a la variable %s el valor %s\n", (yyvsp[-3].expr_val).name, valueToString((yyvsp[-1].expr_val)));
+                                    if (!((yyvsp[-3].expr_val).name == NULL)) {
+                                      sym_enter((yyvsp[-3].expr_val).name, &(yyvsp[-1].expr_val));
+                                      if ((yyvsp[-1].expr_val).place != NULL)
+                                        addToMatrix(3, (yyvsp[-3].expr_val).name, ":=", (yyvsp[-1].expr_val).place);
+                                      else
+                                        addToMatrix(3, (yyvsp[-3].expr_val).name, ":=", valueToString((yyvsp[-1].expr_val)));
+                                    }
+                                  }
+                                }
+#line 1245 "parser.tab.c"
+    break;
+
+  case 15: /* aritmetica: aritmetica ADD termino  */
+#line 118 "parser.y"
+                                              {
+                                                (yyval.expr_val) = sumaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                                sumaAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "+", (yyvsp[0].expr_val));
+                                              }
+#line 1254 "parser.tab.c"
+    break;
+
+  case 16: /* aritmetica: aritmetica SUB termino  */
+#line 122 "parser.y"
                                               {
                                                 (yyval.expr_val) = restaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
-                                                restaArtimetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "-", (yyvsp[0].expr_val));
+                                                restaAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "-", (yyvsp[0].expr_val));
                                               }
-#line 1230 "parser.tab.c"
+#line 1263 "parser.tab.c"
     break;
 
-  case 16: /* aritmetica: SUB termino  */
-#line 98 "parser.y"
+  case 17: /* aritmetica: SUB termino  */
+#line 126 "parser.y"
                                               { (yyval.expr_val) = cambioAritmetica((yyvsp[0].expr_val)); }
-#line 1236 "parser.tab.c"
+#line 1269 "parser.tab.c"
     break;
 
-  case 17: /* aritmetica: ADD termino  */
-#line 99 "parser.y"
+  case 18: /* aritmetica: ADD termino  */
+#line 127 "parser.y"
                                               { (yyval.expr_val) = (yyvsp[0].expr_val); }
-#line 1242 "parser.tab.c"
+#line 1275 "parser.tab.c"
     break;
 
-  case 19: /* termino: termino MULT factor  */
-#line 101 "parser.y"
+  case 20: /* termino: termino MULT factor  */
+#line 129 "parser.y"
                                       {
                                         (yyval.expr_val) = multAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         multiplicacionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "*", (yyvsp[0].expr_val));
                                       }
-#line 1251 "parser.tab.c"
+#line 1284 "parser.tab.c"
     break;
 
-  case 20: /* termino: termino DIV factor  */
-#line 105 "parser.y"
+  case 21: /* termino: termino DIV factor  */
+#line 133 "parser.y"
                                       {
                                         (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         divisionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "/", (yyvsp[0].expr_val));
                                       }
-#line 1260 "parser.tab.c"
+#line 1293 "parser.tab.c"
     break;
 
-  case 21: /* termino: termino MOD factor  */
-#line 109 "parser.y"
+  case 22: /* termino: termino MOD factor  */
+#line 137 "parser.y"
                                       {
                                         (yyval.expr_val) = modAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         moduloAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "%", (yyvsp[0].expr_val));
                                       }
-#line 1269 "parser.tab.c"
+#line 1302 "parser.tab.c"
     break;
 
-  case 23: /* factor: factor POW primario  */
-#line 115 "parser.y"
+  case 24: /* factor: factor POW primario  */
+#line 143 "parser.y"
                                        {
                                           (yyval.expr_val) = potAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                           potenciaAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "**", (yyvsp[0].expr_val));
                                        }
-#line 1278 "parser.tab.c"
+#line 1311 "parser.tab.c"
     break;
 
-  case 24: /* primario: INTEGER  */
-#line 120 "parser.y"
+  case 25: /* primario: INTEGER  */
+#line 148 "parser.y"
                                       {
                                         (yyvsp[0].expr_val).name = NULL;
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1287 "parser.tab.c"
+#line 1320 "parser.tab.c"
     break;
 
-  case 25: /* primario: FLOAT  */
-#line 124 "parser.y"
+  case 26: /* primario: FLOAT  */
+#line 152 "parser.y"
                                       {
                                         (yyvsp[0].expr_val).name = NULL;
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1296 "parser.tab.c"
+#line 1329 "parser.tab.c"
     break;
 
-  case 26: /* primario: ID  */
-#line 128 "parser.y"
+  case 27: /* primario: ID  */
+#line 156 "parser.y"
                                       {
                                           if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
                                           {	
                                             yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
                                           } 
-												                  else 
+											else 
                                           { 
                                             (yyval.expr_val).val_type = (yyvsp[0].expr_val).val_type;
+                                            (yyval.expr_val).name = (yyvsp[0].expr_val).name;
                                             (yyval.expr_val).value =(yyvsp[0].expr_val).value;
+                                            (yyval.expr_val).place = valueToString((yyvsp[0].expr_val));
                                           }
                                       }
-#line 1312 "parser.tab.c"
+#line 1347 "parser.tab.c"
     break;
 
-  case 27: /* primario: A_ID  */
-#line 139 "parser.y"
-                                        {
-                                          if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
+  case 28: /* primario: A_ID  */
+#line 169 "parser.y"
+                                      {
+                                          if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND)
                                           {	
                                             yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
                                           } 
-												                  else 
+										    else 
                                           {
                                             (yyval.expr_val).val_type = (yyvsp[0].expr_val).val_type;
                                             (yyval.expr_val).value =(yyvsp[0].expr_val).value;
+                                            (yyval.expr_val).place = (yyvsp[0].expr_val).name;
                                           }
                                       }
-#line 1328 "parser.tab.c"
+#line 1364 "parser.tab.c"
     break;
 
-  case 28: /* primario: LPAREN aritmetica RPAREN  */
-#line 150 "parser.y"
+  case 29: /* primario: LPAREN aritmetica RPAREN  */
+#line 181 "parser.y"
                                       {
                                           (yyval.expr_val) = (yyvsp[-1].expr_val);
                                       }
-#line 1336 "parser.tab.c"
+#line 1372 "parser.tab.c"
     break;
 
-  case 30: /* declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE  */
-#line 157 "parser.y"
+  case 31: /* declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE  */
+#line 188 "parser.y"
                                                                                          {
 
 	addToMatrix(5, contador.place, ":=", contador.place, "ADDI", "1");
     printf("valor de aritmetica %s\n", (yyvsp[-5].expr_val).place);
 	addToMatrixSalotIncond(contador, "LT", (yyvsp[-5].expr_val), temp_sq);
 }
-#line 1347 "parser.tab.c"
+#line 1383 "parser.tab.c"
     break;
 
-  case 31: /* M: %empty  */
-#line 166 "parser.y"
+  case 32: /* M: %empty  */
+#line 197 "parser.y"
     {(yyval.expr_val).place = malloc(sizeof(char)*5);
      (yyval.expr_val).val_type = INT_TYPE; /*Un contador siempre es un entero*/
      strcpy((yyval.expr_val).place, nou_temporal());
@@ -1357,11 +1393,11 @@ yyreduce:
      temp_sq = malloc(sizeof(char)*5);
      sprintf(temp_sq, "%d", sig_linea);  
 }
-#line 1361 "parser.tab.c"
+#line 1397 "parser.tab.c"
     break;
 
 
-#line 1365 "parser.tab.c"
+#line 1401 "parser.tab.c"
 
       default: break;
     }
@@ -1554,7 +1590,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 177 "parser.y"
+#line 208 "parser.y"
 
 
 
@@ -1599,77 +1635,49 @@ void addToMatrixSalotIncond(value_info s1, const char* operel, value_info s2, ch
 }
 
 
-void sumaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
-    char* v1_str;
-    char* v2_str;
+void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+    char* v1_str = NULL;
+    char* v2_str = NULL;
 
-    // Verificamos si v1 y v2 son de tipos numéricos (enteros o flotantes)
+    printf("El nombre de v1 es: %s\n", v1.name ? v1.name : "(null)");
+    printf("El nombre de v2 es: %s\n", v2.name ? v2.name : "(null)");
+
+    // Verificar que ambos son numéricos
     if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
         (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
 
-        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+        // Crear un nuevo temporal
+        s0->place = nou_temporal();
 
-        // Determinar el tipo del resultado
-        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
-            s0->val_type = FLOAT_TYPE;  // El resultado será un flotante si alguno de los operandos es flotante
-        } else {
-            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es un entero
-        }
+        // Determinar tipo del resultado
+        s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
 
-        // Asignar v1_str dependiendo de si v1.name es NULL o no
-        if (v1.name == NULL) {
-            // Si v1.name es NULL, usamos el valor de v1
-            if (v1.val_type == INT_TYPE) {
-                asprintf(&v1_str, "%d", v1.value.val_int);  // Convertimos a cadena el valor entero
-            } else {
-                asprintf(&v1_str, "%f", v1.value.val_float);  // Convertimos a cadena el valor flotante
-            }
-        } else {
-            // Si v1.name no es NULL, usamos el nombre de la variable
-            v1_str = v1.name;
-        }
+        // Asignar cadenas para v1 y v2 (o sus lugares si existen)
+        v1_str = (v1.name != NULL) ? v1.name : 
+                 (v1.val_type == INT_TYPE) ? (asprintf(&v1_str, "%d", v1.value.val_int), v1_str) : 
+                 (asprintf(&v1_str, "%f", v1.value.val_float), v1_str);
 
-        // Asignar v2_str dependiendo de si v2.name es NULL o no
-        if (v2.name == NULL) {
-            // Si v2.name es NULL, usamos el valor de v2
-            if (v2.val_type == INT_TYPE) {
-                asprintf(&v2_str, "%d", v2.value.val_int);  // Convertimos el valor entero
-            } else {
-                asprintf(&v2_str, "%f", v2.value.val_float);  // Convertimos el valor flotante
-            }
-        } else {
-            // Si v2.name no es NULL, usamos el nombre de la variable
-            v2_str = v2.name;
-        }
+        v2_str = (v2.name != NULL) ? v2.name : 
+                 (v2.val_type == INT_TYPE) ? (asprintf(&v2_str, "%d", v2.value.val_int), v2_str) : 
+                 (asprintf(&v2_str, "%f", v2.value.val_float), v2_str);
 
-        // Generamos la instrucción según el tipo de operación
+        // Generar instrucción
         if (strcmp(op, "+") == 0) {
-            // Operación de suma
-            if (v1.place == NULL) {
-                // Si v1.place es NULL, usamos su valor directamente
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1_str, "ADDF", v2_str);  // Suma flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1_str, "ADDI", v2_str);  // Suma entera
-                }
+            if (s0->val_type == FLOAT_TYPE) {
+                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "ADDF", v2.place ? v2.place : v2_str);
             } else {
-                // Si v1.place no es NULL, usamos su lugar
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1.place, "ADDF", v2_str);  // Suma flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1.place, "ADDI", v2_str);  // Suma entera
-                }
+                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "ADDI", v2.place ? v2.place : v2_str);
             }
         }
 
-        // Liberar la memoria dinámica asignada con asprintf
-        if (v1.name == NULL) free(v1_str);
-        if (v2.name == NULL) free(v2_str);
+        // Liberar memoria solo si fue asignada dinámicamente
+        if (v1.name == NULL && v1_str) free(v1_str);
+        if (v2.name == NULL && v2_str) free(v2_str);
     }
 }
 
 
-void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
     char* v1_str;
     char* v2_str;
 

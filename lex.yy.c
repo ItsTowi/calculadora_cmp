@@ -824,75 +824,76 @@ YY_RULE_SETUP
 { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng);
-
-                              printf("Token ID: %s\n",yytext);
+                              yylval.expr_val.name[yyleng] = '\0';
+                              
                               value_info aux;
                               if (sym_lookup(yytext, &aux) == SYMTAB_NOT_FOUND){
+                                printf("Token ID: %s\n",yytext);
                                 return ID;
                               } 
                               else 
                               { 
+                                printf("Devuelve una variarble encontrada %s con valor %s\n", aux.name, valueToString(aux));
                                 if (aux.val_type == BOOLEAN_TYPE) return B_ID;
-                                else return A_ID;
+                                else printf("Token A_ID: %s\n",yytext); return A_ID;
                               }
-                            
                             }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 46 "lexer.l"
+#line 47 "lexer.l"
 { 
                               return ASSIGN; 
                             }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 50 "lexer.l"
+#line 51 "lexer.l"
 { return COMMA; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 52 "lexer.l"
 { printf("Token SUMA: %s\n",yytext); return ADD; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 52 "lexer.l"
+#line 53 "lexer.l"
 { return SUB; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 53 "lexer.l"
+#line 54 "lexer.l"
 { return MULT; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 54 "lexer.l"
+#line 55 "lexer.l"
 { return DIV; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 55 "lexer.l"
+#line 56 "lexer.l"
 { return MOD; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 56 "lexer.l"
+#line 57 "lexer.l"
 { return POW; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 57 "lexer.l"
+#line 58 "lexer.l"
 { return LPAREN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 58 "lexer.l"
+#line 59 "lexer.l"
 { return RPAREN; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 61 "lexer.l"
+#line 62 "lexer.l"
 {
                               yylval.expr_val.value.val_int = atoi(yytext);
                               yylval.expr_val.val_type = INT_TYPE;
@@ -903,7 +904,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 70 "lexer.l"
+#line 71 "lexer.l"
 {
                               yylval.expr_val.value.val_float = atof(yytext);
                               yylval.expr_val.val_type = FLOAT_TYPE;
@@ -914,25 +915,25 @@ YY_RULE_SETUP
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 77 "lexer.l"
+#line 78 "lexer.l"
 { 
                               return EOL;
                             }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 81 "lexer.l"
+#line 82 "lexer.l"
 {} /* eat up whitespaces */
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 83 "lexer.l"
 { fprintf(stderr, "Carácter inesperado: '%s' en línea %d\n", yytext, yylineno);}
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 86 "lexer.l"
+#line 87 "lexer.l"
 { 
                               return ONELINECMNT; 
                             }
@@ -940,39 +941,39 @@ YY_RULE_SETUP
 
 case 21:
 YY_RULE_SETUP
-#line 93 "lexer.l"
+#line 94 "lexer.l"
 BEGIN(IN_COMMENT);
 	YY_BREAK
 
 
 case 22:
 YY_RULE_SETUP
-#line 96 "lexer.l"
+#line 97 "lexer.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 97 "lexer.l"
+#line 98 "lexer.l"
 /* eat comment in chunks */
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 98 "lexer.l"
+#line 99 "lexer.l"
 /* eat the lone star */
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 99 "lexer.l"
+#line 100 "lexer.l"
 { return MULTILINECMNT;}
 	YY_BREAK
 
 case 26:
 YY_RULE_SETUP
-#line 103 "lexer.l"
+#line 104 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 976 "lex.yy.c"
+#line 977 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(IN_COMMENT):
 	yyterminate();
@@ -1949,7 +1950,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 103 "lexer.l"
+#line 104 "lexer.l"
 
 
 

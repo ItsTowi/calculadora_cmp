@@ -4,8 +4,8 @@
 #include <string.h>
 #include <stdarg.h>
 
-#define MAXLEN 100
-#define SENTENCE_MAX_LENGTH 50
+#define MAXLEN 150
+#define SENTENCE_MAX_LENGTH 150
 
 extern FILE *yyout;
 extern int yylineno;
@@ -34,8 +34,8 @@ void print_sentences();
 
 %{
  value_info contador;
- void sumaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
- void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
+ void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
@@ -66,9 +66,14 @@ declaracion_simple: ID ASSIGN exp EOL {
                                   else 
                                   {
                                     $1.val_type = $3.val_type;
+                                    $3.name = $1.name;
+                                    printf("Se asigna a la variable %s el valor %s\n", $1.name, valueToString($3));
                                     if (!($1.name == NULL)) {
                                       sym_enter($1.name, &$3);
-                                      addToMatrix(3, $1.name, ":=", valueToString($3));
+                                      if ($3.place != NULL)
+                                        addToMatrix(3, $1.name, ":=", $3.place);
+                                      else
+                                        addToMatrix(3, $1.name, ":=", valueToString($3));
                                     }
                                   }
                                 }
@@ -77,23 +82,46 @@ declaracion_simple: ID ASSIGN exp EOL {
                                   {
                                     yyerror($1.value.val_string);
                                   }
+                                  else 
+                                  {
+                                    addToMatrix(2, "PARAM", $1.name);
+                                  }
                                 }
               | ONELINECMNT     {
 
                                 }
               | MULTILINECMNT   {
-                                };
-              | EOL             {};
+                                }
+              | EOL             {}
+              | A_ID ASSIGN exp EOL {
+                                  if ($3.val_type == UNKNOWN_TYPE) 
+                                  {
+                                    yyerror($3.value.val_string);
+                                  } 
+                                  else 
+                                  {
+                                    $1.val_type = $3.val_type;
+                                    $3.name = $1.name;
+                                    printf("Se asigna a la variable %s el valor %s\n", $1.name, valueToString($3));
+                                    if (!($1.name == NULL)) {
+                                      sym_enter($1.name, &$3);
+                                      if ($3.place != NULL)
+                                        addToMatrix(3, $1.name, ":=", $3.place);
+                                      else
+                                        addToMatrix(3, $1.name, ":=", valueToString($3));
+                                    }
+                                  }
+                                }
 
 exp: aritmetica;
 
 aritmetica: termino | aritmetica ADD termino  {
                                                 $$ = sumaAritmetica($1, $3);
-                                                sumaArtimetica3AC(&$$,$1, "+", $3);
+                                                sumaAritmetica3AC(&$$,$1, "+", $3);
                                               }
                     | aritmetica SUB termino  {
                                                 $$ = restaAritmetica($1, $3);
-                                                restaArtimetica3AC(&$$,$1, "-", $3);
+                                                restaAritmetica3AC(&$$,$1, "-", $3);
                                               };
                     | SUB termino             { $$ = cambioAritmetica($2); }
                     | ADD termino             { $$ = $2; };   
@@ -130,21 +158,24 @@ primario: INTEGER                     {
                                           {	
                                             yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
                                           } 
-												                  else 
+											else 
                                           { 
                                             $$.val_type = $1.val_type;
+                                            $$.name = $1.name;
                                             $$.value =$1.value;
+                                            $$.place = valueToString($1);
                                           }
                                       }
-          | A_ID                        {
-                                          if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
+          | A_ID                      {
+                                          if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND)
                                           {	
                                             yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
                                           } 
-												                  else 
+										    else 
                                           {
                                             $$.val_type = $1.val_type;
                                             $$.value =$1.value;
+                                            $$.place = $1.name;
                                           }
                                       }
           | LPAREN aritmetica RPAREN  {
@@ -218,77 +249,49 @@ void addToMatrixSalotIncond(value_info s1, const char* operel, value_info s2, ch
 }
 
 
-void sumaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
-    char* v1_str;
-    char* v2_str;
+void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+    char* v1_str = NULL;
+    char* v2_str = NULL;
 
-    // Verificamos si v1 y v2 son de tipos numéricos (enteros o flotantes)
+    printf("El nombre de v1 es: %s\n", v1.name ? v1.name : "(null)");
+    printf("El nombre de v2 es: %s\n", v2.name ? v2.name : "(null)");
+
+    // Verificar que ambos son numéricos
     if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
         (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
 
-        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+        // Crear un nuevo temporal
+        s0->place = nou_temporal();
 
-        // Determinar el tipo del resultado
-        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
-            s0->val_type = FLOAT_TYPE;  // El resultado será un flotante si alguno de los operandos es flotante
-        } else {
-            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es un entero
-        }
+        // Determinar tipo del resultado
+        s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
 
-        // Asignar v1_str dependiendo de si v1.name es NULL o no
-        if (v1.name == NULL) {
-            // Si v1.name es NULL, usamos el valor de v1
-            if (v1.val_type == INT_TYPE) {
-                asprintf(&v1_str, "%d", v1.value.val_int);  // Convertimos a cadena el valor entero
-            } else {
-                asprintf(&v1_str, "%f", v1.value.val_float);  // Convertimos a cadena el valor flotante
-            }
-        } else {
-            // Si v1.name no es NULL, usamos el nombre de la variable
-            v1_str = v1.name;
-        }
+        // Asignar cadenas para v1 y v2 (o sus lugares si existen)
+        v1_str = (v1.name != NULL) ? v1.name : 
+                 (v1.val_type == INT_TYPE) ? (asprintf(&v1_str, "%d", v1.value.val_int), v1_str) : 
+                 (asprintf(&v1_str, "%f", v1.value.val_float), v1_str);
 
-        // Asignar v2_str dependiendo de si v2.name es NULL o no
-        if (v2.name == NULL) {
-            // Si v2.name es NULL, usamos el valor de v2
-            if (v2.val_type == INT_TYPE) {
-                asprintf(&v2_str, "%d", v2.value.val_int);  // Convertimos el valor entero
-            } else {
-                asprintf(&v2_str, "%f", v2.value.val_float);  // Convertimos el valor flotante
-            }
-        } else {
-            // Si v2.name no es NULL, usamos el nombre de la variable
-            v2_str = v2.name;
-        }
+        v2_str = (v2.name != NULL) ? v2.name : 
+                 (v2.val_type == INT_TYPE) ? (asprintf(&v2_str, "%d", v2.value.val_int), v2_str) : 
+                 (asprintf(&v2_str, "%f", v2.value.val_float), v2_str);
 
-        // Generamos la instrucción según el tipo de operación
+        // Generar instrucción
         if (strcmp(op, "+") == 0) {
-            // Operación de suma
-            if (v1.place == NULL) {
-                // Si v1.place es NULL, usamos su valor directamente
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1_str, "ADDF", v2_str);  // Suma flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1_str, "ADDI", v2_str);  // Suma entera
-                }
+            if (s0->val_type == FLOAT_TYPE) {
+                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "ADDF", v2.place ? v2.place : v2_str);
             } else {
-                // Si v1.place no es NULL, usamos su lugar
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1.place, "ADDF", v2_str);  // Suma flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1.place, "ADDI", v2_str);  // Suma entera
-                }
+                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "ADDI", v2.place ? v2.place : v2_str);
             }
         }
 
-        // Liberar la memoria dinámica asignada con asprintf
-        if (v1.name == NULL) free(v1_str);
-        if (v2.name == NULL) free(v2_str);
+        // Liberar memoria solo si fue asignada dinámicamente
+        if (v1.name == NULL && v1_str) free(v1_str);
+        if (v2.name == NULL && v2_str) free(v2_str);
     }
 }
 
 
-void restaArtimetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
+void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
     char* v1_str;
     char* v2_str;
 

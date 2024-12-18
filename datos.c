@@ -45,7 +45,7 @@ char *value_info_to_str(value_info value)
 
 
 char* valueToString(value_info v) {
-    char* str = (char*)malloc(sizeof(char)*10+1);
+    char* str = (char*)malloc(sizeof(char)*STRING_MAX_SIZE+1);
     switch(v.val_type) {
         case INT_TYPE:
             sprintf(str, "%d", v.value.val_int);

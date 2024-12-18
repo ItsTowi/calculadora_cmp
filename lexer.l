@@ -29,18 +29,19 @@ espacio [ \t\r]
 [a-zA-Z][a-zA-Z0-9]*        { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng);
-
-                              printf("Token ID: %s\n",yytext);
+                              yylval.expr_val.name[yyleng] = '\0';
+                              
                               value_info aux;
                               if (sym_lookup(yytext, &aux) == SYMTAB_NOT_FOUND){
+                                printf("Token ID: %s\n",yytext);
                                 return ID;
                               } 
                               else 
                               { 
+                                printf("Devuelve una variarble encontrada %s con valor %s\n", aux.name, valueToString(aux));
                                 if (aux.val_type == BOOLEAN_TYPE) return B_ID;
-                                else return A_ID;
+                                else printf("Token A_ID: %s\n",yytext); return A_ID;
                               }
-                            
                             }
 
 ":="                        { 
