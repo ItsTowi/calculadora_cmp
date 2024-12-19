@@ -344,219 +344,110 @@ void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
 
 
 void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
-    char* v1_str;
-    char* v2_str;
+    char* v1_str = NULL;
+    char* v2_str = NULL;
 
-    // Verificamos si v1 y v2 son de tipos numéricos (enteros o flotantes)
     if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
         (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
 
-        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+        s0->place = nou_temporal();
+        s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
 
-        // Determinar el tipo del resultado
-        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
-            s0->val_type = FLOAT_TYPE;  // El resultado será un flotante si alguno de los operandos es flotante
-        } else {
-            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es un entero
-        }
+        v1_str = (v1.name != NULL) ? v1.name : 
+                 (v1.val_type == INT_TYPE) ? (asprintf(&v1_str, "%d", v1.value.val_int), v1_str) : 
+                 (asprintf(&v1_str, "%f", v1.value.val_float), v1_str);
 
-        // Asignar v1_str dependiendo de si v1.name es NULL o no
-        if (v1.name == NULL) {
-            // Si v1.name es NULL, usamos el valor de v1
-            if (v1.val_type == INT_TYPE) {
-                asprintf(&v1_str, "%d", v1.value.val_int);  // Convertimos a cadena el valor entero
-            } else {
-                asprintf(&v1_str, "%f", v1.value.val_float);  // Convertimos a cadena el valor flotante
-            }
-        } else {
-            // Si v1.name no es NULL, usamos el nombre de la variable
-            v1_str = v1.name;
-        }
+        v2_str = (v2.name != NULL) ? v2.name : 
+                 (v2.val_type == INT_TYPE) ? (asprintf(&v2_str, "%d", v2.value.val_int), v2_str) : 
+                 (asprintf(&v2_str, "%f", v2.value.val_float), v2_str);
 
-        // Asignar v2_str dependiendo de si v2.name es NULL o no
-        if (v2.name == NULL) {
-            // Si v2.name es NULL, usamos el valor de v2
-            if (v2.val_type == INT_TYPE) {
-                asprintf(&v2_str, "%d", v2.value.val_int);  // Convertimos el valor entero
-            } else {
-                asprintf(&v2_str, "%f", v2.value.val_float);  // Convertimos el valor flotante
-            }
-        } else {
-            // Si v2.name no es NULL, usamos el nombre de la variable
-            v2_str = v2.name;
-        }
-
-        // Generamos la instrucción según el tipo de operación
         if (strcmp(op, "-") == 0) {
-            // Operación de resta
-            if (v1.place == NULL) {
-                // Si v1.place es NULL, usamos su valor directamente
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1_str, "SUBF", v2_str);  // Resta flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1_str, "SUBI", v2_str);  // Resta entera
-                }
+            if (s0->val_type == FLOAT_TYPE) {
+                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "SUBF", v2.place ? v2.place : v2_str);
             } else {
-                // Si v1.place no es NULL, usamos su lugar
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1.place, "SUBF", v2_str);  // Resta flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1.place, "SUBI", v2_str);  // Resta entera
-                }
+                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "SUBI", v2.place ? v2.place : v2_str);
             }
         }
 
-        // Liberar la memoria dinámica asignada con asprintf
-        if (v1.name == NULL) free(v1_str);
-        if (v2.name == NULL) free(v2_str);
+        if (v1.name == NULL && v1_str) free(v1_str);
+        if (v2.name == NULL && v2_str) free(v2_str);
+    }
+}
+
+
+void generarValorCadena(value_info v, char **v_str) {
+    if (v.name == NULL) {
+        // Si el nombre es NULL, usamos el valor directamente
+        if (v.val_type == INT_TYPE) {
+            asprintf(v_str, "%d", v.value.val_int);
+        } else {
+            asprintf(v_str, "%f", v.value.val_float);
+        }
+    } else {
+        *v_str = v.name;
+    }
+}
+
+void liberarValorCadena(value_info v, char *v_str) {
+    if (v.name == NULL) {
+        free(v_str);
     }
 }
 
 void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
-    char* v1_str;
-    char* v2_str;
+    char *v1_str, *v2_str;
 
-    // Verificamos si v1 y v2 son de tipos numéricos (enteros o flotantes)
     if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
         (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
+        
+        s0->place = nou_temporal();
+        s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
 
-        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+        generarValorCadena(v1, &v1_str);
+        generarValorCadena(v2, &v2_str);
 
-        // Determinar el tipo del resultado
-        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
-            s0->val_type = FLOAT_TYPE;  // El resultado será un flotante si alguno de los operandos es flotante
-        } else {
-            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es un entero
-        }
-
-        // Asignar v1_str dependiendo de si v1.name es NULL o no
-        if (v1.name == NULL) {
-            // Si v1.name es NULL, usamos el valor de v1
-            if (v1.val_type == INT_TYPE) {
-                asprintf(&v1_str, "%d", v1.value.val_int);  // Convertimos a cadena el valor entero
-            } else {
-                asprintf(&v1_str, "%f", v1.value.val_float);  // Convertimos a cadena el valor flotante
-            }
-        } else {
-            // Si v1.name no es NULL, usamos el nombre de la variable
-            v1_str = v1.name;
-        }
-
-        // Asignar v2_str dependiendo de si v2.name es NULL o no
-        if (v2.name == NULL) {
-            // Si v2.name es NULL, usamos el valor de v2
-            if (v2.val_type == INT_TYPE) {
-                asprintf(&v2_str, "%d", v2.value.val_int);  // Convertimos el valor entero
-            } else {
-                asprintf(&v2_str, "%f", v2.value.val_float);  // Convertimos el valor flotante
-            }
-        } else {
-            // Si v2.name no es NULL, usamos el nombre de la variable
-            v2_str = v2.name;
-        }
-
-        // Generamos la instrucción según el tipo de operación
         if (strcmp(op, "*") == 0) {
-            // Operación de multiplicación
-            if (v1.place == NULL) {
-                // Si v1.place es NULL, usamos su valor directamente
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1_str, "MULF", v2_str);  // Multiplicación flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1_str, "MULI", v2_str);  // Multiplicación entera
-                }
-            } else {
-                // Si v1.place no es NULL, usamos su lugar
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1.place, "MULF", v2_str);  // Multiplicación flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1.place, "MULI", v2_str);  // Multiplicación entera
-                }
-            }
+            addToMatrix(5, s0->place, ":=", 
+                        v1.place ? v1.place : v1_str, 
+                        s0->val_type == FLOAT_TYPE ? "MULF" : "MULI", 
+                        v2_str);
         }
 
-        // Liberar la memoria dinámica asignada con asprintf
-        if (v1.name == NULL) free(v1_str);
-        if (v2.name == NULL) free(v2_str);
+        liberarValorCadena(v1, v1_str);
+        liberarValorCadena(v2, v2_str);
     }
 }
 
 void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
-    char* v1_str;
-    char* v2_str;
+    char *v1_str, *v2_str;
 
-    // Verificamos si v1 y v2 son de tipos numéricos (enteros o flotantes)
     if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
         (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
 
-        // Comprobamos si el divisor (v2) es 0 para evitar la división por cero
         if ((v2.val_type == INT_TYPE && v2.value.val_int == 0) ||
             (v2.val_type == FLOAT_TYPE && v2.value.val_float == 0.0)) {
-            // Imprimir un error de división por cero o manejarlo adecuadamente
             printf("Error: División por cero\n");
             return;
         }
 
-        s0->place = nou_temporal();  // Nuevo temporal para almacenar el resultado
+        s0->place = nou_temporal();
+        s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
 
-        // Determinar el tipo del resultado
-        if (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) {
-            s0->val_type = FLOAT_TYPE;  // El resultado será un flotante si alguno de los operandos es flotante
-        } else {
-            s0->val_type = INT_TYPE;  // Si ambos son enteros, el resultado es un entero
-        }
+        generarValorCadena(v1, &v1_str);
+        generarValorCadena(v2, &v2_str);
 
-        // Asignar v1_str dependiendo de si v1.name es NULL o no
-        if (v1.name == NULL) {
-            // Si v1.name es NULL, usamos el valor de v1
-            if (v1.val_type == INT_TYPE) {
-                asprintf(&v1_str, "%d", v1.value.val_int);  // Convertimos a cadena el valor entero
-            } else {
-                asprintf(&v1_str, "%f", v1.value.val_float);  // Convertimos a cadena el valor flotante
-            }
-        } else {
-            // Si v1.name no es NULL, usamos el nombre de la variable
-            v1_str = v1.name;
-        }
-
-        // Asignar v2_str dependiendo de si v2.name es NULL o no
-        if (v2.name == NULL) {
-            // Si v2.name es NULL, usamos el valor de v2
-            if (v2.val_type == INT_TYPE) {
-                asprintf(&v2_str, "%d", v2.value.val_int);  // Convertimos el valor entero
-            } else {
-                asprintf(&v2_str, "%f", v2.value.val_float);  // Convertimos el valor flotante
-            }
-        } else {
-            // Si v2.name no es NULL, usamos el nombre de la variable
-            v2_str = v2.name;
-        }
-
-        // Generamos la instrucción según el tipo de operación
         if (strcmp(op, "/") == 0) {
-            // Operación de división
-            if (v1.place == NULL) {
-                // Si v1.place es NULL, usamos su valor directamente
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1_str, "DIVF", v2_str);  // División flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1_str, "DIVI", v2_str);  // División entera
-                }
-            } else {
-                // Si v1.place no es NULL, usamos su lugar
-                if (s0->val_type == FLOAT_TYPE) {
-                    addToMatrix(5, s0->place, ":=", v1.place, "DIVF", v2_str);  // División flotante
-                } else {
-                    addToMatrix(5, s0->place, ":=", v1.place, "DIVI", v2_str);  // División entera
-                }
-            }
+            addToMatrix(5, s0->place, ":=", 
+                        v1.place ? v1.place : v1_str, 
+                        s0->val_type == FLOAT_TYPE ? "DIVF" : "DIVI", 
+                        v2_str);
         }
 
-        // Liberar la memoria dinámica asignada con asprintf
-        if (v1.name == NULL) free(v1_str);
-        if (v2.name == NULL) free(v2_str);
+        liberarValorCadena(v1, v1_str);
+        liberarValorCadena(v2, v2_str);
     }
 }
+
 
 void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
     char* v1_str;
