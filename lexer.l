@@ -21,6 +21,20 @@ espacio [ \t\r]
 
 %%
 
+"true"                      {
+                              yylval.expr_val.val_type = BOOLEAN_TYPE;
+                              yylval.expr_val.value.val_boolean = 1;
+                              printf("Token BOOLEAN: %s\n",yytext);
+                              return BOOLEAN;
+                            }
+
+"false"                     {
+                              yylval.expr_val.val_type = BOOLEAN_TYPE;
+                              yylval.expr_val.value.val_boolean = 0;
+                              printf("Token BOOLEAN: %s\n",yytext);
+                              return BOOLEAN;
+                            }
+
 "repeat"                    { printf("TOKEN REPEAT\n"); return REPEAT; };
 "do"                        { printf("TOKEN DO\n"); return DO; };
 "done"                      { printf("TOKEN DONE\n"); return DONE; };

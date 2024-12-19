@@ -45,10 +45,10 @@ void print_sentences();
  
 
 %token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL;
-%token <expr_val> ID A_ID B_ID INTEGER FLOAT ADD SUB MULT DIV MOD POW LPAREN RPAREN OPRELACIONAL AND OR NOT REPEAT DONE DO;
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT BOOLEAN ADD SUB MULT DIV MOD POW LPAREN RPAREN OPRELACIONAL AND OR NOT REPEAT DONE DO;
 %type <expr_val> declaracion lista_declaraciones declaracion_simple declaracion_iterativa declaracion_iterativa_incondicional exp 
                 aritmetica termino factor primario M
-                booleana;
+                booleana bool1 bool2 bool3 bool_aritmetic;
 
 %start programa
 
@@ -63,6 +63,7 @@ declaracion: declaracion_simple | declaracion_iterativa;
 declaracion_simple: ID ASSIGN exp EOL {
                                   if ($3.val_type == UNKNOWN_TYPE) 
                                   {
+                                    printf("ERror tipo\n");
                                     yyerror($3.value.val_string);
                                   } 
                                   else 
@@ -115,7 +116,7 @@ declaracion_simple: ID ASSIGN exp EOL {
                                   }
                                 }
 
-exp: aritmetica;
+exp: aritmetica | booleana;
 
 aritmetica: termino | aritmetica ADD termino  {
                                                 $$ = sumaAritmetica($1, $3);
@@ -183,6 +184,55 @@ primario: INTEGER                     {
           | LPAREN aritmetica RPAREN  {
                                           $$ = $2;
                                       }
+
+
+booleana: bool1
+          | booleana OR bool1 {
+                                if ($1.val_type == BOOLEAN_TYPE && $1.value.val_boolean) {
+                                    printf("Corto de or\n");
+                                    $$ = $1;
+                                } else {
+                                    $$ = orBooleana($1, $3);
+                                }
+                              };
+
+bool1: bool2
+      | bool1 AND bool2 {
+                          if ($1.val_type == BOOLEAN_TYPE && !$1.value.val_boolean) {
+                              printf("Corto de and\n");
+                              $$ = $1;
+                          } else {
+                              $$ = andBooleana($1, $3);
+                          }
+                        };
+
+bool2: bool3 
+      | NOT bool2                     {
+                                        $$ = notBooleana($2);
+                                      };
+
+bool3:  bool_aritmetic
+        | LPAREN booleana RPAREN      {
+                                        $$ = $2;
+                                      }
+        | BOOLEAN                     {
+                                        $$ = $1;
+                                      }
+        | B_ID                        {
+                                        if (sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND)
+                                        {
+                                          yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n");
+                                        }
+                                        else
+                                        {
+                                          $$.val_type = $1.val_type;
+                                          $$.value = $1.value;
+                                        }
+                                      };
+
+bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
+                                                      $$ = opRelacional($1,$2,$3);
+                                                    };
 
 
 declaracion_iterativa: declaracion_iterativa_incondicional;

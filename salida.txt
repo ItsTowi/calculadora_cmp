@@ -1,19 +1,2 @@
-1:  x := 5.000000 
-2:  i := 3 
-3:  $t01 := i MULI 3 
-4:  $t02 := i ADDI $t01 
-5:  $t03 := $t02 SUBF x 
-6:  y := $t03 
-7:  n := 10 
-8:  fact := 1 
-9:  i := 2 
-10:  $t04 := n SUBI 1 
-11:  $t05 := 0 
-12:  $t06 := fact MULI i 
-13:  fact := $t06 
-14:  $t07 := i ADDI 1 
-15:  i := $t07 
-16:  $t05 := $t05 ADDI 1 
-17:  IF $t05 LTI $t04 GOTO 12 
-18:  PARAM fact 
-19:  HALT
+1:  x := true 
+2:  HALT
