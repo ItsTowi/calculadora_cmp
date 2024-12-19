@@ -25,6 +25,10 @@ espacio [ \t\r]
 "do"                        { printf("TOKEN DO\n"); return DO; };
 "done"                      { printf("TOKEN DONE\n"); return DONE; };
 
+"and"                       { return AND; }
+"or"                        { return OR; }
+"not"                       { return NOT; }
+
 
 [a-zA-Z][a-zA-Z0-9]*        { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
@@ -57,6 +61,13 @@ espacio [ \t\r]
 "**"                        { return POW; }
 "("                         { return LPAREN; }
 ")"                         { return RPAREN; }
+
+">"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
+">="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
+"<"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
+"<="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
+"="                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
+"<>"                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
 
 
 {digit}({digit})*           {

@@ -139,22 +139,26 @@ enum yysymbol_kind_t
   YYSYMBOL_POW = 18,                       /* POW  */
   YYSYMBOL_LPAREN = 19,                    /* LPAREN  */
   YYSYMBOL_RPAREN = 20,                    /* RPAREN  */
-  YYSYMBOL_REPEAT = 21,                    /* REPEAT  */
-  YYSYMBOL_DONE = 22,                      /* DONE  */
-  YYSYMBOL_DO = 23,                        /* DO  */
-  YYSYMBOL_YYACCEPT = 24,                  /* $accept  */
-  YYSYMBOL_programa = 25,                  /* programa  */
-  YYSYMBOL_lista_declaraciones = 26,       /* lista_declaraciones  */
-  YYSYMBOL_declaracion = 27,               /* declaracion  */
-  YYSYMBOL_declaracion_simple = 28,        /* declaracion_simple  */
-  YYSYMBOL_exp = 29,                       /* exp  */
-  YYSYMBOL_aritmetica = 30,                /* aritmetica  */
-  YYSYMBOL_termino = 31,                   /* termino  */
-  YYSYMBOL_factor = 32,                    /* factor  */
-  YYSYMBOL_primario = 33,                  /* primario  */
-  YYSYMBOL_declaracion_iterativa = 34,     /* declaracion_iterativa  */
-  YYSYMBOL_declaracion_iterativa_incondicional = 35, /* declaracion_iterativa_incondicional  */
-  YYSYMBOL_M = 36                          /* M  */
+  YYSYMBOL_OPRELACIONAL = 21,              /* OPRELACIONAL  */
+  YYSYMBOL_AND = 22,                       /* AND  */
+  YYSYMBOL_OR = 23,                        /* OR  */
+  YYSYMBOL_NOT = 24,                       /* NOT  */
+  YYSYMBOL_REPEAT = 25,                    /* REPEAT  */
+  YYSYMBOL_DONE = 26,                      /* DONE  */
+  YYSYMBOL_DO = 27,                        /* DO  */
+  YYSYMBOL_YYACCEPT = 28,                  /* $accept  */
+  YYSYMBOL_programa = 29,                  /* programa  */
+  YYSYMBOL_lista_declaraciones = 30,       /* lista_declaraciones  */
+  YYSYMBOL_declaracion = 31,               /* declaracion  */
+  YYSYMBOL_declaracion_simple = 32,        /* declaracion_simple  */
+  YYSYMBOL_exp = 33,                       /* exp  */
+  YYSYMBOL_aritmetica = 34,                /* aritmetica  */
+  YYSYMBOL_termino = 35,                   /* termino  */
+  YYSYMBOL_factor = 36,                    /* factor  */
+  YYSYMBOL_primario = 37,                  /* primario  */
+  YYSYMBOL_declaracion_iterativa = 38,     /* declaracion_iterativa  */
+  YYSYMBOL_declaracion_iterativa_incondicional = 39, /* declaracion_iterativa_incondicional  */
+  YYSYMBOL_M = 40                          /* M  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -171,7 +175,7 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
  void potenciaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void addToMatrixSalotIncond(value_info s1, const char* operel, value_info s2, char* line2jump);
 
-#line 175 "parser.tab.c"
+#line 179 "parser.tab.c"
 
 
 #ifdef short
@@ -498,7 +502,7 @@ union yyalloc
 #define YYLAST   68
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  24
+#define YYNTOKENS  28
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  13
 /* YYNRULES -- Number of rules.  */
@@ -507,7 +511,7 @@ union yyalloc
 #define YYNSTATES  56
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   278
+#define YYMAXUTOK   282
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -548,7 +552,8 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27
 };
 
 #if YYDEBUG
@@ -577,9 +582,10 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "ASSIGN",
   "ONELINECMNT", "MULTILINECMNT", "COMMA", "EOL", "ID", "A_ID", "B_ID",
   "INTEGER", "FLOAT", "ADD", "SUB", "MULT", "DIV", "MOD", "POW", "LPAREN",
-  "RPAREN", "REPEAT", "DONE", "DO", "$accept", "programa",
-  "lista_declaraciones", "declaracion", "declaracion_simple", "exp",
-  "aritmetica", "termino", "factor", "primario", "declaracion_iterativa",
+  "RPAREN", "OPRELACIONAL", "AND", "OR", "NOT", "REPEAT", "DONE", "DO",
+  "$accept", "programa", "lista_declaraciones", "declaracion",
+  "declaracion_simple", "exp", "aritmetica", "termino", "factor",
+  "primario", "declaracion_iterativa",
   "declaracion_iterativa_incondicional", "M", YY_NULLPTR
 };
 
@@ -590,7 +596,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-35)
+#define YYPACT_NINF (-14)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -604,12 +610,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      25,   -35,   -35,   -35,     2,     6,   -35,   -35,    48,    48,
-      39,    39,    22,    25,   -35,   -35,    24,    12,    46,    17,
-     -35,   -35,   -35,    39,    39,   -35,   -35,    46,    46,     3,
-       1,   -35,   -35,   -35,    48,    48,    48,    48,    48,    48,
-      33,    38,   -35,   -35,    46,    46,    17,    17,    17,   -35,
-     -35,   -35,    42,    25,    -1,   -35
+      25,   -14,   -14,   -14,     2,     6,   -14,   -14,    43,    43,
+      34,    34,    26,    25,   -14,   -14,    24,     1,    41,    22,
+     -14,   -14,   -14,    34,    34,   -14,   -14,    41,    41,     3,
+       8,   -14,   -14,   -14,    43,    43,    43,    43,    43,    43,
+      42,    58,   -14,   -14,    41,    41,    22,    22,    22,   -14,
+     -14,   -14,    59,    25,    -1,   -14
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -628,8 +634,8 @@ static const yytype_int8 yydefact[] =
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -35,   -35,   -34,   -13,   -35,    19,    44,    -7,    28,    29,
-     -35,   -35,   -35
+     -14,   -14,    14,   -13,   -14,    -4,    53,    -7,    23,    29,
+     -14,   -14,   -14
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -645,23 +651,23 @@ static const yytype_int8 yydefgoto[] =
 static const yytype_int8 yytable[] =
 {
       32,    27,    28,     1,     2,    23,     3,     4,     5,    24,
-       6,     7,     8,     9,    34,    35,    34,    35,    10,    54,
-      11,    55,    31,    42,    43,    34,    35,    44,    45,     1,
-       2,    33,     3,     4,     5,    39,     6,     7,     8,     9,
-      50,    32,    40,    41,    10,    51,    11,    25,    26,    53,
-       6,     7,     8,     9,    29,    30,    25,    26,    10,     6,
-       7,    36,    37,    38,    46,    47,    48,    10,    49
+       6,     7,     8,     9,    34,    35,    34,    35,    10,    40,
+      41,    34,    35,    42,    11,    55,    31,    44,    45,     1,
+       2,    33,     3,     4,     5,    43,     6,     7,     8,     9,
+      39,    32,    25,    26,    10,     6,     7,     8,     9,    50,
+      11,    25,    26,    10,     6,     7,    36,    37,    38,    46,
+      47,    48,    10,    29,    30,    51,    53,    54,    49
 };
 
 static const yytype_int8 yycheck[] =
 {
       13,     8,     9,     4,     5,     3,     7,     8,     9,     3,
-      11,    12,    13,    14,    13,    14,    13,    14,    19,    53,
-      21,    22,     0,    20,    23,    13,    14,    34,    35,     4,
-       5,     7,     7,     8,     9,    18,    11,    12,    13,    14,
-       7,    54,    23,    24,    19,     7,    21,     8,     9,     7,
-      11,    12,    13,    14,    10,    11,     8,     9,    19,    11,
-      12,    15,    16,    17,    36,    37,    38,    19,    39
+      11,    12,    13,    14,    13,    14,    13,    14,    19,    23,
+      24,    13,    14,    20,    25,    26,     0,    34,    35,     4,
+       5,     7,     7,     8,     9,    27,    11,    12,    13,    14,
+      18,    54,     8,     9,    19,    11,    12,    13,    14,     7,
+      25,     8,     9,    19,    11,    12,    15,    16,    17,    36,
+      37,    38,    19,    10,    11,     7,     7,    53,    39
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -669,20 +675,20 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     4,     5,     7,     8,     9,    11,    12,    13,    14,
-      19,    21,    25,    26,    27,    28,    29,    30,    31,    32,
-      33,    34,    35,     3,     3,     8,     9,    31,    31,    30,
-      30,     0,    27,     7,    13,    14,    15,    16,    17,    18,
-      29,    29,    20,    23,    31,    31,    32,    32,    32,    33,
-       7,     7,    36,     7,    26,    22
+      19,    25,    29,    30,    31,    32,    33,    34,    35,    36,
+      37,    38,    39,     3,     3,     8,     9,    35,    35,    34,
+      34,     0,    31,     7,    13,    14,    15,    16,    17,    18,
+      33,    33,    20,    27,    35,    35,    36,    36,    36,    37,
+       7,     7,    40,     7,    30,    26
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    24,    25,    26,    26,    27,    27,    28,    28,    28,
-      28,    28,    28,    29,    30,    30,    30,    30,    30,    31,
-      31,    31,    31,    32,    32,    33,    33,    33,    33,    33,
-      34,    35,    36
+       0,    28,    29,    30,    30,    31,    31,    32,    32,    32,
+      32,    32,    32,    33,    34,    34,    34,    34,    34,    35,
+      35,    35,    35,    36,    36,    37,    37,    37,    37,    37,
+      38,    39,    40
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1157,7 +1163,7 @@ yyreduce:
   case 2: /* programa: lista_declaraciones  */
 #line 55 "parser.y"
                               {print_sentences();}
-#line 1161 "parser.tab.c"
+#line 1167 "parser.tab.c"
     break;
 
   case 7: /* declaracion_simple: ID ASSIGN exp EOL  */
@@ -1181,7 +1187,7 @@ yyreduce:
                                     }
                                   }
                                 }
-#line 1185 "parser.tab.c"
+#line 1191 "parser.tab.c"
     break;
 
   case 8: /* declaracion_simple: exp EOL  */
@@ -1196,7 +1202,7 @@ yyreduce:
                                     addToMatrix(2, "PARAM", (yyvsp[-1].expr_val).name);
                                   }
                                 }
-#line 1200 "parser.tab.c"
+#line 1206 "parser.tab.c"
     break;
 
   case 9: /* declaracion_simple: ONELINECMNT  */
@@ -1204,20 +1210,20 @@ yyreduce:
                                 {
 
                                 }
-#line 1208 "parser.tab.c"
+#line 1214 "parser.tab.c"
     break;
 
   case 10: /* declaracion_simple: MULTILINECMNT  */
 #line 93 "parser.y"
                                 {
                                 }
-#line 1215 "parser.tab.c"
+#line 1221 "parser.tab.c"
     break;
 
   case 11: /* declaracion_simple: EOL  */
 #line 95 "parser.y"
                                 {}
-#line 1221 "parser.tab.c"
+#line 1227 "parser.tab.c"
     break;
 
   case 12: /* declaracion_simple: A_ID ASSIGN exp EOL  */
@@ -1241,7 +1247,7 @@ yyreduce:
                                     }
                                   }
                                 }
-#line 1245 "parser.tab.c"
+#line 1251 "parser.tab.c"
     break;
 
   case 15: /* aritmetica: aritmetica ADD termino  */
@@ -1250,7 +1256,7 @@ yyreduce:
                                                 (yyval.expr_val) = sumaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                                 sumaAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "+", (yyvsp[0].expr_val));
                                               }
-#line 1254 "parser.tab.c"
+#line 1260 "parser.tab.c"
     break;
 
   case 16: /* aritmetica: aritmetica SUB termino  */
@@ -1259,19 +1265,19 @@ yyreduce:
                                                 (yyval.expr_val) = restaAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                                 restaAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "-", (yyvsp[0].expr_val));
                                               }
-#line 1263 "parser.tab.c"
+#line 1269 "parser.tab.c"
     break;
 
   case 17: /* aritmetica: SUB termino  */
 #line 126 "parser.y"
                                               { (yyval.expr_val) = cambioAritmetica((yyvsp[0].expr_val)); }
-#line 1269 "parser.tab.c"
+#line 1275 "parser.tab.c"
     break;
 
   case 18: /* aritmetica: ADD termino  */
 #line 127 "parser.y"
                                               { (yyval.expr_val) = (yyvsp[0].expr_val); }
-#line 1275 "parser.tab.c"
+#line 1281 "parser.tab.c"
     break;
 
   case 20: /* termino: termino MULT factor  */
@@ -1280,7 +1286,7 @@ yyreduce:
                                         (yyval.expr_val) = multAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         multiplicacionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "*", (yyvsp[0].expr_val));
                                       }
-#line 1284 "parser.tab.c"
+#line 1290 "parser.tab.c"
     break;
 
   case 21: /* termino: termino DIV factor  */
@@ -1289,7 +1295,7 @@ yyreduce:
                                         (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         divisionAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "/", (yyvsp[0].expr_val));
                                       }
-#line 1293 "parser.tab.c"
+#line 1299 "parser.tab.c"
     break;
 
   case 22: /* termino: termino MOD factor  */
@@ -1298,7 +1304,7 @@ yyreduce:
                                         (yyval.expr_val) = modAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                         moduloAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "%", (yyvsp[0].expr_val));
                                       }
-#line 1302 "parser.tab.c"
+#line 1308 "parser.tab.c"
     break;
 
   case 24: /* factor: factor POW primario  */
@@ -1307,7 +1313,7 @@ yyreduce:
                                           (yyval.expr_val) = potAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
                                           potenciaAritmetica3AC(&(yyval.expr_val),(yyvsp[-2].expr_val), "**", (yyvsp[0].expr_val));
                                        }
-#line 1311 "parser.tab.c"
+#line 1317 "parser.tab.c"
     break;
 
   case 25: /* primario: INTEGER  */
@@ -1316,7 +1322,7 @@ yyreduce:
                                         (yyvsp[0].expr_val).name = NULL;
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1320 "parser.tab.c"
+#line 1326 "parser.tab.c"
     break;
 
   case 26: /* primario: FLOAT  */
@@ -1325,7 +1331,7 @@ yyreduce:
                                         (yyvsp[0].expr_val).name = NULL;
                                         (yyval.expr_val) = (yyvsp[0].expr_val);
                                       }
-#line 1329 "parser.tab.c"
+#line 1335 "parser.tab.c"
     break;
 
   case 27: /* primario: ID  */
@@ -1343,7 +1349,7 @@ yyreduce:
                                             (yyval.expr_val).place = valueToString((yyvsp[0].expr_val));
                                           }
                                       }
-#line 1347 "parser.tab.c"
+#line 1353 "parser.tab.c"
     break;
 
   case 28: /* primario: A_ID  */
@@ -1360,7 +1366,7 @@ yyreduce:
                                             (yyval.expr_val).place = (yyvsp[0].expr_val).name;
                                           }
                                       }
-#line 1364 "parser.tab.c"
+#line 1370 "parser.tab.c"
     break;
 
   case 29: /* primario: LPAREN aritmetica RPAREN  */
@@ -1368,7 +1374,7 @@ yyreduce:
                                       {
                                           (yyval.expr_val) = (yyvsp[-1].expr_val);
                                       }
-#line 1372 "parser.tab.c"
+#line 1378 "parser.tab.c"
     break;
 
   case 31: /* declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE  */
@@ -1379,7 +1385,7 @@ yyreduce:
     printf("valor de aritmetica %s\n", (yyvsp[-5].expr_val).place);
 	addToMatrixSalotIncond(contador, "LT", (yyvsp[-5].expr_val), temp_sq);
 }
-#line 1383 "parser.tab.c"
+#line 1389 "parser.tab.c"
     break;
 
   case 32: /* M: %empty  */
@@ -1393,11 +1399,11 @@ yyreduce:
      temp_sq = malloc(sizeof(char)*5);
      sprintf(temp_sq, "%d", sig_linea);  
 }
-#line 1397 "parser.tab.c"
+#line 1403 "parser.tab.c"
     break;
 
 
-#line 1401 "parser.tab.c"
+#line 1407 "parser.tab.c"
 
       default: break;
     }

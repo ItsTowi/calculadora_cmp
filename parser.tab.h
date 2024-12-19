@@ -81,9 +81,13 @@ extern int yydebug;
     POW = 273,                     /* POW  */
     LPAREN = 274,                  /* LPAREN  */
     RPAREN = 275,                  /* RPAREN  */
-    REPEAT = 276,                  /* REPEAT  */
-    DONE = 277,                    /* DONE  */
-    DO = 278                       /* DO  */
+    OPRELACIONAL = 276,            /* OPRELACIONAL  */
+    AND = 277,                     /* AND  */
+    OR = 278,                      /* OR  */
+    NOT = 279,                     /* NOT  */
+    REPEAT = 280,                  /* REPEAT  */
+    DONE = 281,                    /* DONE  */
+    DO = 282                       /* DO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -96,7 +100,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 100 "parser.tab.h"
+#line 104 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
