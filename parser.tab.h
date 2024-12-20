@@ -86,9 +86,18 @@ extern int yydebug;
     AND = 278,                     /* AND  */
     OR = 279,                      /* OR  */
     NOT = 280,                     /* NOT  */
-    REPEAT = 281,                  /* REPEAT  */
-    DONE = 282,                    /* DONE  */
-    DO = 283                       /* DO  */
+    IF = 281,                      /* IF  */
+    THEN = 282,                    /* THEN  */
+    ELSE = 283,                    /* ELSE  */
+    FI = 284,                      /* FI  */
+    WHILE = 285,                   /* WHILE  */
+    UNTIL = 286,                   /* UNTIL  */
+    FOR = 287,                     /* FOR  */
+    IN = 288,                      /* IN  */
+    RANG = 289,                    /* RANG  */
+    REPEAT = 290,                  /* REPEAT  */
+    DONE = 291,                    /* DONE  */
+    DO = 292                       /* DO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -101,7 +110,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 105 "parser.tab.h"
+#line 114 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

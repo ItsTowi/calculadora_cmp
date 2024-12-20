@@ -16,6 +16,11 @@ typedef enum {
   BOOLEAN_TYPE
 } data_type;
 
+typedef struct list_t
+{
+    int index;
+    struct list_t *next;
+} list;
 
 typedef struct variables {
   char * name;
@@ -27,6 +32,12 @@ typedef struct variables {
     char *val_string;
   } value;
   data_type val_type;
+
+  int repeat;
+  list * truelist;
+  list * falselist;
+  list * nextlist;
+
 } value_info;
 
 

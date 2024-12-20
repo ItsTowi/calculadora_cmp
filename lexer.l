@@ -35,6 +35,16 @@ espacio [ \t\r]
                               return BOOLEAN;
                             }
 
+
+"if"                        {return IF;}
+"then"                      {return THEN;}
+"else"                      {return ELSE;}
+"fi"                        {return FI;}
+"while"                     {return WHILE;}
+"until"                     {return UNTIL;}
+"for"                       {return FOR;}
+"in"                        {return IN ;}
+".."                        {return RANG;}
 "repeat"                    { printf("TOKEN REPEAT\n"); return REPEAT; };
 "do"                        { printf("TOKEN DO\n"); return DO; };
 "done"                      { printf("TOKEN DONE\n"); return DONE; };

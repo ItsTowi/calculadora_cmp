@@ -45,7 +45,10 @@ void print_sentences();
  
 
 %token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL;
-%token <expr_val> ID A_ID B_ID INTEGER FLOAT BOOLEAN ADD SUB MULT DIV MOD POW LPAREN RPAREN OPRELACIONAL AND OR NOT REPEAT DONE DO;
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT BOOLEAN ADD SUB MULT DIV MOD POW LPAREN RPAREN OPRELACIONAL AND OR NOT 
+                IF THEN ELSE FI
+                WHILE UNTIL FOR IN RANG
+                REPEAT DONE DO;
 %type <expr_val> declaracion lista_declaraciones declaracion_simple declaracion_iterativa declaracion_iterativa_incondicional exp 
                 aritmetica termino factor primario M
                 booleana bool1 bool2 bool3 bool_aritmetic;
