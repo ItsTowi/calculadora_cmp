@@ -35,8 +35,9 @@ espacio [ \t\r]
                               return BOOLEAN;
                             }
 
+"..."                       {return DOTS;}
 
-"if"                        {return IF;}
+"if"                        {printf("TOKEN IF:\n"); return IF;}
 "then"                      {return THEN;}
 "else"                      {return ELSE;}
 "fi"                        {return FI;}

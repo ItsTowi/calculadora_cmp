@@ -74,30 +74,31 @@ extern int yydebug;
     INTEGER = 266,                 /* INTEGER  */
     FLOAT = 267,                   /* FLOAT  */
     BOOLEAN = 268,                 /* BOOLEAN  */
-    ADD = 269,                     /* ADD  */
-    SUB = 270,                     /* SUB  */
-    MULT = 271,                    /* MULT  */
-    DIV = 272,                     /* DIV  */
-    MOD = 273,                     /* MOD  */
-    POW = 274,                     /* POW  */
-    LPAREN = 275,                  /* LPAREN  */
-    RPAREN = 276,                  /* RPAREN  */
-    OPRELACIONAL = 277,            /* OPRELACIONAL  */
-    AND = 278,                     /* AND  */
-    OR = 279,                      /* OR  */
-    NOT = 280,                     /* NOT  */
-    IF = 281,                      /* IF  */
-    THEN = 282,                    /* THEN  */
-    ELSE = 283,                    /* ELSE  */
-    FI = 284,                      /* FI  */
-    WHILE = 285,                   /* WHILE  */
-    UNTIL = 286,                   /* UNTIL  */
-    FOR = 287,                     /* FOR  */
-    IN = 288,                      /* IN  */
-    RANG = 289,                    /* RANG  */
-    REPEAT = 290,                  /* REPEAT  */
-    DONE = 291,                    /* DONE  */
-    DO = 292                       /* DO  */
+    DOTS = 269,                    /* DOTS  */
+    ADD = 270,                     /* ADD  */
+    SUB = 271,                     /* SUB  */
+    MULT = 272,                    /* MULT  */
+    DIV = 273,                     /* DIV  */
+    MOD = 274,                     /* MOD  */
+    POW = 275,                     /* POW  */
+    LPAREN = 276,                  /* LPAREN  */
+    RPAREN = 277,                  /* RPAREN  */
+    OPRELACIONAL = 278,            /* OPRELACIONAL  */
+    AND = 279,                     /* AND  */
+    OR = 280,                      /* OR  */
+    NOT = 281,                     /* NOT  */
+    IF = 282,                      /* IF  */
+    THEN = 283,                    /* THEN  */
+    ELSE = 284,                    /* ELSE  */
+    FI = 285,                      /* FI  */
+    WHILE = 286,                   /* WHILE  */
+    UNTIL = 287,                   /* UNTIL  */
+    FOR = 288,                     /* FOR  */
+    IN = 289,                      /* IN  */
+    RANG = 290,                    /* RANG  */
+    REPEAT = 291,                  /* REPEAT  */
+    DONE = 292,                    /* DONE  */
+    DO = 293                       /* DO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -110,7 +111,7 @@ union YYSTYPE
 
     value_info expr_val;
 
-#line 114 "parser.tab.h"
+#line 115 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

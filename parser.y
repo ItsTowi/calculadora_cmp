@@ -45,12 +45,17 @@ void print_sentences();
  
 
 %token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL;
-%token <expr_val> ID A_ID B_ID INTEGER FLOAT BOOLEAN ADD SUB MULT DIV MOD POW LPAREN RPAREN OPRELACIONAL AND OR NOT 
+%token <expr_val> ID A_ID B_ID INTEGER FLOAT BOOLEAN DOTS ADD SUB MULT DIV MOD POW LPAREN RPAREN OPRELACIONAL AND OR NOT 
                 IF THEN ELSE FI
                 WHILE UNTIL FOR IN RANG
                 REPEAT DONE DO;
-%type <expr_val> declaracion lista_declaraciones declaracion_simple declaracion_iterativa declaracion_iterativa_incondicional exp 
-                aritmetica termino factor primario M
+%type <expr_val> declaracion lista_declaraciones 
+                declaracion_simple declaracion_condicional 
+                declaracion_iterativa 
+                declaracion_iterativa_incondicional 
+                declaracion_iterativa_condicional bucle_while bucle_do_until
+                declaracion_iterativa_indexada
+                exp  aritmetica termino factor primario M
                 booleana bool1 bool2 bool3 bool_aritmetic;
 
 %start programa
@@ -61,7 +66,7 @@ programa : lista_declaraciones{print_sentences();};
 
 lista_declaraciones: lista_declaraciones declaracion | declaracion;
 
-declaracion: declaracion_simple | declaracion_iterativa;
+declaracion: declaracion_simple | declaracion_condicional | declaracion_iterativa;
 
 declaracion_simple: ID ASSIGN exp EOL {
                                   if ($3.val_type == UNKNOWN_TYPE) 
@@ -162,6 +167,7 @@ primario: INTEGER                     {
           | ID                        {
                                           if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
                                           {	
+                                            printf("AQUIIII\n");
                                             yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
                                           } 
 											else 
@@ -234,11 +240,23 @@ bool3:  bool_aritmetic
                                       };
 
 bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
+                                                      printf("BOOLARITM\n");
                                                       $$ = opRelacional($1,$2,$3);
                                                     };
 
+declaracion_condicional: IF booleana THEN lista_declaraciones FI 
+                        {
+                            printf("SE HA ENCONTRADO UN IF\n"); 
+                        }
+                        |
+                        IF booleana THEN lista_declaraciones ELSE lista_declaraciones FI
+                        {
+                            printf("SE HA ENCONTRADO UN IF/ELSE \n");
+                        };
 
-declaracion_iterativa: declaracion_iterativa_incondicional;
+
+
+declaracion_iterativa: declaracion_iterativa_incondicional | declaracion_iterativa_condicional | declaracion_iterativa_indexada;
 
 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE {
 
@@ -246,6 +264,14 @@ declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaracio
     printf("valor de aritmetica %s\n", $2.place);
 	addToMatrixSalotIncond(contador, "LT", $2, temp_sq);
 };
+
+declaracion_iterativa_condicional: bucle_do_until | bucle_while
+
+bucle_do_until: DO M EOL lista_declaraciones UNTIL booleana {printf("BUCLE DO/UNTIL DETECTADO\n");}
+ 
+bucle_while: WHILE booleana DO M EOL lista_declaraciones DONE {printf("BUCLE WHILE DETECTADO\n");}
+
+declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE {printf("BUCLE FOR DETECTADO\n");}
 
 
 /* M contendrá la información del contador del bucle y guardará la línea donde empieza el bucle*/
