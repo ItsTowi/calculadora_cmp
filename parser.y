@@ -30,9 +30,13 @@ void print_sentences();
 
 %union{
     value_info expr_val;
+    int entero;
 }
 
 %{
+ void completa(list lista, int num);
+ list crea_lista(int num);
+ list fusiona(list l1, list l2);
  value_info contador;
  void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
@@ -40,7 +44,8 @@ void print_sentences();
  void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void potenciaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
- void addToMatrixSalotIncond(value_info s1, const char* operel, value_info s2, char* line2jump);
+ void addToMatrixSaltoCondicional(value_info v1, value_info operador, value_info v2, char * jump_line);
+ void addToMatrixSalotIncond(value_info v1, const char* operador, value_info v2, char* jump_line);
 %}
  
 
@@ -57,6 +62,8 @@ void print_sentences();
                 declaracion_iterativa_indexada
                 exp  aritmetica termino factor primario M
                 booleana bool1 bool2 bool3 bool_aritmetic;
+
+%type <entero> LIN;
 
 %start programa
 
@@ -240,16 +247,22 @@ bool3:  bool_aritmetic
                                       };
 
 bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
-                                                      printf("BOOLARITM\n");
                                                       $$ = opRelacional($1,$2,$3);
+                                                      $$.truelist = crea_lista(sig_linea);
+                                                      printf("item true list %d\n", $$.truelist.lista[0]);
+                                                      addToMatrixSaltoCondicional($1, $2, $3, "");
+                                                      $$.falselist = crea_lista(sig_linea);
+                                                      printf("item false list %d\n", $$.falselist.lista[0]);
+                                                      addToMatrix(1, "GOTO");
                                                     };
 
-declaracion_condicional: IF booleana THEN lista_declaraciones FI 
+declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI 
                         {
-                            printf("SE HA ENCONTRADO UN IF\n"); 
+                            completa($2.truelist, $4);
+	                        $$=fusiona($2.falselist, $5);
                         }
                         |
-                        IF booleana THEN lista_declaraciones ELSE lista_declaraciones FI
+                        IF booleana THEN lista_declaraciones LIN ELSE lista_declaraciones FI
                         {
                             printf("SE HA ENCONTRADO UN IF/ELSE \n");
                         };
@@ -285,6 +298,10 @@ M : {$$.place = malloc(sizeof(char)*5);
      sprintf(temp_sq, "%d", sig_linea);  
 };
 
+/* Guarda el quat actual */
+LIN: {
+	$$=sig_linea;
+};
 
 %%
 
@@ -295,6 +312,41 @@ char* nou_temporal(){
   num_temportales++;
   return buffer;
 }
+
+list crea_lista(int num){
+	list temp;
+	temp.lista = malloc(MAXLEN*sizeof(int));
+	temp.lista[0]=num;
+	temp.size = 1;
+	return temp;
+}
+
+void completa(list lista, int num){
+	int i;
+	char* num_buffer = malloc(sizeof(char)*5);
+	sprintf(num_buffer, "%d", num);
+	for (i=0; i < lista.size; i++){
+	strcat(sentenciasC3A[lista.lista[i]],num_buffer);
+	}
+}
+
+list fusiona(list l1, list l2){
+	list temp;
+	temp.lista = malloc(MAXLEN*sizeof(int));
+	int i;
+	for (i=0; i < l1.size; i++){
+	temp.lista[i]=l1.lista[i];
+	}
+	int j;
+	for (j=0; j < l2.size; j++){
+	temp.lista[i]=l2.lista[j];
+	i++;
+	}
+
+	temp.size = l1.size + l2.size;
+	return temp;
+}
+
 
 void addToMatrix(int args_count, ...) {
     va_list args;
@@ -316,17 +368,69 @@ void addToMatrix(int args_count, ...) {
     va_end(args);
 }
 
-void addToMatrixSalotIncond(value_info s1, const char* operel, value_info s2, char* line2jump){
-	if (s1.val_type==s2.val_type) {
-		char *op= (char *)malloc(sizeof(char)*strlen(operel)+2);
-		strcpy(op, operel);
-		if (s1.val_type==INT_TYPE) strcat(op, "I");
+void addToMatrixSalotIncond(value_info v1, const char* operador, value_info v2, char* jump_line){
+	if (v1.val_type==v2.val_type) {
+		char *op= (char *)malloc(sizeof(char)*strlen(operador)+2);
+		strcpy(op, operador);
+		if (v1.val_type==INT_TYPE) strcat(op, "I");
 	 	else strcat(op, "F");
-		addToMatrix(6, "IF", s1.place, op, s2.place, "GOTO", line2jump);
+		addToMatrix(6, "IF", v1.place, op, v2.place, "GOTO", jump_line);
 		free(op);
 	}
 	else yyerror("Tienen que tener el mismo tipo!");
+}
 
+
+void addToMatrixSaltoCondicional(value_info v1, value_info operador, value_info v2, char * jump_line) {
+	if (strcmp(operador.value.val_string, "=")==0 || strcmp(operador.value.val_string, "<>")==0){
+		if (v1.val_type==v2.val_type) {
+			char *op= (char *)malloc(sizeof(char)*strlen(operador.value.val_string)+2);
+			strcpy(op, operador.value.val_string);
+			if (v1.val_type==INT_TYPE) strcat(op, "I");
+		 	else strcat(op, "F");
+			addToMatrix(6, "IF", v1.place, op, v2.place, "GOTO", jump_line);
+			free(op);
+		}
+		else yyerror("Las dos variables tienen que tener el mismo tipo para realizar esta operación!");
+	} else {
+		char *op= (char *)malloc(sizeof(char)*strlen(operador.value.val_string)+2);
+		strcpy(op, operador.value.val_string);
+		if (v1.val_type==v2.val_type) {
+			if (v1.val_type==INT_TYPE){
+				 strcat(op, "I");
+			} else {
+				 strcat(op, "F");
+			}
+            printf("VALOR V1 %s VALOR V2 %s\n", v1.place, v2.place);
+			addToMatrix(6, "IF", v1.place, "GTI", valueToString(v2), "GOTO", jump_line);
+
+		} else if (v1.val_type==FLOAT_TYPE || v2.val_type==FLOAT_TYPE){
+			strcat(op, "F");
+			if (v1.val_type==FLOAT_TYPE) {
+				char *castedValue;
+				if (v2.name != NULL) {
+					castedValue = nou_temporal();
+					addToMatrix(4, castedValue, ":=", "I2F", v2.place);
+				} else {
+					castedValue = (char *) malloc(sizeof(char)*5);
+					sprintf(castedValue, "%.1f", atof(v2.place));
+				}
+				addToMatrix(6, "IF", v1.place, op, v2.place, "GOTO", jump_line);
+			}
+			else if (v2.val_type==FLOAT_TYPE){
+				char *castedValue;
+				if (v1.name != NULL) {
+					castedValue = nou_temporal();
+					addToMatrix(4, castedValue, ":=", "I2F", v1.place);
+				} else {
+					castedValue = (char *) malloc(sizeof(char)*5);
+					sprintf(castedValue, "%.1f", atof(v1.place));
+				}
+				addToMatrix(6, "IF", v1.place, op, v2.place, "GOTO", jump_line);
+			} else yyerror("OPERACION NO PERMITIDA");
+		} else yyerror("OPERACION NO PERMITIDA");
+		free(op);
+	}
 }
 
 

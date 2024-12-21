@@ -18,8 +18,8 @@ typedef enum {
 
 typedef struct list_t
 {
-    int index;
-    struct list_t *next;
+		int *lista;
+		int size;
 } list;
 
 typedef struct variables {
@@ -34,9 +34,9 @@ typedef struct variables {
   data_type val_type;
 
   int repeat;
-  list * truelist;
-  list * falselist;
-  list * nextlist;
+  list truelist;
+  list falselist;
+  list nextlist;
 
 } value_info;
 

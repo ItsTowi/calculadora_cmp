@@ -110,8 +110,9 @@ union YYSTYPE
 #line 31 "parser.y"
 
     value_info expr_val;
+    int entero;
 
-#line 115 "parser.tab.h"
+#line 116 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

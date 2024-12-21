@@ -4,6 +4,7 @@ Terminals unused in grammar
     RANG
 
 
+State 73 conflicts: 18 shift/reduce
 State 80 conflicts: 2 shift/reduce
 
 
@@ -66,8 +67,8 @@ Grammar
 
    41 bool_aritmetic: aritmetica OPRELACIONAL aritmetica
 
-   42 declaracion_condicional: IF booleana THEN lista_declaraciones FI
-   43                        | IF booleana THEN lista_declaraciones ELSE lista_declaraciones FI
+   42 declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI
+   43                        | IF booleana THEN lista_declaraciones LIN ELSE lista_declaraciones FI
 
    44 declaracion_iterativa: declaracion_iterativa_incondicional
    45                      | declaracion_iterativa_condicional
@@ -85,6 +86,8 @@ Grammar
    52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE
 
    53 M: ε
+
+   54 LIN: ε
 
 
 Terminals, with rules where they appear
@@ -199,6 +202,9 @@ Nonterminals, with rules where they appear
     M <expr_val> (61)
         on left: 53
         on right: 47 50 51
+    LIN <entero> (62)
+        on left: 54
+        on right: 42 43
 
 
 State 0
@@ -399,8 +405,8 @@ State 13
 
 State 14
 
-   42 declaracion_condicional: IF • booleana THEN lista_declaraciones FI
-   43                        | IF • booleana THEN lista_declaraciones ELSE lista_declaraciones FI
+   42 declaracion_condicional: IF • booleana THEN LIN lista_declaraciones FI
+   43                        | IF • booleana THEN lista_declaraciones LIN ELSE lista_declaraciones FI
 
     ID       shift, and go to state 42
     A_ID     shift, and go to state 43
@@ -851,8 +857,8 @@ State 50
 State 51
 
    32 booleana: booleana • OR bool1
-   42 declaracion_condicional: IF booleana • THEN lista_declaraciones FI
-   43                        | IF booleana • THEN lista_declaraciones ELSE lista_declaraciones FI
+   42 declaracion_condicional: IF booleana • THEN LIN lista_declaraciones FI
+   43                        | IF booleana • THEN lista_declaraciones LIN ELSE lista_declaraciones FI
 
     OR    shift, and go to state 66
     THEN  shift, and go to state 73
@@ -1106,8 +1112,8 @@ State 72
 
 State 73
 
-   42 declaracion_condicional: IF booleana THEN • lista_declaraciones FI
-   43                        | IF booleana THEN • lista_declaraciones ELSE lista_declaraciones FI
+   42 declaracion_condicional: IF booleana THEN • LIN lista_declaraciones FI
+   43                        | IF booleana THEN • lista_declaraciones LIN ELSE lista_declaraciones FI
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1127,6 +1133,25 @@ State 73
     FOR            shift, and go to state 16
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
+
+    ONELINECMNT    [reduce using rule 54 (LIN)]
+    MULTILINECMNT  [reduce using rule 54 (LIN)]
+    EOL            [reduce using rule 54 (LIN)]
+    ID             [reduce using rule 54 (LIN)]
+    A_ID           [reduce using rule 54 (LIN)]
+    B_ID           [reduce using rule 54 (LIN)]
+    INTEGER        [reduce using rule 54 (LIN)]
+    FLOAT          [reduce using rule 54 (LIN)]
+    BOOLEAN        [reduce using rule 54 (LIN)]
+    ADD            [reduce using rule 54 (LIN)]
+    SUB            [reduce using rule 54 (LIN)]
+    LPAREN         [reduce using rule 54 (LIN)]
+    NOT            [reduce using rule 54 (LIN)]
+    IF             [reduce using rule 54 (LIN)]
+    WHILE          [reduce using rule 54 (LIN)]
+    FOR            [reduce using rule 54 (LIN)]
+    REPEAT         [reduce using rule 54 (LIN)]
+    DO             [reduce using rule 54 (LIN)]
 
     lista_declaraciones                  go to state 89
     declaracion                          go to state 21
@@ -1148,6 +1173,7 @@ State 73
     bucle_do_until                       go to state 37
     bucle_while                          go to state 38
     declaracion_iterativa_indexada       go to state 39
+    LIN                                  go to state 90
 
 
 State 74
@@ -1156,7 +1182,7 @@ State 74
 
     $default  reduce using rule 53 (M)
 
-    M  go to state 90
+    M  go to state 91
 
 
 State 75
@@ -1171,7 +1197,7 @@ State 75
     SUB      shift, and go to state 11
     LPAREN   shift, and go to state 44
 
-    aritmetica  go to state 91
+    aritmetica  go to state 92
     termino     go to state 25
     factor      go to state 26
     primario    go to state 27
@@ -1183,7 +1209,7 @@ State 76
 
     $default  reduce using rule 53 (M)
 
-    M  go to state 92
+    M  go to state 93
 
 
 State 77
@@ -1209,7 +1235,7 @@ State 77
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
-    lista_declaraciones                  go to state 93
+    lista_declaraciones                  go to state 94
     declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
@@ -1271,43 +1297,6 @@ State 80
     ADD       [reduce using rule 41 (bool_aritmetic)]
     SUB       [reduce using rule 41 (bool_aritmetic)]
     $default  reduce using rule 41 (bool_aritmetic)
-
-    shift/reduce conflict on token ADD:
-       41 bool_aritmetic: aritmetica OPRELACIONAL aritmetica •
-       16 aritmetica: aritmetica • ADD termino
-      First example: UNTIL aritmetica OPRELACIONAL aritmetica • ADD termino UNTIL booleana
-      Shift derivation
-        lista_declaraciones
-        ↳ 2: UNTIL declaracion
-                   ↳ 6: declaracion_iterativa
-                        ↳ 45: declaracion_iterativa_condicional
-                              ↳ 48: bucle_do_until
-                                    ↳ 50: aritmetica OPRELACIONAL aritmetica                     UNTIL booleana
-                                                                  ↳ 16: aritmetica • ADD termino
-      Second example: termino
-      Reduce derivation
-        lista_declaraciones
-        ↳ 2: termino declaracion
-                     ↳ 4: ε
-
-    shift/reduce conflict on token SUB:
-       41 bool_aritmetic: aritmetica OPRELACIONAL aritmetica •
-       17 aritmetica: aritmetica • SUB termino
-      First example: UNTIL aritmetica OPRELACIONAL aritmetica • SUB termino UNTIL booleana
-      Shift derivation
-        lista_declaraciones
-        ↳ 2: UNTIL declaracion
-                   ↳ 6: declaracion_iterativa
-                        ↳ 45: declaracion_iterativa_condicional
-                              ↳ 48: bucle_do_until
-                                    ↳ 50: aritmetica OPRELACIONAL aritmetica                     UNTIL booleana
-                                                                  ↳ 17: aritmetica • SUB termino
-      Second example: termino
-      Reduce derivation
-        lista_declaraciones
-        ↳ 2: termino declaracion
-                     ↳ 4: ε
-
 
 
 State 81
@@ -1381,8 +1370,7 @@ State 88
 State 89
 
     2 lista_declaraciones: lista_declaraciones • declaracion
-   42 declaracion_condicional: IF booleana THEN lista_declaraciones • FI
-   43                        | IF booleana THEN lista_declaraciones • ELSE lista_declaraciones FI
+   43 declaracion_condicional: IF booleana THEN lista_declaraciones • LIN ELSE lista_declaraciones FI
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1398,12 +1386,12 @@ State 89
     LPAREN         shift, and go to state 12
     NOT            shift, and go to state 13
     IF             shift, and go to state 14
-    ELSE           shift, and go to state 94
-    FI             shift, and go to state 95
     WHILE          shift, and go to state 15
     FOR            shift, and go to state 16
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
+
+    $default  reduce using rule 54 (LIN)
 
     declaracion                          go to state 57
     declaracion_simple                   go to state 22
@@ -1424,34 +1412,80 @@ State 89
     bucle_do_until                       go to state 37
     bucle_while                          go to state 38
     declaracion_iterativa_indexada       go to state 39
+    LIN                                  go to state 95
 
 
 State 90
 
-   51 bucle_while: WHILE booleana DO M • EOL lista_declaraciones DONE
+   42 declaracion_condicional: IF booleana THEN LIN • lista_declaraciones FI
 
-    EOL  shift, and go to state 96
+    ONELINECMNT    shift, and go to state 1
+    MULTILINECMNT  shift, and go to state 2
+    EOL            shift, and go to state 3
+    ID             shift, and go to state 4
+    A_ID           shift, and go to state 5
+    B_ID           shift, and go to state 6
+    INTEGER        shift, and go to state 7
+    FLOAT          shift, and go to state 8
+    BOOLEAN        shift, and go to state 9
+    ADD            shift, and go to state 10
+    SUB            shift, and go to state 11
+    LPAREN         shift, and go to state 12
+    NOT            shift, and go to state 13
+    IF             shift, and go to state 14
+    WHILE          shift, and go to state 15
+    FOR            shift, and go to state 16
+    REPEAT         shift, and go to state 17
+    DO             shift, and go to state 18
+
+    lista_declaraciones                  go to state 96
+    declaracion                          go to state 21
+    declaracion_simple                   go to state 22
+    exp                                  go to state 23
+    aritmetica                           go to state 24
+    termino                              go to state 25
+    factor                               go to state 26
+    primario                             go to state 27
+    booleana                             go to state 28
+    bool1                                go to state 29
+    bool2                                go to state 30
+    bool3                                go to state 31
+    bool_aritmetic                       go to state 32
+    declaracion_condicional              go to state 33
+    declaracion_iterativa                go to state 34
+    declaracion_iterativa_incondicional  go to state 35
+    declaracion_iterativa_condicional    go to state 36
+    bucle_do_until                       go to state 37
+    bucle_while                          go to state 38
+    declaracion_iterativa_indexada       go to state 39
 
 
 State 91
+
+   51 bucle_while: WHILE booleana DO M • EOL lista_declaraciones DONE
+
+    EOL  shift, and go to state 97
+
+
+State 92
 
    16 aritmetica: aritmetica • ADD termino
    17           | aritmetica • SUB termino
    52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica • DOTS aritmetica DO EOL lista_declaraciones DONE
 
-    DOTS  shift, and go to state 97
+    DOTS  shift, and go to state 98
     ADD   shift, and go to state 59
     SUB   shift, and go to state 60
 
 
-State 92
+State 93
 
    47 declaracion_iterativa_incondicional: REPEAT aritmetica DO M • EOL lista_declaraciones DONE
 
-    EOL  shift, and go to state 98
+    EOL  shift, and go to state 99
 
 
-State 93
+State 94
 
     2 lista_declaraciones: lista_declaraciones • declaracion
    50 bucle_do_until: DO M EOL lista_declaraciones • UNTIL booleana
@@ -1471,57 +1505,12 @@ State 93
     NOT            shift, and go to state 13
     IF             shift, and go to state 14
     WHILE          shift, and go to state 15
-    UNTIL          shift, and go to state 99
+    UNTIL          shift, and go to state 100
     FOR            shift, and go to state 16
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
     declaracion                          go to state 57
-    declaracion_simple                   go to state 22
-    exp                                  go to state 23
-    aritmetica                           go to state 24
-    termino                              go to state 25
-    factor                               go to state 26
-    primario                             go to state 27
-    booleana                             go to state 28
-    bool1                                go to state 29
-    bool2                                go to state 30
-    bool3                                go to state 31
-    bool_aritmetic                       go to state 32
-    declaracion_condicional              go to state 33
-    declaracion_iterativa                go to state 34
-    declaracion_iterativa_incondicional  go to state 35
-    declaracion_iterativa_condicional    go to state 36
-    bucle_do_until                       go to state 37
-    bucle_while                          go to state 38
-    declaracion_iterativa_indexada       go to state 39
-
-
-State 94
-
-   43 declaracion_condicional: IF booleana THEN lista_declaraciones ELSE • lista_declaraciones FI
-
-    ONELINECMNT    shift, and go to state 1
-    MULTILINECMNT  shift, and go to state 2
-    EOL            shift, and go to state 3
-    ID             shift, and go to state 4
-    A_ID           shift, and go to state 5
-    B_ID           shift, and go to state 6
-    INTEGER        shift, and go to state 7
-    FLOAT          shift, and go to state 8
-    BOOLEAN        shift, and go to state 9
-    ADD            shift, and go to state 10
-    SUB            shift, and go to state 11
-    LPAREN         shift, and go to state 12
-    NOT            shift, and go to state 13
-    IF             shift, and go to state 14
-    WHILE          shift, and go to state 15
-    FOR            shift, and go to state 16
-    REPEAT         shift, and go to state 17
-    DO             shift, and go to state 18
-
-    lista_declaraciones                  go to state 100
-    declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
     aritmetica                           go to state 24
@@ -1544,14 +1533,15 @@ State 94
 
 State 95
 
-   42 declaracion_condicional: IF booleana THEN lista_declaraciones FI •
+   43 declaracion_condicional: IF booleana THEN lista_declaraciones LIN • ELSE lista_declaraciones FI
 
-    $default  reduce using rule 42 (declaracion_condicional)
+    ELSE  shift, and go to state 101
 
 
 State 96
 
-   51 bucle_while: WHILE booleana DO M EOL • lista_declaraciones DONE
+    2 lista_declaraciones: lista_declaraciones • declaracion
+   42 declaracion_condicional: IF booleana THEN LIN lista_declaraciones • FI
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1567,13 +1557,13 @@ State 96
     LPAREN         shift, and go to state 12
     NOT            shift, and go to state 13
     IF             shift, and go to state 14
+    FI             shift, and go to state 102
     WHILE          shift, and go to state 15
     FOR            shift, and go to state 16
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
-    lista_declaraciones                  go to state 101
-    declaracion                          go to state 21
+    declaracion                          go to state 57
     declaracion_simple                   go to state 22
     exp                                  go to state 23
     aritmetica                           go to state 24
@@ -1596,25 +1586,7 @@ State 96
 
 State 97
 
-   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS • aritmetica DO EOL lista_declaraciones DONE
-
-    ID       shift, and go to state 42
-    A_ID     shift, and go to state 43
-    INTEGER  shift, and go to state 7
-    FLOAT    shift, and go to state 8
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
-    LPAREN   shift, and go to state 44
-
-    aritmetica  go to state 102
-    termino     go to state 25
-    factor      go to state 26
-    primario    go to state 27
-
-
-State 98
-
-   47 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL • lista_declaraciones DONE
+   51 bucle_while: WHILE booleana DO M EOL • lista_declaraciones DONE
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1657,36 +1629,27 @@ State 98
     declaracion_iterativa_indexada       go to state 39
 
 
-State 99
+State 98
 
-   50 bucle_do_until: DO M EOL lista_declaraciones UNTIL • booleana
+   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS • aritmetica DO EOL lista_declaraciones DONE
 
     ID       shift, and go to state 42
     A_ID     shift, and go to state 43
-    B_ID     shift, and go to state 6
     INTEGER  shift, and go to state 7
     FLOAT    shift, and go to state 8
-    BOOLEAN  shift, and go to state 9
     ADD      shift, and go to state 10
     SUB      shift, and go to state 11
-    LPAREN   shift, and go to state 12
-    NOT      shift, and go to state 13
+    LPAREN   shift, and go to state 44
 
-    aritmetica      go to state 49
-    termino         go to state 25
-    factor          go to state 26
-    primario        go to state 27
-    booleana        go to state 104
-    bool1           go to state 29
-    bool2           go to state 30
-    bool3           go to state 31
-    bool_aritmetic  go to state 32
+    aritmetica  go to state 104
+    termino     go to state 25
+    factor      go to state 26
+    primario    go to state 27
 
 
-State 100
+State 99
 
-    2 lista_declaraciones: lista_declaraciones • declaracion
-   43 declaracion_condicional: IF booleana THEN lista_declaraciones ELSE lista_declaraciones • FI
+   47 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL • lista_declaraciones DONE
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1702,13 +1665,13 @@ State 100
     LPAREN         shift, and go to state 12
     NOT            shift, and go to state 13
     IF             shift, and go to state 14
-    FI             shift, and go to state 105
     WHILE          shift, and go to state 15
     FOR            shift, and go to state 16
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
-    declaracion                          go to state 57
+    lista_declaraciones                  go to state 105
+    declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
     aritmetica                           go to state 24
@@ -1729,10 +1692,35 @@ State 100
     declaracion_iterativa_indexada       go to state 39
 
 
+State 100
+
+   50 bucle_do_until: DO M EOL lista_declaraciones UNTIL • booleana
+
+    ID       shift, and go to state 42
+    A_ID     shift, and go to state 43
+    B_ID     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+    FLOAT    shift, and go to state 8
+    BOOLEAN  shift, and go to state 9
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    LPAREN   shift, and go to state 12
+    NOT      shift, and go to state 13
+
+    aritmetica      go to state 49
+    termino         go to state 25
+    factor          go to state 26
+    primario        go to state 27
+    booleana        go to state 106
+    bool1           go to state 29
+    bool2           go to state 30
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
+
+
 State 101
 
-    2 lista_declaraciones: lista_declaraciones • declaracion
-   51 bucle_while: WHILE booleana DO M EOL lista_declaraciones • DONE
+   43 declaracion_condicional: IF booleana THEN lista_declaraciones LIN ELSE • lista_declaraciones FI
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1751,10 +1739,10 @@ State 101
     WHILE          shift, and go to state 15
     FOR            shift, and go to state 16
     REPEAT         shift, and go to state 17
-    DONE           shift, and go to state 106
     DO             shift, and go to state 18
 
-    declaracion                          go to state 57
+    lista_declaraciones                  go to state 107
+    declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
     aritmetica                           go to state 24
@@ -1777,19 +1765,15 @@ State 101
 
 State 102
 
-   16 aritmetica: aritmetica • ADD termino
-   17           | aritmetica • SUB termino
-   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica • DO EOL lista_declaraciones DONE
+   42 declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI •
 
-    ADD  shift, and go to state 59
-    SUB  shift, and go to state 60
-    DO   shift, and go to state 107
+    $default  reduce using rule 42 (declaracion_condicional)
 
 
 State 103
 
     2 lista_declaraciones: lista_declaraciones • declaracion
-   47 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones • DONE
+   51 bucle_while: WHILE booleana DO M EOL lista_declaraciones • DONE
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1834,91 +1818,19 @@ State 103
 
 State 104
 
-   32 booleana: booleana • OR bool1
-   50 bucle_do_until: DO M EOL lista_declaraciones UNTIL booleana •
+   16 aritmetica: aritmetica • ADD termino
+   17           | aritmetica • SUB termino
+   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica • DO EOL lista_declaraciones DONE
 
-    OR  shift, and go to state 66
-
-    $default  reduce using rule 50 (bucle_do_until)
+    ADD  shift, and go to state 59
+    SUB  shift, and go to state 60
+    DO   shift, and go to state 109
 
 
 State 105
 
-   43 declaracion_condicional: IF booleana THEN lista_declaraciones ELSE lista_declaraciones FI •
-
-    $default  reduce using rule 43 (declaracion_condicional)
-
-
-State 106
-
-   51 bucle_while: WHILE booleana DO M EOL lista_declaraciones DONE •
-
-    $default  reduce using rule 51 (bucle_while)
-
-
-State 107
-
-   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO • EOL lista_declaraciones DONE
-
-    EOL  shift, and go to state 109
-
-
-State 108
-
-   47 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE •
-
-    $default  reduce using rule 47 (declaracion_iterativa_incondicional)
-
-
-State 109
-
-   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL • lista_declaraciones DONE
-
-    ONELINECMNT    shift, and go to state 1
-    MULTILINECMNT  shift, and go to state 2
-    EOL            shift, and go to state 3
-    ID             shift, and go to state 4
-    A_ID           shift, and go to state 5
-    B_ID           shift, and go to state 6
-    INTEGER        shift, and go to state 7
-    FLOAT          shift, and go to state 8
-    BOOLEAN        shift, and go to state 9
-    ADD            shift, and go to state 10
-    SUB            shift, and go to state 11
-    LPAREN         shift, and go to state 12
-    NOT            shift, and go to state 13
-    IF             shift, and go to state 14
-    WHILE          shift, and go to state 15
-    FOR            shift, and go to state 16
-    REPEAT         shift, and go to state 17
-    DO             shift, and go to state 18
-
-    lista_declaraciones                  go to state 110
-    declaracion                          go to state 21
-    declaracion_simple                   go to state 22
-    exp                                  go to state 23
-    aritmetica                           go to state 24
-    termino                              go to state 25
-    factor                               go to state 26
-    primario                             go to state 27
-    booleana                             go to state 28
-    bool1                                go to state 29
-    bool2                                go to state 30
-    bool3                                go to state 31
-    bool_aritmetic                       go to state 32
-    declaracion_condicional              go to state 33
-    declaracion_iterativa                go to state 34
-    declaracion_iterativa_incondicional  go to state 35
-    declaracion_iterativa_condicional    go to state 36
-    bucle_do_until                       go to state 37
-    bucle_while                          go to state 38
-    declaracion_iterativa_indexada       go to state 39
-
-
-State 110
-
     2 lista_declaraciones: lista_declaraciones • declaracion
-   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones • DONE
+   47 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones • DONE
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1937,7 +1849,7 @@ State 110
     WHILE          shift, and go to state 15
     FOR            shift, and go to state 16
     REPEAT         shift, and go to state 17
-    DONE           shift, and go to state 111
+    DONE           shift, and go to state 110
     DO             shift, and go to state 18
 
     declaracion                          go to state 57
@@ -1961,7 +1873,182 @@ State 110
     declaracion_iterativa_indexada       go to state 39
 
 
+State 106
+
+   32 booleana: booleana • OR bool1
+   50 bucle_do_until: DO M EOL lista_declaraciones UNTIL booleana •
+
+    OR  shift, and go to state 66
+
+    $default  reduce using rule 50 (bucle_do_until)
+
+
+State 107
+
+    2 lista_declaraciones: lista_declaraciones • declaracion
+   43 declaracion_condicional: IF booleana THEN lista_declaraciones LIN ELSE lista_declaraciones • FI
+
+    ONELINECMNT    shift, and go to state 1
+    MULTILINECMNT  shift, and go to state 2
+    EOL            shift, and go to state 3
+    ID             shift, and go to state 4
+    A_ID           shift, and go to state 5
+    B_ID           shift, and go to state 6
+    INTEGER        shift, and go to state 7
+    FLOAT          shift, and go to state 8
+    BOOLEAN        shift, and go to state 9
+    ADD            shift, and go to state 10
+    SUB            shift, and go to state 11
+    LPAREN         shift, and go to state 12
+    NOT            shift, and go to state 13
+    IF             shift, and go to state 14
+    FI             shift, and go to state 111
+    WHILE          shift, and go to state 15
+    FOR            shift, and go to state 16
+    REPEAT         shift, and go to state 17
+    DO             shift, and go to state 18
+
+    declaracion                          go to state 57
+    declaracion_simple                   go to state 22
+    exp                                  go to state 23
+    aritmetica                           go to state 24
+    termino                              go to state 25
+    factor                               go to state 26
+    primario                             go to state 27
+    booleana                             go to state 28
+    bool1                                go to state 29
+    bool2                                go to state 30
+    bool3                                go to state 31
+    bool_aritmetic                       go to state 32
+    declaracion_condicional              go to state 33
+    declaracion_iterativa                go to state 34
+    declaracion_iterativa_incondicional  go to state 35
+    declaracion_iterativa_condicional    go to state 36
+    bucle_do_until                       go to state 37
+    bucle_while                          go to state 38
+    declaracion_iterativa_indexada       go to state 39
+
+
+State 108
+
+   51 bucle_while: WHILE booleana DO M EOL lista_declaraciones DONE •
+
+    $default  reduce using rule 51 (bucle_while)
+
+
+State 109
+
+   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO • EOL lista_declaraciones DONE
+
+    EOL  shift, and go to state 112
+
+
+State 110
+
+   47 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE •
+
+    $default  reduce using rule 47 (declaracion_iterativa_incondicional)
+
+
 State 111
+
+   43 declaracion_condicional: IF booleana THEN lista_declaraciones LIN ELSE lista_declaraciones FI •
+
+    $default  reduce using rule 43 (declaracion_condicional)
+
+
+State 112
+
+   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL • lista_declaraciones DONE
+
+    ONELINECMNT    shift, and go to state 1
+    MULTILINECMNT  shift, and go to state 2
+    EOL            shift, and go to state 3
+    ID             shift, and go to state 4
+    A_ID           shift, and go to state 5
+    B_ID           shift, and go to state 6
+    INTEGER        shift, and go to state 7
+    FLOAT          shift, and go to state 8
+    BOOLEAN        shift, and go to state 9
+    ADD            shift, and go to state 10
+    SUB            shift, and go to state 11
+    LPAREN         shift, and go to state 12
+    NOT            shift, and go to state 13
+    IF             shift, and go to state 14
+    WHILE          shift, and go to state 15
+    FOR            shift, and go to state 16
+    REPEAT         shift, and go to state 17
+    DO             shift, and go to state 18
+
+    lista_declaraciones                  go to state 113
+    declaracion                          go to state 21
+    declaracion_simple                   go to state 22
+    exp                                  go to state 23
+    aritmetica                           go to state 24
+    termino                              go to state 25
+    factor                               go to state 26
+    primario                             go to state 27
+    booleana                             go to state 28
+    bool1                                go to state 29
+    bool2                                go to state 30
+    bool3                                go to state 31
+    bool_aritmetic                       go to state 32
+    declaracion_condicional              go to state 33
+    declaracion_iterativa                go to state 34
+    declaracion_iterativa_incondicional  go to state 35
+    declaracion_iterativa_condicional    go to state 36
+    bucle_do_until                       go to state 37
+    bucle_while                          go to state 38
+    declaracion_iterativa_indexada       go to state 39
+
+
+State 113
+
+    2 lista_declaraciones: lista_declaraciones • declaracion
+   52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones • DONE
+
+    ONELINECMNT    shift, and go to state 1
+    MULTILINECMNT  shift, and go to state 2
+    EOL            shift, and go to state 3
+    ID             shift, and go to state 4
+    A_ID           shift, and go to state 5
+    B_ID           shift, and go to state 6
+    INTEGER        shift, and go to state 7
+    FLOAT          shift, and go to state 8
+    BOOLEAN        shift, and go to state 9
+    ADD            shift, and go to state 10
+    SUB            shift, and go to state 11
+    LPAREN         shift, and go to state 12
+    NOT            shift, and go to state 13
+    IF             shift, and go to state 14
+    WHILE          shift, and go to state 15
+    FOR            shift, and go to state 16
+    REPEAT         shift, and go to state 17
+    DONE           shift, and go to state 114
+    DO             shift, and go to state 18
+
+    declaracion                          go to state 57
+    declaracion_simple                   go to state 22
+    exp                                  go to state 23
+    aritmetica                           go to state 24
+    termino                              go to state 25
+    factor                               go to state 26
+    primario                             go to state 27
+    booleana                             go to state 28
+    bool1                                go to state 29
+    bool2                                go to state 30
+    bool3                                go to state 31
+    bool_aritmetic                       go to state 32
+    declaracion_condicional              go to state 33
+    declaracion_iterativa                go to state 34
+    declaracion_iterativa_incondicional  go to state 35
+    declaracion_iterativa_condicional    go to state 36
+    bucle_do_until                       go to state 37
+    bucle_while                          go to state 38
+    declaracion_iterativa_indexada       go to state 39
+
+
+State 114
 
    52 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE •
 
