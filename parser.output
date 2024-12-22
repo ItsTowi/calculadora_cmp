@@ -52,10 +52,10 @@ Grammar
    30         | LPAREN aritmetica RPAREN
 
    31 booleana: bool1
-   32         | booleana OR bool1
+   32         | booleana OR LIN bool1
 
    33 bool1: bool2
-   34      | bool1 AND bool2
+   34      | bool1 AND LIN bool2
 
    35 bool2: bool3
    36      | NOT bool2
@@ -86,9 +86,9 @@ Grammar
    54 declaracion_iterativa_condicional: bucle_do_until
    55                                  | bucle_while
 
-   56 bucle_do_until: DO M EOL lista_declaraciones UNTIL booleana
+   56 bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana
 
-   57 bucle_while: WHILE booleana DO M EOL lista_declaraciones DONE
+   57 bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE
 
    58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE
 
@@ -219,10 +219,10 @@ Nonterminals, with rules where they appear
         on right: 52
     M <expr_val> (68)
         on left: 59
-        on right: 53 56 57
+        on right: 53
     LIN <entero> (69)
         on left: 60
-        on right: 2 48 49
+        on right: 2 32 34 48 49 56 57
     NEXTLIST <sent> (70)
         on left: 61
         on right: 49
@@ -453,28 +453,11 @@ State 14
 
 State 15
 
-   57 bucle_while: WHILE • booleana DO M EOL lista_declaraciones DONE
+   57 bucle_while: WHILE • LIN booleana DO LIN EOL lista_declaraciones DONE
 
-    ID       shift, and go to state 42
-    A_ID     shift, and go to state 43
-    B_ID     shift, and go to state 6
-    INTEGER  shift, and go to state 7
-    FLOAT    shift, and go to state 8
-    BOOLEAN  shift, and go to state 9
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
-    LPAREN   shift, and go to state 12
-    NOT      shift, and go to state 13
+    $default  reduce using rule 60 (LIN)
 
-    aritmetica      go to state 49
-    termino         go to state 25
-    factor          go to state 26
-    primario        go to state 27
-    booleana        go to state 52
-    bool1           go to state 29
-    bool2           go to state 30
-    bool3           go to state 31
-    bool_aritmetic  go to state 32
+    LIN  go to state 52
 
 
 State 16
@@ -504,11 +487,11 @@ State 17
 
 State 18
 
-   56 bucle_do_until: DO • M EOL lista_declaraciones UNTIL booleana
+   56 bucle_do_until: DO • LIN EOL lista_declaraciones UNTIL booleana
 
-    $default  reduce using rule 59 (M)
+    $default  reduce using rule 60 (LIN)
 
-    M  go to state 55
+    LIN  go to state 55
 
 
 State 19
@@ -605,7 +588,7 @@ State 27
 State 28
 
    14 exp: booleana •
-   32 booleana: booleana • OR bool1
+   32 booleana: booleana • OR LIN bool1
 
     OR  shift, and go to state 72
 
@@ -615,7 +598,7 @@ State 28
 State 29
 
    31 booleana: bool1 •
-   34 bool1: bool1 • AND bool2
+   34 bool1: bool1 • AND LIN bool2
 
     AND  shift, and go to state 73
 
@@ -828,7 +811,7 @@ State 47
 
 State 48
 
-   32 booleana: booleana • OR bool1
+   32 booleana: booleana • OR LIN bool1
    38 bool3: LPAREN booleana • RPAREN
 
     RPAREN  shift, and go to state 78
@@ -862,7 +845,7 @@ State 50
 
 State 51
 
-   32 booleana: booleana • OR bool1
+   32 booleana: booleana • OR LIN bool1
    48 declaracion_condicional: IF booleana • THEN LIN lista_declaraciones FI
    49                        | IF booleana • THEN LIN lista_declaraciones ELSE NEXTLIST LIN lista_declaraciones FI
 
@@ -872,11 +855,28 @@ State 51
 
 State 52
 
-   32 booleana: booleana • OR bool1
-   57 bucle_while: WHILE booleana • DO M EOL lista_declaraciones DONE
+   57 bucle_while: WHILE LIN • booleana DO LIN EOL lista_declaraciones DONE
 
-    OR  shift, and go to state 72
-    DO  shift, and go to state 80
+    ID       shift, and go to state 42
+    A_ID     shift, and go to state 43
+    B_ID     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+    FLOAT    shift, and go to state 8
+    BOOLEAN  shift, and go to state 9
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    LPAREN   shift, and go to state 12
+    NOT      shift, and go to state 13
+
+    aritmetica      go to state 49
+    termino         go to state 25
+    factor          go to state 26
+    primario        go to state 27
+    booleana        go to state 80
+    bool1           go to state 29
+    bool2           go to state 30
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
 
 
 State 53
@@ -899,7 +899,7 @@ State 54
 
 State 55
 
-   56 bucle_do_until: DO M • EOL lista_declaraciones UNTIL booleana
+   56 bucle_do_until: DO LIN • EOL lista_declaraciones UNTIL booleana
 
     EOL  shift, and go to state 83
 
@@ -1109,51 +1109,20 @@ State 71
 
 State 72
 
-   32 booleana: booleana OR • bool1
+   32 booleana: booleana OR • LIN bool1
 
-    ID       shift, and go to state 42
-    A_ID     shift, and go to state 43
-    B_ID     shift, and go to state 6
-    INTEGER  shift, and go to state 7
-    FLOAT    shift, and go to state 8
-    BOOLEAN  shift, and go to state 9
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
-    LPAREN   shift, and go to state 12
-    NOT      shift, and go to state 13
+    $default  reduce using rule 60 (LIN)
 
-    aritmetica      go to state 49
-    termino         go to state 25
-    factor          go to state 26
-    primario        go to state 27
-    bool1           go to state 92
-    bool2           go to state 30
-    bool3           go to state 31
-    bool_aritmetic  go to state 32
+    LIN  go to state 92
 
 
 State 73
 
-   34 bool1: bool1 AND • bool2
+   34 bool1: bool1 AND • LIN bool2
 
-    ID       shift, and go to state 42
-    A_ID     shift, and go to state 43
-    B_ID     shift, and go to state 6
-    INTEGER  shift, and go to state 7
-    FLOAT    shift, and go to state 8
-    BOOLEAN  shift, and go to state 9
-    ADD      shift, and go to state 10
-    SUB      shift, and go to state 11
-    LPAREN   shift, and go to state 12
-    NOT      shift, and go to state 13
+    $default  reduce using rule 60 (LIN)
 
-    aritmetica      go to state 49
-    termino         go to state 25
-    factor          go to state 26
-    primario        go to state 27
-    bool2           go to state 93
-    bool3           go to state 31
-    bool_aritmetic  go to state 32
+    LIN  go to state 93
 
 
 State 74
@@ -1207,11 +1176,11 @@ State 79
 
 State 80
 
-   57 bucle_while: WHILE booleana DO • M EOL lista_declaraciones DONE
+   32 booleana: booleana • OR LIN bool1
+   57 bucle_while: WHILE LIN booleana • DO LIN EOL lista_declaraciones DONE
 
-    $default  reduce using rule 59 (M)
-
-    M  go to state 97
+    OR  shift, and go to state 72
+    DO  shift, and go to state 97
 
 
 State 81
@@ -1243,7 +1212,7 @@ State 82
 
 State 83
 
-   56 bucle_do_until: DO M EOL • lista_declaraciones UNTIL booleana
+   56 bucle_do_until: DO LIN EOL • lista_declaraciones UNTIL booleana
 
     ONELINECMNT    shift, and go to state 1
     MULTILINECMNT  shift, and go to state 2
@@ -1374,19 +1343,51 @@ State 91
 
 State 92
 
-   32 booleana: booleana OR bool1 •
-   34 bool1: bool1 • AND bool2
+   32 booleana: booleana OR LIN • bool1
 
-    AND  shift, and go to state 73
+    ID       shift, and go to state 42
+    A_ID     shift, and go to state 43
+    B_ID     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+    FLOAT    shift, and go to state 8
+    BOOLEAN  shift, and go to state 9
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    LPAREN   shift, and go to state 12
+    NOT      shift, and go to state 13
 
-    $default  reduce using rule 32 (booleana)
+    aritmetica      go to state 49
+    termino         go to state 25
+    factor          go to state 26
+    primario        go to state 27
+    bool1           go to state 101
+    bool2           go to state 30
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
 
 
 State 93
 
-   34 bool1: bool1 AND bool2 •
+   34 bool1: bool1 AND LIN • bool2
 
-    $default  reduce using rule 34 (bool1)
+    ID       shift, and go to state 42
+    A_ID     shift, and go to state 43
+    B_ID     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+    FLOAT    shift, and go to state 8
+    BOOLEAN  shift, and go to state 9
+    ADD      shift, and go to state 10
+    SUB      shift, and go to state 11
+    LPAREN   shift, and go to state 12
+    NOT      shift, and go to state 13
+
+    aritmetica      go to state 49
+    termino         go to state 25
+    factor          go to state 26
+    primario        go to state 27
+    bool2           go to state 102
+    bool3           go to state 31
+    bool_aritmetic  go to state 32
 
 
 State 94
@@ -1427,7 +1428,7 @@ State 96
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
-    lista_declaraciones                  go to state 101
+    lista_declaraciones                  go to state 103
     declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
@@ -1451,9 +1452,11 @@ State 96
 
 State 97
 
-   57 bucle_while: WHILE booleana DO M • EOL lista_declaraciones DONE
+   57 bucle_while: WHILE LIN booleana DO • LIN EOL lista_declaraciones DONE
 
-    EOL  shift, and go to state 102
+    $default  reduce using rule 60 (LIN)
+
+    LIN  go to state 104
 
 
 State 98
@@ -1462,7 +1465,7 @@ State 98
    17           | aritmetica • SUB termino
    58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica • DOTS aritmetica DO EOL lista_declaraciones DONE
 
-    DOTS  shift, and go to state 103
+    DOTS  shift, and go to state 105
     ADD   shift, and go to state 65
     SUB   shift, and go to state 66
 
@@ -1471,15 +1474,15 @@ State 99
 
    53 declaracion_iterativa_incondicional: REPEAT aritmetica DO M • EOL lista_declaraciones DONE
 
-    EOL  shift, and go to state 104
+    EOL  shift, and go to state 106
 
 
 State 100
 
     2 lista_declaraciones: lista_declaraciones • LIN declaracion
-   56 bucle_do_until: DO M EOL lista_declaraciones • UNTIL booleana
+   56 bucle_do_until: DO LIN EOL lista_declaraciones • UNTIL booleana
 
-    UNTIL  shift, and go to state 105
+    UNTIL  shift, and go to state 107
 
     $default  reduce using rule 60 (LIN)
 
@@ -1488,64 +1491,43 @@ State 100
 
 State 101
 
+   32 booleana: booleana OR LIN bool1 •
+   34 bool1: bool1 • AND LIN bool2
+
+    AND  shift, and go to state 73
+
+    $default  reduce using rule 32 (booleana)
+
+
+State 102
+
+   34 bool1: bool1 AND LIN bool2 •
+
+    $default  reduce using rule 34 (bool1)
+
+
+State 103
+
     2 lista_declaraciones: lista_declaraciones • LIN declaracion
    48 declaracion_condicional: IF booleana THEN LIN lista_declaraciones • FI
    49                        | IF booleana THEN LIN lista_declaraciones • ELSE NEXTLIST LIN lista_declaraciones FI
 
-    ELSE  shift, and go to state 106
-    FI    shift, and go to state 107
+    ELSE  shift, and go to state 108
+    FI    shift, and go to state 109
 
     $default  reduce using rule 60 (LIN)
 
     LIN  go to state 57
 
 
-State 102
+State 104
 
-   57 bucle_while: WHILE booleana DO M EOL • lista_declaraciones DONE
+   57 bucle_while: WHILE LIN booleana DO LIN • EOL lista_declaraciones DONE
 
-    ONELINECMNT    shift, and go to state 1
-    MULTILINECMNT  shift, and go to state 2
-    EOL            shift, and go to state 3
-    ID             shift, and go to state 4
-    A_ID           shift, and go to state 5
-    B_ID           shift, and go to state 6
-    INTEGER        shift, and go to state 7
-    FLOAT          shift, and go to state 8
-    BOOLEAN        shift, and go to state 9
-    ADD            shift, and go to state 10
-    SUB            shift, and go to state 11
-    LPAREN         shift, and go to state 12
-    NOT            shift, and go to state 13
-    IF             shift, and go to state 14
-    WHILE          shift, and go to state 15
-    FOR            shift, and go to state 16
-    REPEAT         shift, and go to state 17
-    DO             shift, and go to state 18
-
-    lista_declaraciones                  go to state 108
-    declaracion                          go to state 21
-    declaracion_simple                   go to state 22
-    exp                                  go to state 23
-    aritmetica                           go to state 24
-    termino                              go to state 25
-    factor                               go to state 26
-    primario                             go to state 27
-    booleana                             go to state 28
-    bool1                                go to state 29
-    bool2                                go to state 30
-    bool3                                go to state 31
-    bool_aritmetic                       go to state 32
-    declaracion_condicional              go to state 33
-    declaracion_iterativa                go to state 34
-    declaracion_iterativa_incondicional  go to state 35
-    declaracion_iterativa_condicional    go to state 36
-    bucle_do_until                       go to state 37
-    bucle_while                          go to state 38
-    declaracion_iterativa_indexada       go to state 39
+    EOL  shift, and go to state 110
 
 
-State 103
+State 105
 
    58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS • aritmetica DO EOL lista_declaraciones DONE
 
@@ -1557,13 +1539,13 @@ State 103
     SUB      shift, and go to state 11
     LPAREN   shift, and go to state 44
 
-    aritmetica  go to state 109
+    aritmetica  go to state 111
     termino     go to state 25
     factor      go to state 26
     primario    go to state 27
 
 
-State 104
+State 106
 
    53 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL • lista_declaraciones DONE
 
@@ -1586,7 +1568,7 @@ State 104
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
-    lista_declaraciones                  go to state 110
+    lista_declaraciones                  go to state 112
     declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
@@ -1608,9 +1590,9 @@ State 104
     declaracion_iterativa_indexada       go to state 39
 
 
-State 105
+State 107
 
-   56 bucle_do_until: DO M EOL lista_declaraciones UNTIL • booleana
+   56 bucle_do_until: DO LIN EOL lista_declaraciones UNTIL • booleana
 
     ID       shift, and go to state 42
     A_ID     shift, and go to state 43
@@ -1627,42 +1609,75 @@ State 105
     termino         go to state 25
     factor          go to state 26
     primario        go to state 27
-    booleana        go to state 111
+    booleana        go to state 113
     bool1           go to state 29
     bool2           go to state 30
     bool3           go to state 31
     bool_aritmetic  go to state 32
 
 
-State 106
+State 108
 
    49 declaracion_condicional: IF booleana THEN LIN lista_declaraciones ELSE • NEXTLIST LIN lista_declaraciones FI
 
     $default  reduce using rule 61 (NEXTLIST)
 
-    NEXTLIST  go to state 112
+    NEXTLIST  go to state 114
 
 
-State 107
+State 109
 
    48 declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI •
 
     $default  reduce using rule 48 (declaracion_condicional)
 
 
-State 108
+State 110
 
-    2 lista_declaraciones: lista_declaraciones • LIN declaracion
-   57 bucle_while: WHILE booleana DO M EOL lista_declaraciones • DONE
+   57 bucle_while: WHILE LIN booleana DO LIN EOL • lista_declaraciones DONE
 
-    DONE  shift, and go to state 113
+    ONELINECMNT    shift, and go to state 1
+    MULTILINECMNT  shift, and go to state 2
+    EOL            shift, and go to state 3
+    ID             shift, and go to state 4
+    A_ID           shift, and go to state 5
+    B_ID           shift, and go to state 6
+    INTEGER        shift, and go to state 7
+    FLOAT          shift, and go to state 8
+    BOOLEAN        shift, and go to state 9
+    ADD            shift, and go to state 10
+    SUB            shift, and go to state 11
+    LPAREN         shift, and go to state 12
+    NOT            shift, and go to state 13
+    IF             shift, and go to state 14
+    WHILE          shift, and go to state 15
+    FOR            shift, and go to state 16
+    REPEAT         shift, and go to state 17
+    DO             shift, and go to state 18
 
-    $default  reduce using rule 60 (LIN)
+    lista_declaraciones                  go to state 115
+    declaracion                          go to state 21
+    declaracion_simple                   go to state 22
+    exp                                  go to state 23
+    aritmetica                           go to state 24
+    termino                              go to state 25
+    factor                               go to state 26
+    primario                             go to state 27
+    booleana                             go to state 28
+    bool1                                go to state 29
+    bool2                                go to state 30
+    bool3                                go to state 31
+    bool_aritmetic                       go to state 32
+    declaracion_condicional              go to state 33
+    declaracion_iterativa                go to state 34
+    declaracion_iterativa_incondicional  go to state 35
+    declaracion_iterativa_condicional    go to state 36
+    bucle_do_until                       go to state 37
+    bucle_while                          go to state 38
+    declaracion_iterativa_indexada       go to state 39
 
-    LIN  go to state 57
 
-
-State 109
+State 111
 
    16 aritmetica: aritmetica • ADD termino
    17           | aritmetica • SUB termino
@@ -1670,62 +1685,67 @@ State 109
 
     ADD  shift, and go to state 65
     SUB  shift, and go to state 66
-    DO   shift, and go to state 114
+    DO   shift, and go to state 116
 
 
-State 110
+State 112
 
     2 lista_declaraciones: lista_declaraciones • LIN declaracion
    53 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones • DONE
 
-    DONE  shift, and go to state 115
+    DONE  shift, and go to state 117
 
     $default  reduce using rule 60 (LIN)
 
     LIN  go to state 57
 
 
-State 111
+State 113
 
-   32 booleana: booleana • OR bool1
-   56 bucle_do_until: DO M EOL lista_declaraciones UNTIL booleana •
+   32 booleana: booleana • OR LIN bool1
+   56 bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana •
 
     OR  shift, and go to state 72
 
     $default  reduce using rule 56 (bucle_do_until)
 
 
-State 112
+State 114
 
    49 declaracion_condicional: IF booleana THEN LIN lista_declaraciones ELSE NEXTLIST • LIN lista_declaraciones FI
 
     $default  reduce using rule 60 (LIN)
 
-    LIN  go to state 116
-
-
-State 113
-
-   57 bucle_while: WHILE booleana DO M EOL lista_declaraciones DONE •
-
-    $default  reduce using rule 57 (bucle_while)
-
-
-State 114
-
-   58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO • EOL lista_declaraciones DONE
-
-    EOL  shift, and go to state 117
+    LIN  go to state 118
 
 
 State 115
+
+    2 lista_declaraciones: lista_declaraciones • LIN declaracion
+   57 bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones • DONE
+
+    DONE  shift, and go to state 119
+
+    $default  reduce using rule 60 (LIN)
+
+    LIN  go to state 57
+
+
+State 116
+
+   58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO • EOL lista_declaraciones DONE
+
+    EOL  shift, and go to state 120
+
+
+State 117
 
    53 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE •
 
     $default  reduce using rule 53 (declaracion_iterativa_incondicional)
 
 
-State 116
+State 118
 
    49 declaracion_condicional: IF booleana THEN LIN lista_declaraciones ELSE NEXTLIST LIN • lista_declaraciones FI
 
@@ -1748,7 +1768,7 @@ State 116
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
-    lista_declaraciones                  go to state 118
+    lista_declaraciones                  go to state 121
     declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
@@ -1770,7 +1790,14 @@ State 116
     declaracion_iterativa_indexada       go to state 39
 
 
-State 117
+State 119
+
+   57 bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE •
+
+    $default  reduce using rule 57 (bucle_while)
+
+
+State 120
 
    58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL • lista_declaraciones DONE
 
@@ -1793,7 +1820,7 @@ State 117
     REPEAT         shift, and go to state 17
     DO             shift, and go to state 18
 
-    lista_declaraciones                  go to state 119
+    lista_declaraciones                  go to state 122
     declaracion                          go to state 21
     declaracion_simple                   go to state 22
     exp                                  go to state 23
@@ -1815,38 +1842,38 @@ State 117
     declaracion_iterativa_indexada       go to state 39
 
 
-State 118
+State 121
 
     2 lista_declaraciones: lista_declaraciones • LIN declaracion
    49 declaracion_condicional: IF booleana THEN LIN lista_declaraciones ELSE NEXTLIST LIN lista_declaraciones • FI
 
-    FI  shift, and go to state 120
+    FI  shift, and go to state 123
 
     $default  reduce using rule 60 (LIN)
 
     LIN  go to state 57
 
 
-State 119
+State 122
 
     2 lista_declaraciones: lista_declaraciones • LIN declaracion
    58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones • DONE
 
-    DONE  shift, and go to state 121
+    DONE  shift, and go to state 124
 
     $default  reduce using rule 60 (LIN)
 
     LIN  go to state 57
 
 
-State 120
+State 123
 
    49 declaracion_condicional: IF booleana THEN LIN lista_declaraciones ELSE NEXTLIST LIN lista_declaraciones FI •
 
     $default  reduce using rule 49 (declaracion_condicional)
 
 
-State 121
+State 124
 
    58 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE •
 

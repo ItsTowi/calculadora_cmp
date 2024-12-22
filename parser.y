@@ -112,6 +112,11 @@ declaracion_simple: ID ASSIGN exp EOL {
                                   else 
                                   {
                                     addToMatrix(2, "PARAM", $1.name);
+                                    char* oper = malloc(sizeof(char)*5);
+                                    strcpy(oper, "PUT");
+                                    if ($1.val_type == INT_TYPE) strcat(oper, "I,");
+                                    else if ($1.val_type == FLOAT_TYPE) strcat(oper, "F,");
+                                    addToMatrix(3, "CALL", oper, "1");
                                   }
                                 }
               | ONELINECMNT     {
@@ -150,7 +155,10 @@ aritmetica: termino | aritmetica ADD termino  {
                                                 $$ = restaAritmetica($1, $3);
                                                 restaAritmetica3AC(&$$,$1, "-", $3);
                                               };
-                    | SUB termino             { $$ = cambioAritmetica($2); }
+                    | SUB termino             { 
+                                                $$ = cambioAritmetica($2); 
+                                                //addToMatrix(4, $$.place, ":=", "CHSI", getVariableValue($2));
+                                              }
                     | ADD termino             { $$ = $2; };   
 
 termino: factor | termino MULT factor {
@@ -212,28 +220,36 @@ primario: INTEGER                     {
 
 
 booleana: bool1
-          | booleana OR bool1 {
+          | booleana OR LIN bool1 {
                                 if ($1.val_type == BOOLEAN_TYPE && $1.value.val_boolean) {
                                     printf("Corto de or\n");
                                     $$ = $1;
                                 } else {
-                                    $$ = orBooleana($1, $3);
+                                    $$ = orBooleana($1, $4);
                                 }
+                                completa($1.falselist, $3);
+		                        $$.truelist = fusiona($1.truelist, $4.truelist);
+		                        $$.falselist = $4.falselist;
                               };
 
 bool1: bool2
-      | bool1 AND bool2 {
+      | bool1 AND LIN bool2 {
                           if ($1.val_type == BOOLEAN_TYPE && !$1.value.val_boolean) {
                               printf("Corto de and\n");
                               $$ = $1;
                           } else {
-                              $$ = andBooleana($1, $3);
+                              $$ = andBooleana($1, $4);
                           }
+                          completa($1.truelist, $3);
+                          $$.truelist = $4.truelist;
+                          $$.falselist = fusiona($1.falselist, $4.falselist);
                         };
 
 bool2: bool3 
       | NOT bool2                     {
-                                        $$ = notBooleana($2);
+                                        $$.truelist = $2.falselist;
+                                        $$.falselist = $2.truelist;
+                                        //$$ = notBooleana($2);
                                       };
 
 bool3:  bool_aritmetic
@@ -250,6 +266,10 @@ bool3:  bool_aritmetic
                                         }
                                         else
                                         {
+                                          $$.truelist = crea_lista(sig_linea);
+                                          addToMatrix(5,"IF",$1.name,"EQ","1","GOTO");
+                                          $$.falselist = crea_lista(sig_linea);
+                                          addToMatrix(1, "GOTO");
                                           $$.val_type = $1.val_type;
                                           $$.value = $1.value;
                                         }
@@ -288,7 +308,6 @@ declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI
 declaracion_iterativa: declaracion_iterativa_incondicional | declaracion_iterativa_condicional | declaracion_iterativa_indexada;
 
 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE {
-
 	addToMatrix(5, contador.place, ":=", contador.place, "ADDI", "1");
     printf("valor de aritmetica %s\n", $2.place);
 	addToMatrixSalotIncond(contador, "LT", $2, temp_sq);
@@ -296,9 +315,17 @@ declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaracio
 
 declaracion_iterativa_condicional: bucle_do_until | bucle_while
 
-bucle_do_until: DO M EOL lista_declaraciones UNTIL booleana {printf("BUCLE DO/UNTIL DETECTADO\n");}
+bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana {printf("BUCLE DO/UNTIL DETECTADO\n");}
  
-bucle_while: WHILE booleana DO M EOL lista_declaraciones DONE {printf("BUCLE WHILE DETECTADO\n");}
+bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE 
+            {
+                completa($3.truelist, $5);
+                completa($7, $2);
+                $$ = $3.falselist;
+                char *m_buffer = malloc(sizeof(char)*5);
+                sprintf(m_buffer, "%d", $2); 
+                addToMatrix(2, "GOTO", m_buffer);
+            }
 
 declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE {printf("BUCLE FOR DETECTADO\n");}
 
