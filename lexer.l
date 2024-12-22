@@ -40,7 +40,7 @@ espacio [ \t\r]
 "if"                        {printf("TOKEN IF:\n"); return IF;}
 "then"                      {return THEN;}
 "else"                      {return ELSE;}
-"fi"                        {return FI;}
+"fi"                        {printf("TOKEN FI:\n"); return FI;}
 "while"                     {return WHILE;}
 "until"                     {return UNTIL;}
 "for"                       {return FOR;}
@@ -87,12 +87,12 @@ espacio [ \t\r]
 "("                         { return LPAREN; }
 ")"                         { return RPAREN; }
 
-">"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
-">="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
-"<"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
-"<="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
-"="                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
-"<>"                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
+">"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return GT; }
+">="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return GE; }
+"<"                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return LT; }
+"<="                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return LE; }
+"="                         { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return EQ; }
+"<>"                        { yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return NE; }
 
 
 {digit}({digit})*           {

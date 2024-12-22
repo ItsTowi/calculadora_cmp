@@ -880,7 +880,7 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 43 "lexer.l"
-{return FI;}
+{printf("TOKEN FI:\n"); return FI;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
@@ -1013,32 +1013,32 @@ YY_RULE_SETUP
 case 30:
 YY_RULE_SETUP
 #line 90 "lexer.l"
-{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">"; return GT; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 91 "lexer.l"
-{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = ">="; return GE; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 92 "lexer.l"
-{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<"; return LT; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 93 "lexer.l"
-{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<="; return LE; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 94 "lexer.l"
-{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "="; return EQ; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 95 "lexer.l"
-{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return OPRELACIONAL; }
+{ yylval.expr_val.val_type = STRING_TYPE; yylval.expr_val.value.val_string = "<>"; return NE; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP

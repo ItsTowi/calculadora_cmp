@@ -30,7 +30,9 @@ void print_sentences();
 
 %union{
     value_info expr_val;
+    list sent;
     int entero;
+    char *cadena;
 }
 
 %{
@@ -38,32 +40,35 @@ void print_sentences();
  list crea_lista(int num);
  list fusiona(list l1, list l2);
  value_info contador;
+ char* getVariableValue(value_info v);
  void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void multiplicacionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void divisionAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void moduloAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
  void potenciaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2);
- void addToMatrixSaltoCondicional(value_info v1, value_info operador, value_info v2, char * jump_line);
+ void addToMatrixSaltoCondicional(value_info v1, char *operador, value_info v2, char * jump_line);
  void addToMatrixSalotIncond(value_info v1, const char* operador, value_info v2, char* jump_line);
 %}
  
 
-%token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL;
+%token ASSIGN ONELINECMNT MULTILINECMNT COMMA EOL GT GE LT LE EQ NE;
 %token <expr_val> ID A_ID B_ID INTEGER FLOAT BOOLEAN DOTS ADD SUB MULT DIV MOD POW LPAREN RPAREN OPRELACIONAL AND OR NOT 
                 IF THEN ELSE FI
                 WHILE UNTIL FOR IN RANG
                 REPEAT DONE DO;
-%type <expr_val> declaracion lista_declaraciones 
+%type <expr_val> exp  aritmetica termino factor primario M
+                 booleana bool1 bool2 bool3 bool_aritmetic;
+
+%type <sent>    declaracion lista_declaraciones 
                 declaracion_simple declaracion_condicional 
                 declaracion_iterativa 
                 declaracion_iterativa_incondicional 
                 declaracion_iterativa_condicional bucle_while bucle_do_until
-                declaracion_iterativa_indexada
-                exp  aritmetica termino factor primario M
-                booleana bool1 bool2 bool3 bool_aritmetic;
+                declaracion_iterativa_indexada NEXTLIST;
 
 %type <entero> LIN;
+%type <cadena> operador_relacional;
 
 %start programa
 
@@ -71,7 +76,11 @@ void print_sentences();
 
 programa : lista_declaraciones{print_sentences();};
 
-lista_declaraciones: lista_declaraciones declaracion | declaracion;
+lista_declaraciones: lista_declaraciones LIN declaracion {
+		                completa($1, $2);
+		                $$ = $3;
+                    }
+                    | declaracion;
 
 declaracion: declaracion_simple | declaracion_condicional | declaracion_iterativa;
 
@@ -246,8 +255,8 @@ bool3:  bool_aritmetic
                                         }
                                       };
 
-bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
-                                                      $$ = opRelacional($1,$2,$3);
+bool_aritmetic: aritmetica operador_relacional aritmetica  {
+                                                      //$$ = opRelacional($1,$2,$3);
                                                       $$.truelist = crea_lista(sig_linea);
                                                       printf("item true list %d\n", $$.truelist.lista[0]);
                                                       addToMatrixSaltoCondicional($1, $2, $3, "");
@@ -256,14 +265,21 @@ bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
                                                       addToMatrix(1, "GOTO");
                                                     };
 
+
+operador_relacional: GT {$$="GT";} | LT {$$="LT";} | GE {$$="GE";} | LE {$$="LE";} | EQ {$$="EQ";} | NE {$$="NE";};
+
 declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI 
                         {
+                            printf("LLEGO AL IF\n");
                             completa($2.truelist, $4);
 	                        $$=fusiona($2.falselist, $5);
                         }
                         |
-                        IF booleana THEN lista_declaraciones LIN ELSE lista_declaraciones FI
+                        IF booleana THEN LIN lista_declaraciones ELSE NEXTLIST LIN lista_declaraciones FI
                         {
+                            completa($2.truelist, $4);
+	                        completa($2.falselist, $8);
+	                        $$=fusiona($5, fusiona($7, $9));
                             printf("SE HA ENCONTRADO UN IF/ELSE \n");
                         };
 
@@ -301,6 +317,12 @@ M : {$$.place = malloc(sizeof(char)*5);
 /* Guarda el quat actual */
 LIN: {
 	$$=sig_linea;
+};
+
+/*Crea la siguiente lista*/
+NEXTLIST: {
+    $$=crea_lista(sig_linea);
+	addToMatrix(1, "GOTO");
 };
 
 %%
@@ -381,28 +403,31 @@ void addToMatrixSalotIncond(value_info v1, const char* operador, value_info v2, 
 }
 
 
-void addToMatrixSaltoCondicional(value_info v1, value_info operador, value_info v2, char * jump_line) {
-	if (strcmp(operador.value.val_string, "=")==0 || strcmp(operador.value.val_string, "<>")==0){
+void addToMatrixSaltoCondicional(value_info v1, char *operador, value_info v2, char * jump_line) {
+	
+    char* valor_v1 = getVariableValue(v1);
+    char* valor_v2 = getVariableValue(v2);
+    
+    if (strcmp(operador, "=")==0 || strcmp(operador, "<>")==0){
 		if (v1.val_type==v2.val_type) {
-			char *op= (char *)malloc(sizeof(char)*strlen(operador.value.val_string)+2);
-			strcpy(op, operador.value.val_string);
+			char *op= (char *)malloc(sizeof(char)*strlen(operador)+2);
+			strcpy(op, operador);
 			if (v1.val_type==INT_TYPE) strcat(op, "I");
 		 	else strcat(op, "F");
-			addToMatrix(6, "IF", v1.place, op, v2.place, "GOTO", jump_line);
+			addToMatrix(6, "IF", valor_v1, op, valor_v2, "GOTO", jump_line);
 			free(op);
 		}
 		else yyerror("Las dos variables tienen que tener el mismo tipo para realizar esta operación!");
 	} else {
-		char *op= (char *)malloc(sizeof(char)*strlen(operador.value.val_string)+2);
-		strcpy(op, operador.value.val_string);
+		char *op= (char *)malloc(sizeof(char)*strlen(operador)+2);
+		strcpy(op, operador);
 		if (v1.val_type==v2.val_type) {
 			if (v1.val_type==INT_TYPE){
 				 strcat(op, "I");
 			} else {
 				 strcat(op, "F");
 			}
-            printf("VALOR V1 %s VALOR V2 %s\n", v1.place, v2.place);
-			addToMatrix(6, "IF", v1.place, "GTI", valueToString(v2), "GOTO", jump_line);
+			addToMatrix(6, "IF", valor_v1, op, valor_v2, "GOTO", jump_line);
 
 		} else if (v1.val_type==FLOAT_TYPE || v2.val_type==FLOAT_TYPE){
 			strcat(op, "F");
@@ -415,7 +440,7 @@ void addToMatrixSaltoCondicional(value_info v1, value_info operador, value_info 
 					castedValue = (char *) malloc(sizeof(char)*5);
 					sprintf(castedValue, "%.1f", atof(v2.place));
 				}
-				addToMatrix(6, "IF", v1.place, op, v2.place, "GOTO", jump_line);
+				addToMatrix(6, "IF", valor_v1, op, valor_v2, "GOTO", jump_line);
 			}
 			else if (v2.val_type==FLOAT_TYPE){
 				char *castedValue;
@@ -426,22 +451,49 @@ void addToMatrixSaltoCondicional(value_info v1, value_info operador, value_info 
 					castedValue = (char *) malloc(sizeof(char)*5);
 					sprintf(castedValue, "%.1f", atof(v1.place));
 				}
-				addToMatrix(6, "IF", v1.place, op, v2.place, "GOTO", jump_line);
+				addToMatrix(6, "IF", valor_v1, op, valor_v2, "GOTO", jump_line);
 			} else yyerror("OPERACION NO PERMITIDA");
 		} else yyerror("OPERACION NO PERMITIDA");
 		free(op);
 	}
 }
 
+char* getVariableValue(value_info v) {
+    if (v.place != NULL && strlen(v.place) > 0) {
+        return v.place;
+    } else {
+        return valueToString(v);
+    }
+}
 
 void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
-    char* v1_str = NULL;
-    char* v2_str = NULL;
 
-    printf("El nombre de v1 es: %s\n", v1.name ? v1.name : "(null)");
-    printf("El nombre de v2 es: %s\n", v2.name ? v2.name : "(null)");
+    if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
+        (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
 
-    // Verificar que ambos son numéricos
+        s0->place = nou_temporal();
+
+        s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
+
+        char* v1_str = getVariableValue(v1);
+        char* v2_str = getVariableValue(v2);
+
+        if (strcmp(op, "+") == 0) {
+            if (s0->val_type == FLOAT_TYPE) {
+                addToMatrix(5, s0->place, ":=", v1_str, "ADDF", v2_str);
+            } else {
+                addToMatrix(5, s0->place, ":=", v1_str, "ADDI", v2_str);
+            }
+        }
+
+        if (v1.place == NULL) free(v1_str);
+        if (v2.place == NULL) free(v2_str);
+    } else {
+        printf("Error: Los operandos deben ser numéricos.\n");
+    }
+}
+
+void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
     if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
         (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
 
@@ -451,62 +503,26 @@ void sumaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
         // Determinar tipo del resultado
         s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
 
-        // Asignar cadenas para v1 y v2 (o sus lugares si existen)
-        v1_str = (v1.name != NULL) ? v1.name : 
-                 (v1.val_type == INT_TYPE) ? (asprintf(&v1_str, "%d", v1.value.val_int), v1_str) : 
-                 (asprintf(&v1_str, "%f", v1.value.val_float), v1_str);
+        // Obtener cadenas para v1 y v2
+        char* v1_str = getVariableValue(v1);
+        char* v2_str = getVariableValue(v2);
 
-        v2_str = (v2.name != NULL) ? v2.name : 
-                 (v2.val_type == INT_TYPE) ? (asprintf(&v2_str, "%d", v2.value.val_int), v2_str) : 
-                 (asprintf(&v2_str, "%f", v2.value.val_float), v2_str);
-
-        // Generar instrucción
-        if (strcmp(op, "+") == 0) {
-            if (s0->val_type == FLOAT_TYPE) {
-                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "ADDF", v2.place ? v2.place : v2_str);
-            } else {
-                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "ADDI", v2.place ? v2.place : v2_str);
-            }
-        }
-
-        // Liberar memoria solo si fue asignada dinámicamente
-        if (v1.name == NULL && v1_str) free(v1_str);
-        if (v2.name == NULL && v2_str) free(v2_str);
-    }
-}
-
-
-void restaAritmetica3AC(value_info *s0, value_info v1, char *op, value_info v2) {
-    char* v1_str = NULL;
-    char* v2_str = NULL;
-
-    if ((v1.val_type == INT_TYPE || v1.val_type == FLOAT_TYPE) &&
-        (v2.val_type == INT_TYPE || v2.val_type == FLOAT_TYPE)) {
-
-        s0->place = nou_temporal();
-        s0->val_type = (v1.val_type == FLOAT_TYPE || v2.val_type == FLOAT_TYPE) ? FLOAT_TYPE : INT_TYPE;
-
-        v1_str = (v1.name != NULL) ? v1.name : 
-                 (v1.val_type == INT_TYPE) ? (asprintf(&v1_str, "%d", v1.value.val_int), v1_str) : 
-                 (asprintf(&v1_str, "%f", v1.value.val_float), v1_str);
-
-        v2_str = (v2.name != NULL) ? v2.name : 
-                 (v2.val_type == INT_TYPE) ? (asprintf(&v2_str, "%d", v2.value.val_int), v2_str) : 
-                 (asprintf(&v2_str, "%f", v2.value.val_float), v2_str);
-
+        // Generar instrucción basada en el operador
         if (strcmp(op, "-") == 0) {
             if (s0->val_type == FLOAT_TYPE) {
-                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "SUBF", v2.place ? v2.place : v2_str);
+                addToMatrix(5, s0->place, ":=", v1_str, "SUBF", v2_str);
             } else {
-                addToMatrix(5, s0->place, ":=", v1.place ? v1.place : v1_str, "SUBI", v2.place ? v2.place : v2_str);
+                addToMatrix(5, s0->place, ":=", v1_str, "SUBI", v2_str);
             }
         }
 
-        if (v1.name == NULL && v1_str) free(v1_str);
-        if (v2.name == NULL && v2_str) free(v2_str);
+        // Liberar memoria de las cadenas generadas dinámicamente
+        if (v1.place == NULL) free(v1_str);
+        if (v2.place == NULL) free(v2_str);
+    } else {
+        printf("Error: Los operandos deben ser numéricos.\n");
     }
 }
-
 
 void generarValorCadena(value_info v, char **v_str) {
     if (v.name == NULL) {

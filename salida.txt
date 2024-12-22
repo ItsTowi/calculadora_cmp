@@ -1,0 +1,10 @@
+1:  x := 5 
+2:  y := 10 
+3:  IF x EQI y GOTO  5
+4:  GOTO 9
+5:  t := 5 
+6:  $t01 := 9 SUBI x 
+7:  y := $t01 
+8:  GOTO 10
+9:  t := 10 
+10:  HALT

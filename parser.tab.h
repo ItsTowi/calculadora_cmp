@@ -68,37 +68,43 @@ extern int yydebug;
     MULTILINECMNT = 260,           /* MULTILINECMNT  */
     COMMA = 261,                   /* COMMA  */
     EOL = 262,                     /* EOL  */
-    ID = 263,                      /* ID  */
-    A_ID = 264,                    /* A_ID  */
-    B_ID = 265,                    /* B_ID  */
-    INTEGER = 266,                 /* INTEGER  */
-    FLOAT = 267,                   /* FLOAT  */
-    BOOLEAN = 268,                 /* BOOLEAN  */
-    DOTS = 269,                    /* DOTS  */
-    ADD = 270,                     /* ADD  */
-    SUB = 271,                     /* SUB  */
-    MULT = 272,                    /* MULT  */
-    DIV = 273,                     /* DIV  */
-    MOD = 274,                     /* MOD  */
-    POW = 275,                     /* POW  */
-    LPAREN = 276,                  /* LPAREN  */
-    RPAREN = 277,                  /* RPAREN  */
-    OPRELACIONAL = 278,            /* OPRELACIONAL  */
-    AND = 279,                     /* AND  */
-    OR = 280,                      /* OR  */
-    NOT = 281,                     /* NOT  */
-    IF = 282,                      /* IF  */
-    THEN = 283,                    /* THEN  */
-    ELSE = 284,                    /* ELSE  */
-    FI = 285,                      /* FI  */
-    WHILE = 286,                   /* WHILE  */
-    UNTIL = 287,                   /* UNTIL  */
-    FOR = 288,                     /* FOR  */
-    IN = 289,                      /* IN  */
-    RANG = 290,                    /* RANG  */
-    REPEAT = 291,                  /* REPEAT  */
-    DONE = 292,                    /* DONE  */
-    DO = 293                       /* DO  */
+    GT = 263,                      /* GT  */
+    GE = 264,                      /* GE  */
+    LT = 265,                      /* LT  */
+    LE = 266,                      /* LE  */
+    EQ = 267,                      /* EQ  */
+    NE = 268,                      /* NE  */
+    ID = 269,                      /* ID  */
+    A_ID = 270,                    /* A_ID  */
+    B_ID = 271,                    /* B_ID  */
+    INTEGER = 272,                 /* INTEGER  */
+    FLOAT = 273,                   /* FLOAT  */
+    BOOLEAN = 274,                 /* BOOLEAN  */
+    DOTS = 275,                    /* DOTS  */
+    ADD = 276,                     /* ADD  */
+    SUB = 277,                     /* SUB  */
+    MULT = 278,                    /* MULT  */
+    DIV = 279,                     /* DIV  */
+    MOD = 280,                     /* MOD  */
+    POW = 281,                     /* POW  */
+    LPAREN = 282,                  /* LPAREN  */
+    RPAREN = 283,                  /* RPAREN  */
+    OPRELACIONAL = 284,            /* OPRELACIONAL  */
+    AND = 285,                     /* AND  */
+    OR = 286,                      /* OR  */
+    NOT = 287,                     /* NOT  */
+    IF = 288,                      /* IF  */
+    THEN = 289,                    /* THEN  */
+    ELSE = 290,                    /* ELSE  */
+    FI = 291,                      /* FI  */
+    WHILE = 292,                   /* WHILE  */
+    UNTIL = 293,                   /* UNTIL  */
+    FOR = 294,                     /* FOR  */
+    IN = 295,                      /* IN  */
+    RANG = 296,                    /* RANG  */
+    REPEAT = 297,                  /* REPEAT  */
+    DONE = 298,                    /* DONE  */
+    DO = 299                       /* DO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -110,9 +116,11 @@ union YYSTYPE
 #line 31 "parser.y"
 
     value_info expr_val;
+    list sent;
     int entero;
+    char *cadena;
 
-#line 116 "parser.tab.h"
+#line 124 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

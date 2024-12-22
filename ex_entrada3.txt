@@ -1,5 +1,9 @@
 // expressions
 x := 5
-if x > 10 then
+y := 10
+if x = y then
     t := 5
+    y := 9 - x
+else
+    t := 10
 fi
