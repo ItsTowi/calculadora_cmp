@@ -601,8 +601,8 @@ static const yytype_int16 yyrline[] =
      162,   164,   164,   168,   172,   177,   178,   183,   187,   191,
      205,   217,   222,   223,   235,   236,   248,   249,   255,   256,
      259,   262,   278,   289,   289,   289,   289,   289,   289,   291,
-     298,   308,   308,   308,   310,   316,   316,   318,   320,   330,
-     334,   345,   350
+     298,   308,   308,   308,   310,   316,   316,   318,   325,   335,
+     339,   350,   355
 };
 #endif
 
@@ -1647,13 +1647,17 @@ yyreduce:
     break;
 
   case 57: /* bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana  */
-#line 318 "parser.y"
-                                                              {printf("BUCLE DO/UNTIL DETECTADO\n");}
-#line 1653 "parser.tab.c"
+#line 319 "parser.y"
+            {
+                printf("BUCLE DO\n");
+                completa((yyvsp[-1].expr_val).truelist, (yyvsp[-4].entero));
+                (yyval.sent) = (yyvsp[-1].expr_val).falselist;
+            }
+#line 1657 "parser.tab.c"
     break;
 
   case 58: /* bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE  */
-#line 321 "parser.y"
+#line 326 "parser.y"
             {
                 completa((yyvsp[-5].expr_val).truelist, (yyvsp[-3].entero));
                 completa((yyvsp[-1].sent), (yyvsp[-6].entero));
@@ -1662,17 +1666,17 @@ yyreduce:
                 sprintf(m_buffer, "%d", (yyvsp[-6].entero)); 
                 addToMatrix(2, "GOTO", m_buffer);
             }
-#line 1666 "parser.tab.c"
+#line 1670 "parser.tab.c"
     break;
 
   case 59: /* declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE  */
-#line 330 "parser.y"
+#line 335 "parser.y"
                                                                                                        {printf("BUCLE FOR DETECTADO\n");}
-#line 1672 "parser.tab.c"
+#line 1676 "parser.tab.c"
     break;
 
   case 60: /* M: %empty  */
-#line 334 "parser.y"
+#line 339 "parser.y"
     {(yyval.expr_val).place = malloc(sizeof(char)*5);
      (yyval.expr_val).val_type = INT_TYPE; /*Un contador siempre es un entero*/
      strcpy((yyval.expr_val).place, nou_temporal());
@@ -1682,28 +1686,28 @@ yyreduce:
      temp_sq = malloc(sizeof(char)*5);
      sprintf(temp_sq, "%d", sig_linea);  
 }
-#line 1686 "parser.tab.c"
+#line 1690 "parser.tab.c"
     break;
 
   case 61: /* LIN: %empty  */
-#line 345 "parser.y"
+#line 350 "parser.y"
      {
 	(yyval.entero)=sig_linea;
 }
-#line 1694 "parser.tab.c"
+#line 1698 "parser.tab.c"
     break;
 
   case 62: /* NEXTLIST: %empty  */
-#line 350 "parser.y"
+#line 355 "parser.y"
           {
     (yyval.sent)=crea_lista(sig_linea);
 	addToMatrix(1, "GOTO");
 }
-#line 1703 "parser.tab.c"
+#line 1707 "parser.tab.c"
     break;
 
 
-#line 1707 "parser.tab.c"
+#line 1711 "parser.tab.c"
 
       default: break;
     }
@@ -1896,7 +1900,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 355 "parser.y"
+#line 360 "parser.y"
 
 
 

@@ -315,7 +315,12 @@ declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaracio
 
 declaracion_iterativa_condicional: bucle_do_until | bucle_while
 
-bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana {printf("BUCLE DO/UNTIL DETECTADO\n");}
+bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana 
+            {
+                printf("BUCLE DO\n");
+                completa($5.truelist, $2);
+                $$ = $5.falselist;
+            }
  
 bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE 
             {
@@ -327,7 +332,10 @@ bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE
                 addToMatrix(2, "GOTO", m_buffer);
             }
 
-declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE {printf("BUCLE FOR DETECTADO\n");}
+declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE 
+            {
+                printf("BUCLE FOR DETECTADO\n");
+            }
 
 
 /* M contendrá la información del contador del bucle y guardará la línea donde empieza el bucle*/
