@@ -4,6 +4,6 @@
 4:  total := $t01 
 5:  $t02 := i ADDI 1 
 6:  i := $t02 
-7:  IF i GTI 10 GOTO  
-8:  GOTO 
+7:  IF i GTI 10 GOTO  3
+8:  GOTO 9
 9:  HALT

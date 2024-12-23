@@ -318,8 +318,8 @@ declaracion_iterativa_condicional: bucle_do_until | bucle_while
 bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana 
             {
                 printf("BUCLE DO\n");
-                completa($5.truelist, $2);
-                $$ = $5.falselist;
+                completa($6.truelist, $2);
+                $$ = $6.falselist;
             }
  
 bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE 

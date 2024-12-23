@@ -602,7 +602,7 @@ static const yytype_int16 yyrline[] =
      205,   217,   222,   223,   235,   236,   248,   249,   255,   256,
      259,   262,   278,   289,   289,   289,   289,   289,   289,   291,
      298,   308,   308,   308,   310,   316,   316,   318,   325,   335,
-     339,   350,   355
+     342,   353,   358
 };
 #endif
 
@@ -1650,8 +1650,8 @@ yyreduce:
 #line 319 "parser.y"
             {
                 printf("BUCLE DO\n");
-                completa((yyvsp[-1].expr_val).truelist, (yyvsp[-4].entero));
-                (yyval.sent) = (yyvsp[-1].expr_val).falselist;
+                completa((yyvsp[0].expr_val).truelist, (yyvsp[-4].entero));
+                (yyval.sent) = (yyvsp[0].expr_val).falselist;
             }
 #line 1657 "parser.tab.c"
     break;
@@ -1670,13 +1670,15 @@ yyreduce:
     break;
 
   case 59: /* declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE  */
-#line 335 "parser.y"
-                                                                                                       {printf("BUCLE FOR DETECTADO\n");}
-#line 1676 "parser.tab.c"
+#line 336 "parser.y"
+            {
+                printf("BUCLE FOR DETECTADO\n");
+            }
+#line 1678 "parser.tab.c"
     break;
 
   case 60: /* M: %empty  */
-#line 339 "parser.y"
+#line 342 "parser.y"
     {(yyval.expr_val).place = malloc(sizeof(char)*5);
      (yyval.expr_val).val_type = INT_TYPE; /*Un contador siempre es un entero*/
      strcpy((yyval.expr_val).place, nou_temporal());
@@ -1686,28 +1688,28 @@ yyreduce:
      temp_sq = malloc(sizeof(char)*5);
      sprintf(temp_sq, "%d", sig_linea);  
 }
-#line 1690 "parser.tab.c"
+#line 1692 "parser.tab.c"
     break;
 
   case 61: /* LIN: %empty  */
-#line 350 "parser.y"
+#line 353 "parser.y"
      {
 	(yyval.entero)=sig_linea;
 }
-#line 1698 "parser.tab.c"
+#line 1700 "parser.tab.c"
     break;
 
   case 62: /* NEXTLIST: %empty  */
-#line 355 "parser.y"
+#line 358 "parser.y"
           {
     (yyval.sent)=crea_lista(sig_linea);
 	addToMatrix(1, "GOTO");
 }
-#line 1707 "parser.tab.c"
+#line 1709 "parser.tab.c"
     break;
 
 
-#line 1711 "parser.tab.c"
+#line 1713 "parser.tab.c"
 
       default: break;
     }
@@ -1900,7 +1902,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 360 "parser.y"
+#line 363 "parser.y"
 
 
 
