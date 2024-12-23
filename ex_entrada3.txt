@@ -1,7 +1,7 @@
 // expressions
 i := 1
 total := 15
-do
-    total := 15 + i
-    i := i + 1
-until i > 10
+x := 5
+for x in 1 ... 10 do
+    t := 5
+done

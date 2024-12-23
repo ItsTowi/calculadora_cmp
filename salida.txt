@@ -1,9 +1,10 @@
 1:  i := 1 
 2:  total := 15 
-3:  $t01 := 15 ADDI i 
-4:  total := $t01 
-5:  $t02 := i ADDI 1 
-6:  i := $t02 
-7:  IF i GTI 10 GOTO  3
-8:  GOTO 9
-9:  HALT
+3:  x := 5 
+4:  x := 1 
+5:  IF x LEI 10 GOTO 7 
+6:  GOTO 10
+7:  t := 5 
+8:  x := x + 1 
+9:  GOTO 5 
+10:  HALT

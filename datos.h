@@ -40,7 +40,6 @@ typedef struct variables {
 
 } value_info;
 
-
 char *type_to_str(data_type val_type);
 char *value_info_to_str(value_info value);
 char *valueToString(value_info v);

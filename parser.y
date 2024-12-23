@@ -29,10 +29,17 @@ void print_sentences();
 }
 
 %union{
+
     value_info expr_val;
     list sent;
     int entero;
     char *cadena;
+
+    struct {
+	    int quad;
+	    list lls;
+	    char *place;
+    }all_data;
 }
 
 %{
@@ -57,7 +64,7 @@ void print_sentences();
                 IF THEN ELSE FI
                 WHILE UNTIL FOR IN RANG
                 REPEAT DONE DO;
-%type <expr_val> exp  aritmetica termino factor primario M
+%type <expr_val> exp  aritmetica termino factor primario M FIRST_PART
                  booleana bool1 bool2 bool3 bool_aritmetic;
 
 %type <sent>    declaracion lista_declaraciones 
@@ -69,6 +76,7 @@ void print_sentences();
 
 %type <entero> LIN;
 %type <cadena> operador_relacional;
+%type <all_data> SECOND_PART;
 
 %start programa
 
@@ -317,7 +325,6 @@ declaracion_iterativa_condicional: bucle_do_until | bucle_while
 
 bucle_do_until: DO LIN EOL lista_declaraciones UNTIL booleana 
             {
-                printf("BUCLE DO\n");
                 completa($6.truelist, $2);
                 $$ = $6.falselist;
             }
@@ -332,11 +339,36 @@ bucle_while: WHILE LIN booleana DO LIN EOL lista_declaraciones DONE
                 addToMatrix(2, "GOTO", m_buffer);
             }
 
-declaracion_iterativa_indexada: FOR A_ID IN aritmetica DOTS aritmetica DO EOL lista_declaraciones DONE 
+declaracion_iterativa_indexada:
+            SECOND_PART DO EOL lista_declaraciones DONE 
             {
-                printf("BUCLE FOR DETECTADO\n");
+                completa($4, sig_linea);
+                addToMatrix(5,$1.place, ":=", $1.place, "+", "1");
+                char *quad_buffer = malloc(sizeof(char)*MAXLEN);
+                sprintf(quad_buffer, "%d", $1.quad); 
+                addToMatrix(2, "GOTO", quad_buffer);
+                $$ = $1.lls;
             }
 
+
+SECOND_PART: FIRST_PART DOTS aritmetica
+            {
+                $$.quad = sig_linea;
+                char *quad_buffer = malloc(sizeof(char)*MAXLEN);
+                sprintf(quad_buffer, "%d", sig_linea+2); 
+                addToMatrixSaltoCondicional($1, "LE", $3, quad_buffer);
+                $$.lls = crea_lista(sig_linea);
+                addToMatrix(1, "GOTO");
+                $$.place = $1.place;
+            }
+
+FIRST_PART: FOR A_ID IN aritmetica
+            {
+                addToMatrix(3,$2.name, ":=", getVariableValue($4));
+                printf("BUCLE FOR DETECTADO %s\n", $2.name);
+                $$.place = $2.name;
+                $$.val_type = $4.val_type;
+            }
 
 /* M contendrá la información del contador del bucle y guardará la línea donde empieza el bucle*/
 M : {$$.place = malloc(sizeof(char)*5);

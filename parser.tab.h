@@ -115,12 +115,19 @@ union YYSTYPE
 {
 #line 31 "parser.y"
 
+
     value_info expr_val;
     list sent;
     int entero;
     char *cadena;
 
-#line 124 "parser.tab.h"
+    struct {
+	    int quad;
+	    list lls;
+	    char *place;
+    }all_data;
+
+#line 131 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
