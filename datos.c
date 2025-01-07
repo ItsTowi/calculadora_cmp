@@ -5,7 +5,7 @@
 #include "datos.h"
 
 
-#define STRING_MAX_SIZE 2056  // Tamaño máximo para cadenas
+#define STRING_MAX_SIZE 2056
 #define PI 3.14159265358979323846
 
 char *type_to_str(data_type val_type)
@@ -83,17 +83,14 @@ value_info constanteE() {
 value_info sumaAritmetica(value_info v1, value_info v2) {
     value_info resultado = {.val_type = UNKNOWN_TYPE};
 
-    // Sumar enteros
     if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
         resultado.val_type = INT_TYPE;
         resultado.value.val_int = v1.value.val_int + v2.value.val_int;
     }
-    // Sumar floats
     else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float + v2.value.val_float;
     }
-    // Concatenar cadenas
     else if (v1.val_type == STRING_TYPE && v2.val_type == STRING_TYPE) {
         resultado.val_type = STRING_TYPE;
         
@@ -108,7 +105,6 @@ value_info sumaAritmetica(value_info v1, value_info v2) {
                 fprintf(stderr, "Error: no se pudo asignar memoria para la concatenación de cadenas.\n");
                 resultado.val_type = UNKNOWN_TYPE;
             } else {
-                // Concatenar las cadenas
                 snprintf(resultado.value.val_string, total_length + 1, "%s%s", v1.value.val_string, v2.value.val_string);
             }
         } else {
@@ -116,17 +112,14 @@ value_info sumaAritmetica(value_info v1, value_info v2) {
             resultado.val_type = UNKNOWN_TYPE;
         }
     }
-    // Concatenar STRING + INT
     else if ((v1.val_type == STRING_TYPE && v2.val_type == INT_TYPE) ||
              (v1.val_type == INT_TYPE && v2.val_type == STRING_TYPE)) {
         resultado.val_type = STRING_TYPE;
 
-        // Convertir INT a cadena
         char buffer[20];
         int num = (v1.val_type == INT_TYPE) ? v1.value.val_int : v2.value.val_int;
         snprintf(buffer, sizeof(buffer), "%d", num);
 
-        // Concatenar
         const char *str_part = (v1.val_type == STRING_TYPE) ? v1.value.val_string : v2.value.val_string;
         size_t total_length = strlen(str_part) + strlen(buffer);
 
@@ -143,17 +136,14 @@ value_info sumaAritmetica(value_info v1, value_info v2) {
             resultado.val_type = UNKNOWN_TYPE;
         }
     }
-    // Concatenar STRING + FLOAT
     else if ((v1.val_type == STRING_TYPE && v2.val_type == FLOAT_TYPE) ||
              (v1.val_type == FLOAT_TYPE && v2.val_type == STRING_TYPE)) {
         resultado.val_type = STRING_TYPE;
 
-        // Convertir FLOAT a cadena
         char buffer[20];
         float num = (v1.val_type == FLOAT_TYPE) ? v1.value.val_float : v2.value.val_float;
         snprintf(buffer, sizeof(buffer), "%.2f", num);
 
-        // Concatenar
         const char *str_part = (v1.val_type == STRING_TYPE) ? v1.value.val_string : v2.value.val_string;
         size_t total_length = strlen(str_part) + strlen(buffer);
 
@@ -170,7 +160,6 @@ value_info sumaAritmetica(value_info v1, value_info v2) {
             resultado.val_type = UNKNOWN_TYPE;
         }
     }
-    // Manejo de combinaciones de tipos
     else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_int + v2.value.val_float;
@@ -190,17 +179,14 @@ value_info sumaAritmetica(value_info v1, value_info v2) {
 value_info restaAritmetica(value_info v1, value_info v2) {
     value_info resultado = {.val_type = UNKNOWN_TYPE};
 
-    // Restar enteros
     if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
         resultado.val_type = INT_TYPE;
         resultado.value.val_int = v1.value.val_int - v2.value.val_int;
     }
-    // Restar flotantes
     else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float - v2.value.val_float;
     }
-    // Manejo de combinaciones de tipos
     else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_int - v2.value.val_float;
@@ -209,7 +195,6 @@ value_info restaAritmetica(value_info v1, value_info v2) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float - v2.value.val_int;
     }
-    // Manejar caso donde los tipos no son compatibles
     else {
         fprintf(stderr, "Error: tipos incompatibles para la operación de resta.\n");
     }
@@ -222,17 +207,14 @@ value_info restaAritmetica(value_info v1, value_info v2) {
 value_info multAritmetica(value_info v1, value_info v2) {
     value_info resultado = {.val_type = UNKNOWN_TYPE};
 
-    // Multiplicar enteros
     if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
         resultado.val_type = INT_TYPE;
         resultado.value.val_int = v1.value.val_int * v2.value.val_int;
     }
-    // Multiplicar flotantes
     else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float * v2.value.val_float;
     }
-    // Manejo de combinaciones de tipos
     else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_int * v2.value.val_float;
@@ -241,7 +223,6 @@ value_info multAritmetica(value_info v1, value_info v2) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float * v2.value.val_int;
     }
-    // Manejar caso donde los tipos no son compatibles
     else {
         fprintf(stderr, "Error: tipos incompatibles para la operación de multiplicación.\n");
     }
@@ -250,34 +231,28 @@ value_info multAritmetica(value_info v1, value_info v2) {
 }
 
 
-value_info divAritmetica(value_info v1, value_info v2) {
+value_info divAritmetica(value_info v1, value_info v2, int lineno) {
     value_info resultado = {.val_type = UNKNOWN_TYPE};
 
-    // División entre enteros
     if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
         if (v2.value.val_int == 0) {
-            fprintf(stderr, "Error: División por cero.\n");
-            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            fprintf(stderr, "Error: División por cero en la linea %d\n", lineno);
             return resultado;
         }
         resultado.val_type = INT_TYPE;
         resultado.value.val_int = v1.value.val_int / v2.value.val_int;
     }
-    // División entre flotantes
     else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
         if (v2.value.val_float == 0.0) {
-            fprintf(stderr, "Error: División por cero.\n");
-            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            fprintf(stderr, "Error: División por cero en la linea %d\n", lineno);
             return resultado;
         }
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float / v2.value.val_float;
     }
-    // Manejo de combinaciones de tipos
     else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
         if (v2.value.val_float == 0.0) {
-            fprintf(stderr, "Error: División por cero.\n");
-            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            fprintf(stderr, "Error: División por cero en la linea %d\n", lineno);
             return resultado;
         }
         resultado.val_type = FLOAT_TYPE;
@@ -285,14 +260,12 @@ value_info divAritmetica(value_info v1, value_info v2) {
     }
     else if (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE) {
         if (v2.value.val_int == 0) {
-            fprintf(stderr, "Error: División por cero.\n");
-            // Retornar un valor indeterminado o manejar el error según tus necesidades
+            fprintf(stderr, "Error: División por cero en la linea %d\n", lineno);
             return resultado;
         }
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = v1.value.val_float / v2.value.val_int;
     }
-    // Manejar caso donde los tipos no son compatibles
     else {
         fprintf(stderr, "Error: tipos incompatibles para la operación de división.\n");
     }
@@ -304,17 +277,14 @@ value_info divAritmetica(value_info v1, value_info v2) {
 value_info modAritmetica(value_info v1, value_info v2) {
     value_info resultado = {.val_type = UNKNOWN_TYPE};
 
-    // Módulo entre enteros
     if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
         if (v2.value.val_int == 0) {
             fprintf(stderr, "Error: División por cero en módulo.\n");
-            // Retornar un valor indeterminado o manejar el error según tus necesidades
             return resultado;
         }
         resultado.val_type = INT_TYPE;
         resultado.value.val_int = v1.value.val_int % v2.value.val_int;
     }
-    // Manejo de tipos incompatibles
     else {
         fprintf(stderr, "Error: tipos incompatibles para la operación de módulo.\n");
     }
@@ -326,17 +296,14 @@ value_info modAritmetica(value_info v1, value_info v2) {
 value_info potAritmetica(value_info v1, value_info v2) {
     value_info resultado = {.val_type = UNKNOWN_TYPE};
 
-    // Potencia entre enteros
     if (v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) {
         resultado.val_type = INT_TYPE;
         resultado.value.val_int = (int)pow(v1.value.val_int, v2.value.val_int);
     }
-    // Potencia entre flotantes
     else if (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = pow(v1.value.val_float, v2.value.val_float);
     }
-    // Combinación de tipos: int y float
     else if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = pow(v1.value.val_int, v2.value.val_float);
@@ -345,7 +312,6 @@ value_info potAritmetica(value_info v1, value_info v2) {
         resultado.val_type = FLOAT_TYPE;
         resultado.value.val_float = pow(v1.value.val_float, v2.value.val_int);
     }
-    // Manejo de tipos incompatibles
     else {
         fprintf(stderr, "Error: tipos incompatibles para la operación de potencia.\n");
     }
@@ -412,7 +378,6 @@ value_info cambioAritmetica(value_info v) {
     } else if (v.val_type == FLOAT_TYPE) {
         resultado.value.val_float = -v.value.val_float;
     } else {
-        // Si el tipo no es soportado, marcarlo como tipo desconocido
         resultado.val_type = UNKNOWN_TYPE;
         fprintf(stderr, "Error: tipo de dato incompatible para cambio de signo.\n");
     }
@@ -424,11 +389,9 @@ value_info cambioAritmetica(value_info v) {
 value_info calcularLen(value_info v) {
     value_info result;
     if (v.val_type == STRING_TYPE) {
-        // Si el tipo es STRING, calculamos la longitud
         result.val_type = INT_TYPE;
         result.value.val_int = strlen(v.value.val_string);
     } else {
-        // En caso de error, podrías agregar manejo de error aquí
         result.val_type = UNKNOWN_TYPE;
     }
     return result;
@@ -440,9 +403,8 @@ value_info substring(value_info v1, int inicio, int distancia) {
     if (v1.val_type == STRING_TYPE) {
         
         int len = strlen(v1.value.val_string);
-        // Validar que las posiciones estén dentro de los límites
         if (inicio < 0 || inicio >= len || distancia < 0 || (inicio + distancia) > len) {
-            result.val_type = UNKNOWN_TYPE;  // Error en las posiciones
+            result.val_type = UNKNOWN_TYPE;
             return result;
             printf("UNKOWN");
         }
@@ -450,12 +412,11 @@ value_info substring(value_info v1, int inicio, int distancia) {
         // Reservar memoria para la subcadena
         char *sub = (char*)malloc((distancia + 1) * sizeof(char));
         if (!sub) {
-            result.val_type = UNKNOWN_TYPE;  // Error de memoria
+            result.val_type = UNKNOWN_TYPE;
             
             return result;
         }
 
-        // Copiar la subcadena
         strncpy(sub, v1.value.val_string + inicio, distancia);
         sub[distancia] = '\0';  // Asegurarse de que la subcadena esté terminada con '\0'
 
@@ -482,7 +443,6 @@ value_info opTrigonometrica(value_info trigFunction, value_info v1)
     float valor = (v1.val_type == INT_TYPE) ? (float)v1.value.val_int : v1.value.val_float;
     double radians = valor * (PI / 180.0);
 
-    // Aplicar la función trigonométrica correspondiente
     if (strcmp(trigFunction.value.val_string, "sin") == 0) {
         resultado.value.val_float = sin(radians);
     }
@@ -537,23 +497,20 @@ value_info opRelacional(value_info v1, value_info operador, value_info v2)
 {
     value_info resultado = {.val_type = BOOLEAN_TYPE};
 
-    // Verifica que al menos uno de los operandos sea de tipo NUMERO (INT_TYPE o FLOAT_TYPE)
     if ((v1.val_type == INT_TYPE && v2.val_type == INT_TYPE) ||
         (v1.val_type == FLOAT_TYPE && v2.val_type == FLOAT_TYPE) ||
         (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) ||
         (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE)) {
 
-        // Si v1 es INT_TYPE y v2 es FLOAT_TYPE o viceversa, convertimos INT a FLOAT
         if (v1.val_type == INT_TYPE && v2.val_type == FLOAT_TYPE) {
             v1.value.val_float = (float)v1.value.val_int;
-            v1.val_type = FLOAT_TYPE;  // Convertimos v1 a FLOAT_TYPE
+            v1.val_type = FLOAT_TYPE;
         }
         else if (v1.val_type == FLOAT_TYPE && v2.val_type == INT_TYPE) {
             v2.value.val_float = (float)v2.value.val_int;
-            v2.val_type = FLOAT_TYPE;  // Convertimos v2 a FLOAT_TYPE
+            v2.val_type = FLOAT_TYPE;
         }
 
-        // Comparaciones después de asegurarse de que ambos operandos son FLOAT_TYPE
         if (strcmp(operador.value.val_string, "<") == 0) {
             resultado.value.val_boolean = v1.value.val_float < v2.value.val_float;
         }
@@ -577,7 +534,6 @@ value_info opRelacional(value_info v1, value_info operador, value_info v2)
         }
     }
     else {
-        // Si los tipos no son compatibles (no son enteros ni flotantes)
         resultado.val_type = UNKNOWN_TYPE;
     }
 

@@ -37,7 +37,7 @@ value_info constanteE();
 value_info sumaAritmetica(value_info v1, value_info v2);
 value_info restaAritmetica(value_info v1, value_info v2);
 value_info multAritmetica(value_info v1, value_info v2);
-value_info divAritmetica(value_info v1, value_info v2);
+value_info divAritmetica(value_info v1, value_info v2, int lineno);
 value_info modAritmetica(value_info v1, value_info v2);
 value_info potAritmetica(value_info v1, value_info v2);
 value_info cambioAritmetica(value_info v);

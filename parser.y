@@ -38,19 +38,19 @@ lista_declaraciones: lista_declaraciones declaracion | declaracion;
 declaracion: ID ASSIGN exp EOL {
                                   if ($3.val_type == UNKNOWN_TYPE) 
                                   {
-                                    yyerror($3.value.val_string);
+                                    yyerror("SEMANTIC ERROR: UNKNOWN TYPE.");
                                   } 
                                   else 
                                   {
                                     $1.val_type = $3.val_type;
                                     sym_enter($1.name, &$3);
-                                    fprintf(yyout, "ID: %s pren amb tipus %s per valor: %s\n", $1.name, type_to_str($1.val_type) ,valueToString($3));
+                                    fprintf(yyout, "ID: %s assigned with type %s and value: %s\n", $1.name, type_to_str($1.val_type) ,valueToString($3));
                                   }
                                 }
               | exp EOL         {
                                   if ($1.val_type == UNKNOWN_TYPE)
                                   {
-                                    yyerror($1.value.val_string);
+                                    yyerror("SEMANTIC ERROR: EXPRESSION UNKNOWN TYPE.");
                                   }
                                   else
                                   {
@@ -59,10 +59,10 @@ declaracion: ID ASSIGN exp EOL {
                                   }
                                 }
               | ONELINECMNT {
-                              fprintf(yyout, "COMENTARIO DE UNA LINEA EN LA LINEA %d\n", yylineno - 1);
+                              fprintf(yyout, "ONE-LINE COMMENT at line %d\n", yylineno - 1);
                             }
               | MULTILINECMNT {
-                                fprintf(yyout, "COMENTARIO DE MULTIPLES LINEAS %d\n", yylineno - 1);
+                                fprintf(yyout, "MULTI-LINE COMMENT at line %d\n", yylineno - 1);
                               };
 
 exp: aritmetica | booleana;
@@ -72,7 +72,7 @@ aritmetica: termino | aritmetica ADD termino  {
                                               }
                     | aritmetica SUB termino  {
                                                 $$ = restaAritmetica($1, $3);
-                                              };
+                                              }
                     | SUB termino             { $$ = cambioAritmetica($2); }
                     | ADD termino             { $$ = $2; };   
 
@@ -80,7 +80,7 @@ termino: factor | termino MULT factor {
                                         $$ = multAritmetica($1, $3);
                                       } 
                 | termino DIV factor  {
-                                        $$ = divAritmetica($1, $3);
+                                        $$ = divAritmetica($1, $3, yylineno);
                                       }
                 | termino MOD factor  {
                                         $$ = modAritmetica($1, $3);
@@ -109,7 +109,7 @@ primario: INTEGER                     {
           | ID                        {
                                           if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
                                           {	
-                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
+                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND."); 
                                           } 
 												                  else 
                                           { 
@@ -120,7 +120,7 @@ primario: INTEGER                     {
           | A_ID                        {
                                           if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
                                           {	
-                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
+                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND."); 
                                           } 
 												                  else 
                                           { 
@@ -165,7 +165,7 @@ bool3:  bool_aritmetic
         | B_ID                        {
                                         if (sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND)
                                         {
-                                          yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n");
+                                          yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.");
                                         }
                                         else
                                         {

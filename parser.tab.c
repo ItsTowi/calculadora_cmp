@@ -1191,13 +1191,13 @@ yyreduce:
                                {
                                   if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE) 
                                   {
-                                    yyerror((yyvsp[-1].expr_val).value.val_string);
+                                    yyerror("SEMANTIC ERROR: UNKNOWN TYPE.");
                                   } 
                                   else 
                                   {
                                     (yyvsp[-3].expr_val).val_type = (yyvsp[-1].expr_val).val_type;
                                     sym_enter((yyvsp[-3].expr_val).name, &(yyvsp[-1].expr_val));
-                                    fprintf(yyout, "ID: %s pren amb tipus %s per valor: %s\n", (yyvsp[-3].expr_val).name, type_to_str((yyvsp[-3].expr_val).val_type) ,valueToString((yyvsp[-1].expr_val)));
+                                    fprintf(yyout, "ID: %s assigned with type %s and value: %s\n", (yyvsp[-3].expr_val).name, type_to_str((yyvsp[-3].expr_val).val_type) ,valueToString((yyvsp[-1].expr_val)));
                                   }
                                 }
 #line 1204 "parser.tab.c"
@@ -1208,7 +1208,7 @@ yyreduce:
                                 {
                                   if ((yyvsp[-1].expr_val).val_type == UNKNOWN_TYPE)
                                   {
-                                    yyerror((yyvsp[-1].expr_val).value.val_string);
+                                    yyerror("SEMANTIC ERROR: EXPRESSION UNKNOWN TYPE.");
                                   }
                                   else
                                   {
@@ -1222,7 +1222,7 @@ yyreduce:
   case 7: /* declaracion: ONELINECMNT  */
 #line 61 "parser.y"
                             {
-                              fprintf(yyout, "COMENTARIO DE UNA LINEA EN LA LINEA %d\n", yylineno - 1);
+                              fprintf(yyout, "ONE-LINE COMMENT at line %d\n", yylineno - 1);
                             }
 #line 1228 "parser.tab.c"
     break;
@@ -1230,7 +1230,7 @@ yyreduce:
   case 8: /* declaracion: MULTILINECMNT  */
 #line 64 "parser.y"
                               {
-                                fprintf(yyout, "COMENTARIO DE MULTIPLES LINEAS %d\n", yylineno - 1);
+                                fprintf(yyout, "MULTI-LINE COMMENT at line %d\n", yylineno - 1);
                               }
 #line 1236 "parser.tab.c"
     break;
@@ -1274,7 +1274,7 @@ yyreduce:
   case 18: /* termino: termino DIV factor  */
 #line 82 "parser.y"
                                       {
-                                        (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val));
+                                        (yyval.expr_val) = divAritmetica((yyvsp[-2].expr_val), (yyvsp[0].expr_val), yylineno);
                                       }
 #line 1280 "parser.tab.c"
     break;
@@ -1340,7 +1340,7 @@ yyreduce:
                                       {
                                           if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
                                           {	
-                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
+                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND."); 
                                           } 
 												                  else 
                                           { 
@@ -1356,7 +1356,7 @@ yyreduce:
                                         {
                                           if(sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND) 
                                           {	
-                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
+                                            yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND."); 
                                           } 
 												                  else 
                                           { 
@@ -1444,7 +1444,7 @@ yyreduce:
                                       {
                                         if (sym_lookup((yyvsp[0].expr_val).name, &(yyvsp[0].expr_val)) == SYMTAB_NOT_FOUND)
                                         {
-                                          yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n");
+                                          yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.");
                                         }
                                         else
                                         {
@@ -1658,3 +1658,4 @@ yyreturnlab:
 }
 
 #line 181 "parser.y"
+
