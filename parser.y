@@ -8,7 +8,7 @@
 #define SENTENCE_MAX_LENGTH 150
 
 extern FILE *yyout;
-extern FILE *logout;
+extern FILE *log_file;
 extern int yylineno;
 extern int yylex();
 char *sentenciasC3A[MAXLEN];
@@ -103,7 +103,6 @@ declaracion_simple: ID ASSIGN exp EOL {
                                   {
                                     $1.val_type = $3.val_type;
                                     $3.name = $1.name;
-                                    printf("Se asigna a la variable %s el valor %s\n", $1.name, valueToString($3));
                                     if (!($1.name == NULL)) {
                                       sym_enter($1.name, &$3);
                                       if ($3.place != NULL)
@@ -143,7 +142,6 @@ declaracion_simple: ID ASSIGN exp EOL {
                                   {
                                     $1.val_type = $3.val_type;
                                     $3.name = $1.name;
-                                    printf("Se asigna a la variable %s el valor %s\n", $1.name, valueToString($3));
                                     if (!($1.name == NULL)) {
                                       sym_enter($1.name, &$3);
                                       if ($3.place != NULL)
@@ -200,7 +198,6 @@ primario: INTEGER                     {
           | ID                        {
                                           if(sym_lookup($1.name, &$1) == SYMTAB_NOT_FOUND) 
                                           {	
-                                            printf("AQUIIII\n");
                                             yyerror("SEMANTIC ERROR: VARIABLE NOT FOUND.\n"); 
                                           } 
 											else 
@@ -231,7 +228,6 @@ primario: INTEGER                     {
 booleana: bool1
           | booleana OR LIN bool1 {
                                 if ($1.val_type == BOOLEAN_TYPE && $1.value.val_boolean) {
-                                    printf("Corto de or\n");
                                     $$ = $1;
                                 } else {
                                     $$ = orBooleana($1, $4);
@@ -244,7 +240,6 @@ booleana: bool1
 bool1: bool2
       | bool1 AND LIN bool2 {
                           if ($1.val_type == BOOLEAN_TYPE && !$1.value.val_boolean) {
-                              printf("Corto de and\n");
                               $$ = $1;
                           } else {
                               $$ = andBooleana($1, $4);
@@ -287,10 +282,8 @@ bool3:  bool_aritmetic
 bool_aritmetic: aritmetica operador_relacional aritmetica  {
                                                       //$$ = opRelacional($1,$2,$3);
                                                       $$.truelist = crea_lista(sig_linea);
-                                                      printf("item true list %d\n", $$.truelist.lista[0]);
                                                       addToMatrixSaltoCondicional($1, $2, $3, "");
                                                       $$.falselist = crea_lista(sig_linea);
-                                                      printf("item false list %d\n", $$.falselist.lista[0]);
                                                       addToMatrix(1, "GOTO");
                                                     };
 
@@ -299,7 +292,6 @@ operador_relacional: GT {$$="GT";} | LT {$$="LT";} | GE {$$="GE";} | LE {$$="LE"
 
 declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI 
                         {
-                            printf("LLEGO AL IF\n");
                             completa($2.truelist, $4);
 	                        $$=fusiona($2.falselist, $5);
                         }
@@ -309,7 +301,6 @@ declaracion_condicional: IF booleana THEN LIN lista_declaraciones FI
                             completa($2.truelist, $4);
 	                        completa($2.falselist, $8);
 	                        $$=fusiona($5, fusiona($7, $9));
-                            printf("SE HA ENCONTRADO UN IF/ELSE \n");
                         };
 
 
@@ -318,7 +309,6 @@ declaracion_iterativa: declaracion_iterativa_incondicional | declaracion_iterati
 
 declaracion_iterativa_incondicional: REPEAT aritmetica DO M EOL lista_declaraciones DONE {
 	addToMatrix(5, contador.place, ":=", contador.place, "ADDI", "1");
-    printf("valor de aritmetica %s\n", $2.place);
 	addToMatrixSalotIncond(contador, "LT", $2, temp_sq);
 };
 
@@ -370,7 +360,6 @@ FIRST_PART: FOR A_ID IN aritmetica
                 }
 
                 addToMatrix(3,$2.name, ":=", getVariableValue($4));
-                printf("BUCLE FOR DETECTADO %s\n", $2.name);
                 $$.place = $2.name;
                 $$.val_type = $4.val_type;
             }
@@ -420,7 +409,8 @@ void completa(list lista, int num){
 	char* num_buffer = malloc(sizeof(char)*5);
 	sprintf(num_buffer, "%d", num);
 	for (i=0; i < lista.size; i++){
-	strcat(sentenciasC3A[lista.lista[i]],num_buffer);
+        fprintf(log_file, "Se añade la linea %s al GOTO -> %s\n", num_buffer, sentenciasC3A[lista.lista[i]]);
+	    strcat(sentenciasC3A[lista.lista[i]],num_buffer);
 	}
 }
 
@@ -429,12 +419,12 @@ list fusiona(list l1, list l2){
 	temp.lista = malloc(MAXLEN*sizeof(int));
 	int i;
 	for (i=0; i < l1.size; i++){
-	temp.lista[i]=l1.lista[i];
+	    temp.lista[i]=l1.lista[i];
 	}
 	int j;
 	for (j=0; j < l2.size; j++){
-	temp.lista[i]=l2.lista[j];
-	i++;
+	    temp.lista[i]=l2.lista[j];
+	    i++;
 	}
 
 	temp.size = l1.size + l2.size;
@@ -450,13 +440,12 @@ void addToMatrix(int args_count, ...) {
 
     for (int i = 0; i < args_count; i++) {
         char* arg = va_arg(args, char*);  // Intento de leer argumento
-        printf("%s\n", arg);
         strcat(buffer, arg);
         strcat(buffer, " ");
     }
 
     sentenciasC3A[sig_linea] = buffer;
-    printf("Guardado en sentenciasC3A[%d]: %s\n", sig_linea, buffer);
+    fprintf(log_file ,"Guardado en sentenciasC3A[%d]: %s\n", sig_linea, buffer);
     sig_linea++;
 
     va_end(args);

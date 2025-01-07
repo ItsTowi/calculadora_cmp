@@ -1,5 +1,120 @@
-Compilation log started.
-Lexical analysis initialized successfully.
-Syntactic analysis initialized successfully.
-Semantic analysis completed successfully.
-Compilation log closed.
+Token ID at line 0
+Token ASSIGN at line 0
+Token INTEGER at line 0
+Token EOL at line 1
+ 
+Guardado en sentenciasC3A[1]: i := 1 
+Token ID at line 1
+Token ASSIGN at line 1
+Token LPAREN at line 1
+Token FLOAT at line 1
+Token SUMA at line 1
+Token INTEGER at line 1
+Token MULT at line 1
+Token INTEGER at line 1
+Token RPAREN at line 1
+Guardado en sentenciasC3A[2]: $t01 := 0 MULI 1 
+Guardado en sentenciasC3A[3]: $t02 := 1.000000 ADDF $t01 
+Token SUB at line 1
+Token A_ID at line 1
+Token EOL at line 2
+ 
+Guardado en sentenciasC3A[4]: $t03 := $t02 SUBF i 
+Guardado en sentenciasC3A[5]: total := $t03 
+Token WHILE at line 2
+Token A_ID at line 2
+Token GT at line 2
+Token FLOAT at line 2
+Token DO at line 2
+Guardado en sentenciasC3A[6]: IF total LTF 1000.000000 GOTO  
+Guardado en sentenciasC3A[7]: GOTO 
+Token EOL at line 3
+ 
+Token IF at line 3
+Token LPAREN at line 3
+Token A_ID at line 3
+Token GT at line 3
+Token INTEGER at line 3
+Token RPAREN at line 3
+Guardado en sentenciasC3A[8]: IF i EQI 1 GOTO  
+Guardado en sentenciasC3A[9]: GOTO 
+Token THEN at line 3
+Token EOL at line 4
+ 
+Token A_ID at line 4
+Token ASSIGN at line 4
+Token A_ID at line 4
+Token MULT at line 4
+Token INTEGER at line 4
+Token EOL at line 5
+ 
+Guardado en sentenciasC3A[10]: $t04 := total MULF 2 
+Guardado en sentenciasC3A[11]: total := $t04 
+Token ELSE at line 5
+Guardado en sentenciasC3A[12]: GOTO 
+Token EOL at line 6
+ 
+Token A_ID at line 6
+Token ASSIGN at line 6
+Token A_ID at line 6
+Token SUB at line 6
+Token INTEGER at line 6
+Token EOL at line 7
+ 
+Guardado en sentenciasC3A[13]: $t05 := total SUBF 1 
+Guardado en sentenciasC3A[14]: total := $t05 
+Token FI at line 7
+Se añade la linea 10 al GOTO -> IF i EQI 1 GOTO  
+Se añade la linea 13 al GOTO -> GOTO 
+Token EOL at line 8
+ 
+Se añade la linea 15 al GOTO -> GOTO 
+Token A_ID at line 8
+Token ASSIGN at line 8
+Token A_ID at line 8
+Token SUB at line 8
+Token INTEGER at line 8
+Token EOL at line 9
+ 
+Guardado en sentenciasC3A[15]: $t06 := i SUBI 1 
+Guardado en sentenciasC3A[16]: i := $t06 
+Token IF at line 9
+Token A_ID at line 9
+Token GT at line 9
+Token FLOAT at line 9
+Token OR at line 9
+Guardado en sentenciasC3A[17]: IF total GTF 666.599976 GOTO  
+Guardado en sentenciasC3A[18]: GOTO 
+Token A_ID at line 9
+Token GT at line 9
+Token FLOAT at line 9
+Token THEN at line 9
+Guardado en sentenciasC3A[19]: IF total EQF 500.000000 GOTO  
+Guardado en sentenciasC3A[20]: GOTO 
+Se añade la linea 19 al GOTO -> GOTO 
+Token EOL at line 10
+ 
+Token A_ID at line 10
+Token ASSIGN at line 10
+Token INTEGER at line 10
+Token EOL at line 11
+ 
+Guardado en sentenciasC3A[21]: i := 111 
+Token FI at line 11
+Se añade la linea 21 al GOTO -> IF total GTF 666.599976 GOTO  
+Se añade la linea 21 al GOTO -> IF total EQF 500.000000 GOTO  
+Token EOL at line 12
+ 
+Se añade la linea 22 al GOTO -> GOTO 
+Token DONE at line 12
+Se añade la linea 8 al GOTO -> IF total LTF 1000.000000 GOTO  
+Guardado en sentenciasC3A[22]: GOTO 6 
+Token EOL at line 13
+ 
+Se añade la linea 23 al GOTO -> GOTO 
+Token A_ID at line 13
+Token EOL at line 14
+ 
+Guardado en sentenciasC3A[23]: PARAM total 
+Guardado en sentenciasC3A[24]: CALL PUTF, 1 
+Compilation successful.

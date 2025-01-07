@@ -1,0 +1,6 @@
+// assignacions
+x := 1.5
+i := 5
+z := i * (x + i) - i / 4.0
+// Expressions basiques
+x

@@ -33,10 +33,8 @@ typedef struct variables {
   } value;
   data_type val_type;
 
-  int repeat;
   list truelist;
   list falselist;
-  list nextlist;
 
 } value_info;
 

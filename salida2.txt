@@ -1,0 +1,18 @@
+1:  i := 1 
+2:  total := 15 
+3:  x := 0 
+4:  x := 1 
+5:  IF x LEI 10 GOTO 7 
+6:  GOTO 18
+7:  IF x GTI 5 GOTO  9
+8:  GOTO 12
+9:  $t01 := 5 ADDI 1 
+10:  z := $t01 
+11:  GOTO 14
+12:  $t02 := 1 SUBI 1 
+13:  z := $t02 
+14:  $t03 := x ADDI 5 
+15:  t := $t03 
+16:  x := x + 1 
+17:  GOTO 5 
+18:  HALT

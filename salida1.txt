@@ -1,0 +1,10 @@
+1:  x := 1.500000 
+2:  i := 5 
+3:  $t01 := x ADDF i 
+4:  $t02 := i MULF 6.500000 
+5:  $t03 := i DIVF 4.000000 
+6:  $t04 := $t02 SUBF $t03 
+7:  z := $t04 
+8:  PARAM x 
+9:  CALL PUTF, 1 
+10:  HALT
