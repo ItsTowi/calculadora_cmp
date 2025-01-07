@@ -45,7 +45,7 @@ lex : $(SRC_LEX)
 	$(LEX) $(LFLAGS) $(SRC_LEX)
 
 clean :
-	rm -f *~ $(BIN) $(OBJ) $(YACC_OUT) $(LEX_OUT) $(OTHERS) $(EG_OUT)
+	rm -f *~ $(BIN) $(OBJ) $(YACC_OUT) $(LEX_OUT) $(OTHERS) $(EG_OUT) log.txt
 
 eg : $(EG_IN)
 	./$(BIN) $(EG_IN) $(EG_OUT)

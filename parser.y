@@ -5,6 +5,7 @@
 #include <string.h>
 
 extern FILE *yyout;
+extern FILE *log_file;
 extern int yylineno;
 extern int yylex();
 /*extern void yyerror(char*);*/
@@ -35,7 +36,6 @@ programa : lista_declaraciones;
 lista_declaraciones: lista_declaraciones declaracion | declaracion;
 
 declaracion: ID ASSIGN exp EOL {
-                                  //fprintf("Una expresión de tipo: %s\n", type_to_str($3.val_type));
                                   if ($3.val_type == UNKNOWN_TYPE) 
                                   {
                                     yyerror($3.value.val_string);
@@ -60,7 +60,6 @@ declaracion: ID ASSIGN exp EOL {
                                 }
               | ONELINECMNT {
                               fprintf(yyout, "COMENTARIO DE UNA LINEA EN LA LINEA %d\n", yylineno - 1);
-                              //yylineno++;
                             }
               | MULTILINECMNT {
                                 fprintf(yyout, "COMENTARIO DE MULTIPLES LINEAS %d\n", yylineno - 1);
@@ -99,7 +98,6 @@ primario: INTEGER                     {
                                         $$ = $1;
                                       }
           | STRING                    {
-                                        printf("%s\n", type_to_str($1.val_type));
                                         $$ = $1;
                                       }
           | PI                        {
@@ -177,8 +175,6 @@ bool3:  bool_aritmetic
                                       };
 
 bool_aritmetic: aritmetica OPRELACIONAL aritmetica  {
-                                                      //printf("%s\n", valueToString($1));
-                                                      //printf("%d\n", $3.value.val_int);
                                                       $$ = opRelacional($1,$2,$3);
                                                     };
 

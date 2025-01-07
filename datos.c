@@ -479,27 +479,18 @@ value_info opTrigonometrica(value_info trigFunction, value_info v1)
         return resultado;
     }
 
-    printf("Entra a la funcion %s\n", valueToString(v1));
-
     float valor = (v1.val_type == INT_TYPE) ? (float)v1.value.val_int : v1.value.val_float;
     double radians = valor * (PI / 180.0);
-
-    printf("%f\n", valor);
 
     // Aplicar la función trigonométrica correspondiente
     if (strcmp(trigFunction.value.val_string, "sin") == 0) {
         resultado.value.val_float = sin(radians);
-        printf("resultado de sin %s\n", valueToString(resultado));
     }
     else if (strcmp(trigFunction.value.val_string, "cos") == 0) {
         resultado.value.val_float = cos(radians);
-        printf("resultado de cos %s\n", valueToString(resultado));
-
     }
     else if (strcmp(trigFunction.value.val_string, "tan") == 0) {
         resultado.value.val_float = tan(radians);
-        printf("resultado de tan %s\n", valueToString(resultado));
-
     }
     else {
         printf("Error: función trigonométrica no reconocida.\n");

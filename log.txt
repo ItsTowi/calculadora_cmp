@@ -1,0 +1,162 @@
+Token INTEGER at line 1
+Token ID at line 1
+Token ASSIGN at line 1
+Token FLOAT at line 1
+Token EOL at line 2
+ 
+Token ID at line 2
+Token ASSIGN at line 2
+Token INTEGER at line 2
+Token EOL at line 3
+ 
+Token ID at line 3
+Token ASSIGN at line 3
+Token A_ID at line 3
+Token MULT at line 3
+Token LPAREN at line 3
+Token A_ID at line 3
+Token SUMA at line 3
+Token A_ID at line 3
+Token RPAREN at line 3
+Token SUB at line 3
+Token A_ID at line 3
+Token DIV at line 3
+Token FLOAT at line 3
+Token EOL at line 4
+ 
+Token ID at line 4
+Token ASSIGN at line 4
+Token STRING at line 4
+Token EOL at line 5
+ 
+Token ID at line 5
+Token ASSIGN at line 5
+Token A_ID at line 5
+Token > at line 5
+Token INTEGER at line 5
+Token or at line 5
+Token not at line 5
+Token LPAREN at line 5
+Token A_ID at line 5
+Token > at line 5
+Token INTEGER at line 5
+Token and at line 5
+Token A_ID at line 5
+Token <= at line 5
+Token INTEGER at line 5
+Token RPAREN at line 5
+Token or at line 5
+Token BOOLEAN FALSE at line 5
+Token EOL at line 6
+ 
+Token INTEGER at line 7
+Token A_ID at line 7
+Token EOL at line 8
+ 
+Token A_ID at line 8
+Token EOL at line 9
+ 
+Token A_ID at line 9
+Token EOL at line 10
+ 
+Token A_ID at line 10
+Token EOL at line 11
+ 
+Token B_ID at line 11
+Token EOL at line 12
+ 
+Token INTEGER at line 13
+Token A_ID at line 13
+Token SUMA at line 13
+Token A_ID at line 13
+Token MULT at line 13
+Token INTEGER at line 13
+Token EOL at line 14
+ 
+Token SUB at line 14
+Token A_ID at line 14
+Token SUMA at line 14
+Token A_ID at line 14
+Token EOL at line 15
+ 
+Token A_ID at line 15
+Token SUMA at line 15
+Token LPAREN at line 15
+Token A_ID at line 15
+Token SUMA at line 15
+Token A_ID at line 15
+Token RPAREN at line 15
+Token SUMA at line 15
+Token STRING at line 15
+Token SUMA at line 15
+Token A_ID at line 15
+Token EOL at line 16
+ 
+Token B_ID at line 16
+Token or at line 16
+Token not at line 16
+Token B_ID at line 16
+Token EOL at line 17
+ 
+Token ID at line 17
+Token ASSIGN at line 17
+Token sin at line 17
+Token LPAREN at line 17
+Token A_ID at line 17
+Token RPAREN at line 17
+Token EOL at line 18
+ 
+Token ID at line 18
+Token ASSIGN at line 18
+Token cos at line 18
+Token LPAREN at line 18
+Token A_ID at line 18
+Token RPAREN at line 18
+Token EOL at line 19
+ 
+Token ID at line 19
+Token ASSIGN at line 19
+Token tan at line 19
+Token LPAREN at line 19
+Token A_ID at line 19
+Token RPAREN at line 19
+Token EOL at line 20
+ 
+Token ID at line 20
+Token ASSIGN at line 20
+Token A_ID at line 20
+Token SUMA at line 20
+Token A_ID at line 20
+Token SUMA at line 20
+Token A_ID at line 20
+Token EOL at line 21
+ 
+Token BIN at line 21
+Token LPAREN at line 21
+Token A_ID at line 21
+Token RPAREN at line 21
+Token EOL at line 22
+ 
+Token HEX at line 22
+Token LPAREN at line 22
+Token A_ID at line 22
+Token RPAREN at line 22
+Token EOL at line 23
+ 
+Token OCT at line 23
+Token LPAREN at line 23
+Token A_ID at line 23
+Token RPAREN at line 23
+Token EOL at line 24
+ 
+Token ID at line 24
+Token ASSIGN at line 24
+Token PI at line 24
+Token EOL at line 25
+ 
+Token ID at line 25
+Token ASSIGN at line 25
+Token E at line 25
+Token EOL at line 26
+ 
+Compilation successful.
