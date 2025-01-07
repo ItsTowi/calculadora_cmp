@@ -8,6 +8,7 @@
 #define SENTENCE_MAX_LENGTH 150
 
 extern FILE *yyout;
+extern FILE *logout;
 extern int yylineno;
 extern int yylex();
 char *sentenciasC3A[MAXLEN];
@@ -364,6 +365,10 @@ SECOND_PART: FIRST_PART DOTS aritmetica
 
 FIRST_PART: FOR A_ID IN aritmetica
             {
+                if ($4.val_type != INT_TYPE) {
+                    yyerror("En un bucle for no puede haber rangos no enteros\n");
+                }
+
                 addToMatrix(3,$2.name, ":=", getVariableValue($4));
                 printf("BUCLE FOR DETECTADO %s\n", $2.name);
                 $$.place = $2.name;

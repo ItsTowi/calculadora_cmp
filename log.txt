@@ -1,0 +1,5 @@
+Compilation log started.
+Lexical analysis initialized successfully.
+Syntactic analysis initialized successfully.
+Semantic analysis completed successfully.
+Compilation log closed.

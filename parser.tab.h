@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 24 "parser.y"
+#line 25 "parser.y"
 
   /* Les definicions que s'utilitzen al %union han d'estar aqui */
   #include "datos.h"
@@ -113,7 +113,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 31 "parser.y"
+#line 32 "parser.y"
 
 
     value_info expr_val;

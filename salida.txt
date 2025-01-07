@@ -1,6 +1,6 @@
 1:  i := 1 
 2:  total := 15 
-3:  x := 5 
+3:  x := 0 
 4:  x := 1 
 5:  IF x LEI 10 GOTO 7 
 6:  GOTO 10
