@@ -15,3 +15,12 @@ i + i * 2
 -i + x
 s + (s + i) + "--" + x
 b or not b
+sinus := sin(x)
+cosinus := cos(x)
+tangent := tan(x)
+sumadetrig := sinus + cosinus + tangent
+BIN(z)
+HEX(z)
+OCT(z)
+pi := PI
+e := E

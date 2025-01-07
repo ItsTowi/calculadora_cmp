@@ -15,3 +15,12 @@ Line 15, unsaved EXPRESSION with value 15 and type Integer
 Line 16, unsaved EXPRESSION with value -3.500000 and type Float
 Line 17, unsaved EXPRESSION with value HolaHola5--1.50 and type String
 Line 18, unsaved EXPRESSION with value true and type Boolean
+ID: sinus pren amb tipus Float per valor: 0.026177
+ID: cosinus pren amb tipus Float per valor: 0.999657
+ID: tangent pren amb tipus Float per valor: 0.026186
+ID: sumadetrig pren amb tipus Float per valor: 1.052020
+Line 23, unsaved EXPRESSION with value 00000000000000000000000000011111 and type String
+Line 24, unsaved EXPRESSION with value 1F and type String
+Line 25, unsaved EXPRESSION with value 37 and type String
+ID: pi pren amb tipus Float per valor: 3.141593
+ID: e pren amb tipus Float per valor: 2.718282
