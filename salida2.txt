@@ -1,0 +1,26 @@
+ONE-LINE COMMENT at line 1
+ID: x assigned with type Float and value: 1.500000
+ID: i assigned with type Integer and value: 5
+ID: z assigned with type Float and value: 31.250000
+ID: s assigned with type String and value: Hola
+ID: b assigned with type Boolean and value: true
+ONE-LINE COMMENT at line 7
+Line 9, EXPRESSION x with value 1.500000 and type Float
+Line 10, EXPRESSION i with value 5 and type Integer
+Line 11, EXPRESSION z with value 31.250000 and type Float
+Line 12, EXPRESSION s with value Hola and type String
+Line 13, EXPRESSION b with value true and type Boolean
+ONE-LINE COMMENT at line 13
+Line 15, unsaved EXPRESSION with value 15 and type Integer
+Line 16, unsaved EXPRESSION with value -3.500000 and type Float
+Line 17, unsaved EXPRESSION with value HolaHola5--1.50 and type String
+Line 18, unsaved EXPRESSION with value true and type Boolean
+ID: sinus assigned with type Float and value: 0.026177
+ID: cosinus assigned with type Float and value: 0.999657
+ID: tangent assigned with type Float and value: 0.026186
+ID: sumadetrig assigned with type Float and value: 1.052020
+Line 23, unsaved EXPRESSION with value 00000000000000000000000000011111 and type String
+Line 24, unsaved EXPRESSION with value 1F and type String
+Line 25, unsaved EXPRESSION with value 37 and type String
+ID: pi assigned with type Float and value: 3.141593
+ID: e assigned with type Float and value: 2.718282

@@ -1,0 +1,15 @@
+ID: x assigned with type Float and value: 1.500000
+ID: i assigned with type Integer and value: 5
+ID: z assigned with type Float and value: 31.250000
+ID: s assigned with type String and value: Hola
+ID: b assigned with type Boolean and value: true
+ONE-LINE COMMENT at line 6
+Line 8, EXPRESSION x with value 1.500000 and type Float
+Line 9, EXPRESSION i with value 5 and type Integer
+Line 10, EXPRESSION z with value 31.250000 and type Float
+Line 11, EXPRESSION s with value Hola and type String
+Line 12, EXPRESSION b with value true and type Boolean
+ONE-LINE COMMENT at line 12
+Line 14, unsaved EXPRESSION with value 15 and type Integer
+Line 15, unsaved EXPRESSION with value -3.500000 and type Float
+Line 16, unsaved EXPRESSION with value true and type Boolean
