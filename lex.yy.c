@@ -513,11 +513,12 @@ char *yytext;
 #include <string.h>
 #include "parser.tab.h"
 #include "funciones.h"
+extern FILE *log_file;
 
-#line 518 "lex.yy.c"
+#line 519 "lex.yy.c"
 #define YY_NO_INPUT 1
 
-#line 521 "lex.yy.c"
+#line 522 "lex.yy.c"
 
 #define INITIAL 0
 #define IN_COMMENT 1
@@ -733,10 +734,10 @@ YY_DECL
 		}
 
 	{
-#line 22 "lexer.l"
+#line 23 "lexer.l"
 
 
-#line 740 "lex.yy.c"
+#line 741 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -805,22 +806,22 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 24 "lexer.l"
-{ printf("TOKEN REPEAT\n"); return REPEAT; };
+#line 25 "lexer.l"
+{ fprintf(log_file,"Token REPEAT at line %d\n", yylineno - 1); return REPEAT; };
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 25 "lexer.l"
-{ printf("TOKEN DO\n"); return DO; };
+#line 26 "lexer.l"
+{ fprintf(log_file,"Token DO at line %d\n", yylineno - 1); return DO; };
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 26 "lexer.l"
-{ printf("TOKEN DONE\n"); return DONE; };
+#line 27 "lexer.l"
+{ fprintf(log_file,"Token DONE at line %d\n", yylineno - 1); return DONE; };
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "lexer.l"
+#line 30 "lexer.l"
 { 
                               yylval.expr_val.name = (char*)malloc(sizeof(char)*yyleng+1);
                               strncpy(yylval.expr_val.name, yytext, yyleng);
@@ -828,152 +829,158 @@ YY_RULE_SETUP
                               
                               value_info aux;
                               if (sym_lookup(yytext, &aux) == SYMTAB_NOT_FOUND){
-                                printf("Token ID: %s\n",yytext);
+                                fprintf(log_file,"Token ID at line %d\n", yylineno - 1);
                                 return ID;
                               } 
                               else 
                               { 
                                 printf("Devuelve una variarble encontrada %s con valor %s\n", aux.name, valueToString(aux));
-                                if (aux.val_type == BOOLEAN_TYPE) return B_ID;
-                                else printf("Token A_ID: %s\n",yytext); return A_ID;
+                                if (aux.val_type == BOOLEAN_TYPE)
+                                {
+                                  fprintf(log_file,"Token B_ID at line %d\n", yylineno - 1); return B_ID;
+                                } 
+                                else 
+                                {
+                                  fprintf(log_file,"Token A_ID at line %d\n", yylineno - 1); return A_ID;
+                                }
                               }
                             }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 47 "lexer.l"
+#line 54 "lexer.l"
 { 
-                              return ASSIGN; 
+                              fprintf(log_file,"Token ASSIGN at line %d\n", yylineno - 1); return ASSIGN; 
                             }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 51 "lexer.l"
-{ return COMMA; }
+#line 58 "lexer.l"
+{ fprintf(log_file,"Token COMMA at line %d\n", yylineno - 1); return COMMA; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 52 "lexer.l"
-{ printf("Token SUMA: %s\n",yytext); return ADD; }
+#line 59 "lexer.l"
+{ fprintf(log_file, "Token SUMA at line %d\n",yylineno - 1); return ADD; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 53 "lexer.l"
-{ return SUB; }
+#line 60 "lexer.l"
+{ fprintf(log_file,"Token SUB at line %d\n", yylineno - 1); return SUB; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 54 "lexer.l"
-{ return MULT; }
+#line 61 "lexer.l"
+{ fprintf(log_file,"Token MULT at line %d\n", yylineno - 1);  return MULT; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 55 "lexer.l"
-{ return DIV; }
+#line 62 "lexer.l"
+{ fprintf(log_file,"Token DIV at line %d\n", yylineno - 1); return DIV; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 56 "lexer.l"
-{ return MOD; }
+#line 63 "lexer.l"
+{ fprintf(log_file,"Token MOD at line %d\n", yylineno - 1);  return MOD; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 57 "lexer.l"
-{ return POW; }
+#line 64 "lexer.l"
+{ fprintf(log_file,"Token POW at line %d\n", yylineno - 1); return POW; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 58 "lexer.l"
-{ return LPAREN; }
+#line 65 "lexer.l"
+{ fprintf(log_file,"Token LPAREN at line %d\n", yylineno - 1);  return LPAREN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 59 "lexer.l"
-{ return RPAREN; }
+#line 66 "lexer.l"
+{ fprintf(log_file,"Token RPAREN at line %d\n", yylineno - 1);  return RPAREN; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 62 "lexer.l"
+#line 70 "lexer.l"
 {
                               yylval.expr_val.value.val_int = atoi(yytext);
                               yylval.expr_val.val_type = INT_TYPE;
                               yylval.expr_val.name = NULL;
-                              printf("Token INTEGER: %d\n", yylval.expr_val.value.val_int);
+                              fprintf(log_file,"Token INTEGER at line %d\n", yylineno - 1);
                               return INTEGER;
                             }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 71 "lexer.l"
+#line 79 "lexer.l"
 {
                               yylval.expr_val.value.val_float = atof(yytext);
                               yylval.expr_val.val_type = FLOAT_TYPE;
-                              printf("Token FLOAT: %s\n", yytext);
+                              yylval.expr_val.name = NULL;
+                              fprintf(log_file,"Token FLOAT at line %d\n", yylineno - 1);
                               return FLOAT;
                             }
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 78 "lexer.l"
+#line 87 "lexer.l"
 { 
+                              fprintf(log_file,"Token EOL at line %d\n \n", yylineno - 1);
                               return EOL;
                             }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 92 "lexer.l"
 {} /* eat up whitespaces */
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 83 "lexer.l"
+#line 93 "lexer.l"
 { fprintf(stderr, "Carácter inesperado: '%s' en línea %d\n", yytext, yylineno);}
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 87 "lexer.l"
-{ 
-                              return ONELINECMNT; 
-                            }
+#line 97 "lexer.l"
+{ fprintf(log_file,"Token INTEGER at line %d\n", yylineno - 1); return ONELINECMNT; }
 	YY_BREAK
 
 case 21:
 YY_RULE_SETUP
-#line 94 "lexer.l"
+#line 103 "lexer.l"
 BEGIN(IN_COMMENT);
 	YY_BREAK
 
 
 case 22:
 YY_RULE_SETUP
-#line 97 "lexer.l"
+#line 106 "lexer.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 98 "lexer.l"
+#line 107 "lexer.l"
 /* eat comment in chunks */
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 99 "lexer.l"
+#line 108 "lexer.l"
 /* eat the lone star */
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 100 "lexer.l"
+#line 109 "lexer.l"
 { return MULTILINECMNT;}
 	YY_BREAK
 
 case 26:
 YY_RULE_SETUP
-#line 104 "lexer.l"
+#line 113 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 977 "lex.yy.c"
+#line 984 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(IN_COMMENT):
 	yyterminate();
@@ -1950,7 +1957,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 104 "lexer.l"
+#line 113 "lexer.l"
 
 
 

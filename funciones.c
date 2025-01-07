@@ -4,6 +4,7 @@
 extern int yyparse();
 extern FILE *yyin;
 extern FILE *yyout;
+extern FILE *log_file;
 extern int yylineno;
 
 
@@ -79,3 +80,20 @@ void yyerror(char *explanation)
 {
   fprintf(stderr, "Error: %s , in line %d\n", explanation, yylineno);
 }
+
+int init_log_file(char *filename) {
+  log_file = fopen(filename, "w");
+  if (log_file == NULL) {
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
+}
+
+int close_log_file(void) {
+  if (fclose(log_file) == 0) {
+    return EXIT_SUCCESS;
+  } else {
+    return EXIT_FAILURE;
+  }
+}
+

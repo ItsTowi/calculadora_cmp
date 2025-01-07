@@ -1,0 +1,64 @@
+Token ID at line 0
+Token ASSIGN at line 0
+Token FLOAT at line 0
+Token EOL at line 1
+ 
+Token ID at line 1
+Token ASSIGN at line 1
+Token INTEGER at line 1
+Token EOL at line 2
+ 
+Token ID at line 2
+Token ASSIGN at line 2
+Token A_ID at line 2
+Token SUMA at line 2
+Token A_ID at line 2
+Token MULT at line 2
+Token INTEGER at line 2
+Token SUB at line 2
+Token A_ID at line 2
+Token EOL at line 3
+ 
+Token ID at line 3
+Token ASSIGN at line 3
+Token INTEGER at line 3
+Token EOL at line 4
+ 
+Token ID at line 4
+Token ASSIGN at line 4
+Token INTEGER at line 4
+Token EOL at line 5
+ 
+Token A_ID at line 5
+Token ASSIGN at line 5
+Token INTEGER at line 5
+Token EOL at line 6
+ 
+Token REPEAT at line 6
+Token A_ID at line 6
+Token SUB at line 6
+Token INTEGER at line 6
+Token DO at line 6
+Token EOL at line 7
+ 
+Token A_ID at line 7
+Token ASSIGN at line 7
+Token A_ID at line 7
+Token MULT at line 7
+Token A_ID at line 7
+Token EOL at line 8
+ 
+Token A_ID at line 8
+Token ASSIGN at line 8
+Token A_ID at line 8
+Token SUMA at line 8
+Token INTEGER at line 8
+Token EOL at line 9
+ 
+Token DONE at line 9
+Token EOL at line 10
+ 
+Token A_ID at line 10
+Token EOL at line 11
+ 
+Compilation successful.

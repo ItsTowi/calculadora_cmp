@@ -12,5 +12,7 @@ int analisi_semantica(void);
 
 void yyerror(char *explanation);
 
+int init_log_file(char *filename);
+int close_log_file(void);
 
 #endif
